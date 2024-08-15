@@ -3,21 +3,19 @@ import streamlit as st
 def intro():
     import streamlit as st
 
-    st.write("# Welcome to Streamlit! 👋")
+    st.write("# 欢迎来到广告思想简史! 👋")
     st.sidebar.success("Select a demo above.")
 
     st.markdown(
         """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
+        本书是广告思想史的开源之作，将广告史从“WHAT”(是什么）为主的记事模式转向“WHY+HOW”(为何和如何）为主的探究模式；从关注事件转向以人物和思想为核心；从只讲“过去”延伸至“现在及未来”，尤其剖析洞察了21世纪成为主流的数字广告。 
 
-        **👈 Select a demo from the dropdown on the left** to see some examples
-        of what Streamlit can do!
+        **👈 以广告内在逻辑为主、辅以外部的视角，全书12章系统揭示了近120年广告波澜闳阔、柳暗花明的发展脉络和思想变迁，包括人物流派、重大主题、经典个案、数据印证和里程碑。本书凸现关键的核心思想及多元视角，并激发思考，是简明把握广告思想演变精髓及其历史走势的必读首选，适合所有对广告有兴趣的人群，尤其经济管理和传播广告类的本科生和研究生，宜作为相关专业的教材或主要参考书。 
 
-        ### Want to learn more?
+        ### 简目
 
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
+        - 序
+        - 广告基因：神奇三角商业模式       里程碑1：广告商业模式 
         - Ask a question in our [community
           forums](https://discuss.streamlit.io)
 

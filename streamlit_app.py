@@ -5,15 +5,9 @@ import openai
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from httpcore import stream
-from streamlit_chat import message
 
 # Load environment variables
 ENV = dotenv.dotenv_values(".env")
-# with st.sidebar.expander("Environment Variables"):
-#     st.write(ENV)
-
-# Set up the Open AI Client
 
 openai.api_type = "azure"
 openai.api_base = ENV["AZURE_OPENAI_ENDPOINT"]

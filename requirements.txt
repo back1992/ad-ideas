@@ -6,3 +6,5 @@ langchain_core
 streamlit-chat
 python-dotenv
 markdown
+streamlit-authenticator
+streamlit-player

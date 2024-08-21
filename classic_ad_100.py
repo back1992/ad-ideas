@@ -165,9 +165,7 @@ def ad():
     （牛肉在哪里？），Dancer-Fitzgerald-Sample，1984
 
     48. 李斯特林漱口水（Listerine），\"Always a bridesmaid, but never a
-    bride\"
-
-    （总是伴娘，从未新娘），Lambert & Feasley，1923
+    bride\"（总是伴娘，从未新娘），Lambert & Feasley，1923
 
     注：
     这个广告语旨在突出使用Listerine可以避免因为口臭而错失机会，暗示使用者可能从伴娘成为新娘。
@@ -632,6 +630,537 @@ def ad_22():
     st.image('https://i0.wp.com/georgehahn.com/wp-content/uploads/2012/01/the-man-in-the-hathaway-shirt-ogilvy-on-illustration-in-advertising.png?resize=323%2C433&ssl=1',width=600)
     # st.video('https://vimeo.com/191873873')
     # st_player('https://youtu.be/QWQkf0w5JR4')
+    # Additional text or widgets can be added here
+
+
+
+def ad_23():
+    st.markdown("""
+23. 博马剃须刀(Burma-Shave)，" Roadside signs in verse " （路边的诗句牌
+    ），Allen Odell，1925
+    
+    注：Burma-Shave公司在当时采用了一种独特的广告方式，他们将广告内容分成多个简短的诗句，逐个放置在沿路的标牌上，形成连贯的广告信息。这些标牌以幽默和押韵的形式传递广告信息，成为了当时非常受欢迎和具有影响力的广告形式。
+    """
+    )
+    st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/QWQkf0w5JR4')
+    # Additional text or widgets can be added here
+
+
+def ad_24():
+    st.markdown("""
+   24. 美国汉堡王(Burger King)，\"Have it your way\"
+    （我选我味），BBDO，1973
+    """
+    )
+    # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/KJXzkUH72cY')
+    # Additional text or widgets can be added here
+
+
+def ad_25():
+    st.markdown("""
+    25. 坎贝尔浓汤(Campbell Soup)，\"Mmm mm good\"
+    （啧嘖,真好味！），BDO，20世纪30年代
+
+    """
+    )
+    # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/KtmcW8MsCH8')
+    # Additional text or widgets can be added here
+
+
+def ad_26():
+    st.markdown("""
+  26. 美国林业总署(U.S. Forest Service)， Smokey the Bear/\"Only you can
+    prevent forest fires\" （护林熊/"只有你能防止森林火灾"），Advertising
+    Council/FCB
+    """
+    )
+    # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/lgf9yVke8Z8')
+    # Additional text or widgets can be added here
+
+
+def ad_27():
+    st.markdown("""
+27. 百威啤酒(Budweiser)，\"This Bud\'s for you\" （为你准备的百威），
+    D\'Arcy Masius Benton & Bowles ，20世纪70年代
+    """
+    )
+    # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/5m7A2mEB63E')
+    # Additional text or widgets can be added here
+
+
+def ad_28():
+    st.markdown("""
+    28. 媚登峰内衣(Maidenform)，\"I dreamed I went shopping in my
+    Maidenform bra\" （真想穿媚登峰内衣去逛街）， Norman, Craig &
+    Kunnel，1949
+    """
+    )
+    st.image('https://i.ebayimg.com/images/g/Su8AAOSwlNtj0Gwo/s-l1200.webp',width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/5m7A2mEB63E')
+    # Additional text or widgets can be added here
+
+def ad_29():
+    st.markdown("""
+29. 胜利唱机公司(Victor Talking Machine)，\"His master\'s voice\"
+    （主人之声），Francis Barraud，1901
+    """
+    )
+    st.image("https://upload.wikimedia.org/wikipedia/commons/2/2d/His_Master%27s_Voice.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/5m7A2mEB63E')
+    # Additional text or widgets can be added here
+
+def ad_30():
+    st.markdown("""
+    30.Jordan汽车(Jordan Motor Car Co.)，\"Somewhere west of Laramie\"
+    （拉勒米以西的某处" ，Edward S. (Ned) Jordan，1923
+    """
+    )
+    st.image("https://richardlangworth.com/wp-content/uploads/2023/03/Laramie2.jpeg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/5m7A2mEB63E')
+    # Additional text or widgets can be added here
+
+
+def ad_31():
+    st.markdown("""
+31. Woodbury香皂(Woodbury Soap)，\"The skin you love to touch\"
+    （你爱触摸的肌肤），JWT，1911
+    """
+    )
+    st.image("https://upload.wikimedia.org/wikipedia/commons/d/d7/1916-skin-touch-soap-ad.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/5m7A2mEB63E')
+    # Additional text or widgets can be added here
+
+
+def ad_32():
+    st.markdown("""
+32. Benson & Hedges 100s香烟，\"The disadvantages\"（有害），Wells,
+    Rich, Greene，20世纪60年代
+    """
+    )
+    # st.image("https://upload.wikimedia.org/wikipedia/commons/d/d7/1916-skin-touch-soap-ad.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/UEUHV20kH9g')
+    # Additional text or widgets can be added here
+
+def ad_33():
+    st.markdown("""
+33. 国民饼干(National Biscuit )，"Uneeda Biscuits\' Boy in Boots"（
+    Uneeda饼干的穿靴男孩 ）， N.W. Ayer & Son ，1899
+    
+    注： 这是Uneeda Biscuits品牌饼干的形象广告，塑造了一个渴望 Uneeda
+    Biscuits饼干的穿靴子小男孩，用以传达产品的亲和力和吸引力。
+    """
+    )
+    st.image("https://americanbusinesshistory.org/wp-content/uploads/2021/09/apijjtjtk__76529.1626731376-706x1030.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/UEUHV20kH9g')
+    # Additional text or widgets can be added here
+
+
+def ad_34():
+    st.markdown("""
+    34. 劲量电池(Energizer)，"The Energizer
+    Bunny"（劲量兔子），Chiat/Day，1989
+    """
+    )
+    # st.image("https://americanbusinesshistory.org/wp-content/uploads/2021/09/apijjtjtk__76529.1626731376-706x1030.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/tH6MBpFQGyM')
+    # Additional text or widgets can be added here
+
+
+def ad_35():
+    st.markdown("""
+    35. 莫顿食盐（Morton Salt），\"When it rains it pours\"
+    （下雨时，它会倾泻 ）， N.W. Ayer & Son ，1912
+    
+    注：这个广告语传达了Morton盐在潮湿条件下仍然能保持流动性的特点，突出了其抗结块的卖点。
+
+    """
+    )
+    st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/tH6MBpFQGyM')
+    # Additional text or widgets can be added here
+
+
+def ad_36():
+    st.markdown("""
+36. 夏奈尔香水(Chanel)，\"Share the fantasy\" （梦幻分享），DDB，1979
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/jBLFCQD76zk?si=KuLUikHgQWmn5lkf')
+    # Additional text or widgets can be added here
+
+def ad_37():
+    st.markdown("""
+   37. 通用土星汽车(Saturn)，\"A different kind of company, A different
+    kind of car.\" （不一样的公司，不一样的汽车），Hal Riney & Partners
+    ，1989
+
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/PcJ4zNY_MUU')
+    # Additional text or widgets can be added here
+
+
+def ad_38():
+    st.markdown("""
+    38. 佳洁士牙膏(Crest toothpaste)，\"Look, Ma! No cavities!\"
+    （妈妈，看，我没有蛀牙！），Benton & Bowles ，1958
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/ocKnxSeXDwM')
+    # Additional text or widgets can be added here
+
+def ad_39():
+    st.markdown("""
+39. M巧克力(M&Ms)，\"Melts in your mouth, not in your hands\"
+    （只溶在口，不溶在手）， Ted Bates & Co. ，1954
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/BZUccKFxTS4')
+    # Additional text or widgets can be added here
+
+
+def ad_40():
+    st.markdown("""
+    40. 天美时手表(Timex)，\"Takes a licking and keeps on ticking\"
+    （经得摔打，依旧准确 ），W.B. Doner & Co & predecessor公司，20世纪50年代
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/hSv6Z5BA6e8')
+    # Additional text or widgets can be added here
+
+
+def ad_41():
+    st.markdown("""
+    41. 雪佛兰汽车(Chevrolet)，\"See the USA in your Chevrolet\"
+    （乘雪佛兰逛美国），Campbell-Ewald，20世纪50年代
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/nxrYO6-y4HI')
+    # Additional text or widgets can be added here
+
+
+def ad_42():
+    st.markdown("""
+    42. CK内衣(Calvin Klein)，\"Know what comes between me and my Calvins?
+    Nothing!\" （我和Calvin 亲密无间）
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/YK2VZgJ4AoM')
+    # Additional text or widgets can be added here
+
+
+def ad_43():
+    st.markdown("""
+  43. 里根竞选总统广告(Reagan for President)，\"It\'s morning again in
+    America\" （美国迎来又一个清晨），Tuesday Team，1984
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/pUMqic2IcWA')
+    # Additional text or widgets can be added here
+
+
+
+def ad_44():
+    st.markdown("""
+44. 云丝顿香烟(Winston cigarettes)，\"Winston tastes good--like a
+    cigarette should\" （云丝顿，香烟该有的味道），1954
+    """
+    )
+    # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/PU3eYBM0Y30')
+    # Additional text or widgets can be added here
+
+
+def ad_45():
+    st.markdown("""
+45. 美国音乐学校(U.S. School of Music)，\"They laughed when I sat down
+    at the piano, but when I started to play!\"
+    （我开始演奏时，众人目瞪口呆！）， Ruthrauff & Ryan，1925
+    """
+    )
+    st.image("https://marchingagainstphilip.wordpress.com/wp-content/uploads/2010/04/piano_ad3.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/PU3eYBM0Y30')
+    # Additional text or widgets can be added here
+
+
+def ad_46():
+    st.markdown("""
+    46. 骆驼香烟(Camel cigarettes)，\"I\'d walk a mile for a Camel\"
+    （只为---支骆驼烟，我宁愿走一英里）， N. W. Ayer & Son ，1921
+    """
+    )
+    st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAu6nIR15tAA6a7VCuKgFLiU54a9jBaiuV1tRh8KpJtO4AFC6GF3lTS_YcA-Y0bRSnvnA&usqp=CAU",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/PU3eYBM0Y30')
+    # Additional text or widgets can be added here
+
+
+def ad_47():
+    st.markdown("""
+47. 温迪汉堡包(Wendy\'s)，\"Where\'s the beef?\"
+    （牛肉在哪里？），Dancer-Fitzgerald-Sample，1984
+    """
+    )
+    # st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAu6nIR15tAA6a7VCuKgFLiU54a9jBaiuV1tRh8KpJtO4AFC6GF3lTS_YcA-Y0bRSnvnA&usqp=CAU",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/cFLttH5QOFU')
+    # Additional text or widgets can be added here
+
+
+
+def ad_48():
+    st.markdown("""
+    48. 李斯特林漱口水（Listerine），\"Always a bridesmaid, but never a
+    bride\"
+
+    （总是伴娘，从未新娘），Lambert & Feasley，1923
+
+    注：
+    这个广告语旨在突出使用Listerine可以避免因为口臭而错失机会，暗示使用者可能从伴娘成为新娘。
+    """
+    )
+    st.image("https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/newscms/2016_32/1150147/mwo7i.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/cFLttH5QOFU')
+    # Additional text or widgets can be added here
+
+
+def ad_49():
+    st.markdown("""
+ 49. 卡迪拉克(Cadillac)，\"The penalty of leadership\"\
+    （出人头地的代价），MacManus, John & Adams，1915
+    """
+    )
+    st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/cFLttH5QOFU')
+    # Additional text or widgets can be added here
+
+
+def ad_50():
+    st.markdown("""
+   50. 让美国美丽组织（Keep America Beautiful），\"Crying Indian\"
+    （哭泣的印第安人），Advertising Council/Marstellar Inc.，1971
+    """
+    )
+    # st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/h0sxwGlTLWw')
+    # Additional text or widgets can be added here
+
+
+def ad_51():
+    st.markdown("""
+    51. 宝洁Charmin卫生纸，\"Please don\'t squeeze the Charmin\"
+    （请别冷淡了Charmin），Benton & Bowles，1964
+    
+    注： Charmin 即 迷人的。
+    """
+    )
+    # st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/gVFCm2PlXXc')
+    # Additional text or widgets can be added here
+
+
+def ad_52():
+    st.markdown("""
+52. Wheaties麦片(Wheaties)，\"Breakfast of champions\"
+
+    （冠军的早餐），Blackett-Sample-Hummert，20世纪30年代
+    """
+    )
+    st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/gVFCm2PlXXc')
+    # Additional text or widgets can be added here
+
+def ad_53():
+    st.markdown("""
+53. 可口可乐(Coca-Cola)，\"It\'s the real thing\" （这是真的），
+    McCann-Erickson ，1970
+    """
+    )
+    # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/dDSnjjdGh5M')
+    # Additional text or widgets can be added here
+
+
+def ad_54():
+    st.markdown("""
+   54. 灰狗巴士(Greyhound)，\"It\'s such a comfort to take the bus and
+    leave the driving to us\" （有坐车之乐，无开车之累）， Grey Advertising
+    ，1957
+    """
+    )
+    # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/uZrhLQWGpjY')
+    # Additional text or widgets can be added here
+
+
+def ad_55():
+    st.markdown("""
+55. 家乐氏西式爆米花（Kellogg\'s Rice Krispies），\"Snap! Crackle! and
+    Pop!\" （咬一口，咔嚓脆）， Leo Burnett Co. ，20世纪40年代
+    """
+    )
+    # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/sEPtj-AG31I')
+    # Additional text or widgets can be added here
+
+
+def ad_56():
+    st.markdown("""
+    56. 宝丽来拍立得(Polaroid)，\"It\'s so
+    simple\"（就是这么简单），DDB，1977
+    """
+    )
+    st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/4wvRJDOrGyA?si=zyQp7JFx3H4PW1-O')
+    # Additional text or widgets can be added here
+
+
+def ad_57():
+    st.markdown("""
+57. 吉列剃须刀(Gillette)，\"Look sharp, feel sharp\"
+    （看似锋利，确实锋利），BBDO，20世纪40年代
+    """
+    )
+    # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/UmxbYee6sFA')
+    # Additional text or widgets can be added here
+
+
+def ad_58():
+    st.markdown("""
+    58. 莱唯斯雷面包(Levy\'s Rye Bread)，\"You don\'t have to be Jewish to
+    love Levy\'s Rye Bread\" （不是犹太人也照样喜欢莱唯斯雷面包），DDB，1949
+    """
+    )
+    # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/9gugWKeRZ4w')
+    # Additional text or widgets can be added here
+
+def ad_59():
+    st.markdown("""
+ 59. Pepsodent增白牙膏，\"You\'ll wonder where the yellow went\"
+    （奇怪，黄斑哪去了），FCB，1956
+    """
+    )
+    # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/UP2h4LjBXu0')
+    # Additional text or widgets can be added here
+
+
+def ad_60():
+    st.markdown("""
+60. Lucky Strike香烟，\"Reach for a Lucky instead of a sweet\"
+    （好运胜过甜蜜），Lord & Thomas，20世纪20年代
+    """
+    )
+    st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/UP2h4LjBXu0')
+    # Additional text or widgets can be added here
+
+def ad_61():
+    st.markdown("""
+61. 七喜汽水(7 UP)，\"The Uncola\" （并非可乐），JWT，20世纪70年代
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/AXmc7DG4uu8')
+    # Additional text or widgets can be added here
+
+def ad_62():
+    st.markdown("""
+    62. 威斯克洗衣粉 (Wisk detergent)，\"Ring around the collar\"
+    （洁淨领渍），BBDO，1968
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/K5paMDrnON4')
+    # Additional text or widgets can be added here
+
+
+def ad_63():
+    st.markdown("""
+ 63. 西梅精华(Sunsweet Prunes)，\"Today the pits, tomorrow the
+    wrinkles\" (今时之斑点，明日出皱纹），Freberg Ltd.，20世纪70年代
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/eRDLaSG6csA')
+    # Additional text or widgets can be added here
+
+
+
+def ad_64():
+    st.markdown("""
+64. Life 麦片(Life cerea)，"Hey, Mikey"（嘿，米奇），DDB，1972
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/vYEXzx-TINc')
+    # Additional text or widgets can be added here
+
+
+def ad_65():
+    st.markdown("""
+    65. 赫兹租车公司(Hertz)，\"Let Hertz put you in the driver\'s seat\"
+    （让赫兹把你带到驾驶座上 ），Norman, Craig & Kummel，1961
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/p4qslTTVNt4')
     # Additional text or widgets can be added here
 
 

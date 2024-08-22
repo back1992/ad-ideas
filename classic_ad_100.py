@@ -1164,6 +1164,426 @@ def ad_65():
     # Additional text or widgets can be added here
 
 
+def ad_66():
+    st.markdown("""
+ 66. Foster Grant太阳镜，\"Who\'s that behind those Foster Grants?\"
+    （戴Foster Grants太阳镜的是谁？）,Geer, Dubois，1965
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/I308QffO-SU')
+    # Additional text or widgets can be added here
+
+
+
+def ad_67():
+    st.markdown("""
+   67. 柏杜鸡（Perdue chicken），\"It takes a tough man to make tender
+    chicken\" （硬汉也能做出鲜嫩鸡肉）， Scali, McCabe, Sloves , 1971
+    """
+    )
+    # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/9Z789aLNfXo')
+    # Additional text or widgets can be added here
+
+
+
+def ad_68():
+    st.markdown("""
+    68. 贺曼卡片(Hallmark)，\"When you care enough to send the very best\"
+    （如果你真的在乎，就寄最好的贺卡），FCB，20世纪30年代
+    """
+    )
+    st.image("https://d1f5kcwhveewqf.cloudfront.net/uploads/timeline/1944-hallmark.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/9Z789aLNfXo')
+    # Additional text or widgets can be added here
+
+
+
+def ad_69():
+    st.markdown("""
+   69. Springmaid 床单，\"A buck well spent\" （物有所值），
+    In-house，1948
+    """
+    )
+    st.image("https://i.pinimg.com/originals/15/07/f9/1507f92f809d2cad80fce8dcf0a472b8.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/9Z789aLNfXo')
+    # Additional text or widgets can be added here
+
+
+def ad_70():
+    st.markdown("""
+    70. Queensboro 集团，" Jackson Heights Apartment
+    Homes"（杰克逊高地公寓之家），WEAF, NYC，20世纪20年代
+    """
+    )
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Jackson_Heights_Advertisement_by_The_Queensboro_Corporation.jpg/640px-Jackson_Heights_Advertisement_by_The_Queensboro_Corporation.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/9Z789aLNfXo')
+    # Additional text or widgets can be added here
+
+
+def ad_71():
+    st.markdown("""
+    71. 施坦威钢琴（Steinway & Sons）, \"The instrument of the immortals\"
+    （不朽的乐器）, N.W. Ayer & Sons , 1919
+    """
+    )
+    st.image("https://miro.medium.com/v2/resize:fit:944/1*Da1rfCL9czREXblEALdxXA.jpeg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/9Z789aLNfXo')
+    # Additional text or widgets can be added here
+
+
+def ad_72():
+    st.markdown("""
+72. Levi's牛仔裤，\"501 Blues\" （501款蓝色牛仔裤），FCB，1984
+    """
+    )
+    # st.image("https://youtu.be/YaXFXo-1KCE",width=600)
+    # st.video('https://vimeo.com/191873873')
+    st_player('https://youtu.be/YaXFXo-1KCE')
+    # Additional text or widgets can be added here
+
+
+
+def ad_73():
+    st.markdown("""
+    73. 黑玉蝠貂 (Blackglama-Great Lakes Mink)，\"What becomes a legend
+    most?\" （什么最适合传奇？） ， Jane Trahey Associates ，20世纪60年代
+
+    注：
+    这个广告语以神秘和优雅的方式强调了Blackglama水貂皮草的高贵和经典地位。
+    """
+    )
+    st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/R2vNdROz7xg')
+    # Additional text or widgets can be added here
+
+
+def ad_74():
+    st.markdown("""
+    74. 蓝仙姑葡萄酒（Blue Nun），"Stiller & Meara campaign"
+    （斯蒂勒与米拉广告喜剧），Della Famina, Travisano & Partners，
+    20世纪70年代
+
+    注： 这个广告活动以喜剧演员夫妇Jerry Stiller和Anne
+    Meara的幽默表演著称，用以宣传Blue Nun葡萄酒。
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://youtu.be/yfzXrLT8_fs')
+    st.video('https://youtu.be/yfzXrLT8_fs')
+    # Additional text or widgets can be added here
+
+
+def ad_75():
+    st.markdown("""
+    75. 哈姆啤酒（Hamm\'s beer），\"From the Land of Sky Blue Waters\"
+    "源自蓝天水乡"，Campbell-Mithun，20世纪50年代
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/7ZC3NUdjtug')
+    # Additional text or widgets can be added here
+
+
+def ad_76():
+    st.markdown("""
+    76. Quaker Puffed麦片，"Shot from guns " （枪炮爆米花 ），Lord &
+    Thomas，20世纪20年代
+
+    注： 这个广告强调了Quaker
+    Puffed谷物采用高压加热的制作工艺，使其谷物膨化如同从枪炮中射出一样。
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/zGpS6LHeBC0')
+    # Additional text or widgets can be added here
+
+def ad_77():
+    st.markdown("""
+    77. ESPN体育频道，\"This is SportsCenter\" "这里是体育中心"， Wieden &
+    Kennedy， 1995
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/2f6lNBsBb9k')
+    # Additional text or widgets can be added here
+
+def ad_78():
+    st.markdown("""
+    78. Molson啤酒，" Laughing Couple"（欢笑的一对），Moving & Talking
+    Picture Co.，20世纪80年代
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/Eps72hsxTu4')
+    # Additional text or widgets can be added here
+
+def ad_79():
+    st.markdown("""
+    79. 加州乳品加工协会(California Milk Processor Board)，\"Got Milk?\"
+    （喝牛奶了吗？），1993
+    """
+    )
+    # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/mIaAvoQAZAU')
+    # Additional text or widgets can be added here
+
+
+def ad_80():
+    st.markdown("""
+        80. 美国电话电报公司(AT&T)，\"Reach out and touch someone\"
+    "伸出臂膀，拥抱世界"， N.W. Ayer & Sons （艾尔父子广告），1979
+    """
+    )
+    st.image("https://admeritus.com/wp-content/uploads/2020/01/09_2011_elec_141.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # st.video('https://youtu.be/OapWdclVqEY')
+    # Additional text or widgets can be added here
+
+
+def ad_81():
+    st.markdown("""
+81. 百洁霜(Brylcreem)，\"A little dab\'ll do ya\" （每次只需一点点），
+    Kenyon & Eckhardt ，20世纪50年代
+    """
+    )
+    # st.image("https://admeritus.com/wp-content/uploads/2020/01/09_2011_elec_141.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    st.video('https://youtu.be/cmoDx2wJy1c')
+    # Additional text or widgets can be added here
+
+
+def ad_82():
+    st.markdown("""
+    82. 嘉灵黑啤酒(Carling Black Label beer)，\"Hey Mabel, Black Label!\"
+    "嗨！梅布尔，嘉灵黑牌"， Lang, Fisher & Stashower ，20世纪40年代
+    """
+    )
+    st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    # st.video('https://vimeo.com/191873873')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # st.video('https://youtu.be/cmoDx2wJy1c')
+    # Additional text or widgets can be added here
+
+def ad_83():
+    st.markdown("""
+   83. 五十铃 (Isuzu) ，\"Lying Joe Isuzu\" （说谎的乔•五十铃）， Della
+    Famina, Travisano & Partners ，20世纪80年代
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/wtX5m09YjQ4')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+def ad_84():
+    st.markdown("""
+    84. 宝马(BMW)，\"The ultimate driving machine\" "终极驾驶机器"，
+    Ammirati & Puris ，1975年
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/qW9C5ggIJEg')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_85():
+    st.markdown("""
+    85. 德士古公司(Texaco)， \"You can trust your car to the men who wear
+    the star\"  "你的车可托付给佩戴星标的人"， Benton & Bowles ，20世纪40年代
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/b1zxOTDHIBQ')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_86():
+    st.markdown("""
+ 86. 可口可乐 (Coca-Cola )，\"Always\" "永远的可口可乐"， Creative
+    Artists Agency ，1993年
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/kCVTNKXOYqk')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+
+def ad_87():
+    st.markdown("""
+  87. 施乐(Xerox)，\"It\'s a miracle\" （它是个奇迹）， Needham, Harper &
+    Steers ，1975年
+
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/LAt-lB9JIqw')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+def ad_88():
+    st.markdown("""
+    88. 巴特尔•杰默斯葡萄酒(Bartles & Jaymes)，\"Frank and Ed\"
+    （弗兰克和埃德）， Hal Riney & Partners ，1985年
+
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/dRYbF296964')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_89():
+    st.markdown("""
+    89. 达能酸奶(Dannon Yogurt)，\"Old People in Russia\" "俄罗斯的老人"，
+    Marstellar Inc. ，20世纪70年代
+    """
+    )
+    # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
+    st.video('https://youtu.be/GXzVDvWMIuI')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+
+def ad_90():
+    st.markdown("""
+    90. 沃尔沃(Volvo)，" Average life of a car in
+    Sweden""车在瑞典的平均寿命"， Scali, McCabe, Sloves ，20世纪60年
+    """
+    )
+    st.image("https://i.pinimg.com/736x/dd/9b/0a/dd9b0a8a7e53551877c7feff1813ee78.jpg",width=600)
+    # st.video('https://youtu.be/GXzVDvWMIuI')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+
+def ad_91():
+    st.markdown("""
+ 91. 6号汽车旅馆(Motel 6)，\"We\'ll leave a light on for you\"
+    "始终为你亮灯"， Richards Group ，1988年
+    """
+    )
+    st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    # st.video('https://youtu.be/GXzVDvWMIuI')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_92():
+    st.markdown("""
+    92.果冻(Jell-O)，"Bill Cosby with kids"（比尔•考斯比和孩子们）， Young &
+    Rubicam ，1975年
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/EmumqhYbRE0')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_93():
+    st.markdown("""
+    93. IBM，"Chaplin\'s Little Tramp character""小丑卓别林"， Lord,
+    Geller, Federico, EinsteinLord, Geller, Federico, Einstein ，1982年
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/1LR1Xvvch18')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+def ad_94():
+    st.markdown("""
+    94. 美国旅行者箱包(American Tourister)，"The
+    Gorilla"（大猩猩），DDB，20世纪60年代晚期
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/Q5sEIWlQO7A')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_95():
+    st.markdown("""
+    95. 赞宝除臭剂(Right Guard)，\"Medecine Cabinet\"
+    （药柜），BBDO，20世纪60年代
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/NFzC-zvDoPE?si=bLFjlLlzP2mqWvPi')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_96():
+    st.markdown("""
+    96. 梅宝(Maypo)，\"I want my Maypo\" （我要我的梅宝）， Fletcher,
+    Calkins & Holden ，20世纪60年代
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/RZygpm7p6TE')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_97():
+    st.markdown("""
+    97. 百服宁(Bufferin)，" Pounding heartbeat"（強有力的心跳）， Young &
+    Rubicam ，1960年
+    """
+    )
+    # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
+    st.video('https://youtu.be/YXwWum4rkEU')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+
+def ad_98():
+    st.markdown("""
+    98. 箭牌衬衫(Arrow Shirts)，\"My friend, Joe Holmes, is now a horse\"
+    （我的朋友乔•霍尔姆斯，（穿箭牌）如同马）， Young & Rubicam ，1938年
+    """
+    )
+    st.image("https://www.copernicanshift.com/wp-content/uploads/2017/05/My-Best-Friend-Joe-Holmes-is-Now-a-Horse.jpg",width=600)
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_99():
+    st.markdown("""
+    99. 扬•罗必凯自身广告(Young & Rubicam)，\"Impact\" （震撼）， Young &
+    Rubicam ，1930年
+    """
+    )
+    st.image("https://i0.wp.com/img.photobucket.com/albums/v259/paularubia/Vintage%20Ads/young_and_rubicam_advertising_1936.jpg",width=600)
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
+def ad_100():
+    st.markdown("""
+  100. 林登•约翰逊竞选美国总统(Lyndon Johnson for Presiden)，\"Daisy\"
+    （雏菊），DDB，1964年
+    """
+    )
+    st.video('https://youtu.be/-ynEiRvxazU')
+    # st_player('https://www.dailymotion.com/video/xvlqk')
+
+
 def classic_ad():
     st.write("# 附录3： 20世纪最成功的广告T0P100 👋")
 
@@ -1186,7 +1606,7 @@ def classic_ad():
     # ad_5()
     # ad_6()
 
-    for i in range(1, 100):
+    for i in range(1, 101):
         func_name = "ad_" + str(i)
         try:
             globals()[func_name]()

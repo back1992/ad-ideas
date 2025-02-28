@@ -1,37 +1,21 @@
 import streamlit as st
 import streamlit_authenticator as stauth
-
-from classic_ad_100 import classic_ad
-# from streamlit_authenticator import Authenticate
-
-from pages import intro, memorabilia, superstar,  plotting_data, chat_lu
-
 import yaml
 from yaml.loader import SafeLoader
 
+from chat_ad import chat_lu, chat_lu_v1
+from classic_ad_100 import classic_ad
+from homepage import intro
+from pages import memorabilia, superstar, plotting_data
 
-# hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
-
-# st.write(f'Welcome *{hashed_passwords}*')
-
-
-# name, authentication_status, username = authenticator.login('main', 'Login')
-# if authentication_status:
-#     authenticator.logout('Logout', 'main')
-#     if username == 'jsmith':
-#         st.write(f'Welcome *{name}*')
-#         st.title('Application 1')
-#     elif username == 'rbriggs':
-#         st.write(f'Welcome *{name}*')
-#         st.title('Application 2')
-# elif not authentication_status:
-#     st.error('Username/password is incorrect')
-# elif authentication_status is None:
-#     st.warning('Please enter your username and password')
+def load_config(file_path):
+    """Load configuration from a YAML file."""
+    with open(file_path) as file:
+        return yaml.load(file, Loader=SafeLoader)
 
 def privilege():
-    with open('./config.yaml') as file:
-        config = yaml.load(file, Loader=SafeLoader)
+    """Handle user authentication and privileges."""
+    config = load_config('./config.yaml')
     authenticator = stauth.Authenticate(
         config['credentials'],
         config['cookie']['name'],
@@ -40,15 +24,15 @@ def privilege():
         config['preauthorized']
     )
     name, authentication_status, username = authenticator.login('main', 'Login')
+
     if authentication_status:
         authenticator.logout('Logout', 'main')
+        st.write(f'Welcome *{name}*')
         if username == 'jsmith':
-            st.write(f'Welcome *{name}*')
             st.title('Application 1')
         elif username == 'rbriggs':
-            st.write(f'Welcome *{name}*')
             st.title('Application 2')
-    elif not authentication_status:
+    elif authentication_status is False:
         st.error('Username/password is incorrect')
     elif authentication_status is None:
         st.warning('Please enter your username and password')
@@ -59,7 +43,7 @@ page_names_to_funcs = {
     "20世纪广告百位巨星榜": superstar,
     "20世纪最成功的广告T0P100": classic_ad,
     "行业数据": plotting_data,
-    "与大师对话": chat_lu,
+    "与大师对话": chat_lu_v1,
     "会员": privilege
 }
 

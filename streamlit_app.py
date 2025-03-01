@@ -1,3 +1,5 @@
+import os
+
 import dotenv
 import requests
 import streamlit as st
@@ -10,6 +12,10 @@ from yaml.loader import SafeLoader
 from classic_ad_100 import classic_ad
 from homepage import intro
 from pages import memorabilia, superstar, plotting_data
+
+os.environ['PATH'] = '.env'
+
+
 
 
 ENV = dotenv.dotenv_values(".env")

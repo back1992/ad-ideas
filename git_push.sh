@@ -12,7 +12,7 @@ fi
 
 # Now you can use variables from .env
 VENV_PATH="${VIRTUAL_ENV:-/~/.venv}"
-BRANCH="${GIT_BRANCH:-temp-branch}"
+BRANCH="${GIT_BRANCH:-main}"
 TIMESTAMP=$(date +%s)
 
 # Function to log messages

@@ -3,10 +3,28 @@ import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 
-from chat_ad import chat_lu
+from chat_ad import initialize_session_state, generate_response
+# from chat_ad import chat_lu
 from classic_ad_100 import classic_ad
 from homepage import intro
 from pages import memorabilia, superstar, plotting_data
+
+def chat_lu():
+    """Chat interface version 1."""
+    st.title("💬 Chat with Advertising History")
+    initialize_session_state()
+
+    for message in st.session_state["messages"]:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if prompt := st.chat_input("What is up?"):
+        st.session_state["messages"].append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        response = generate_response(prompt)
+        with st.chat_message("assistant"):
+            st.write(response)
 
 def load_config(file_path):
     """Load configuration from a YAML file."""

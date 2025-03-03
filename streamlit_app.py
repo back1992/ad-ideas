@@ -13,9 +13,6 @@ from classic_ad_100 import classic_ad
 from homepage import intro
 from pages import memorabilia, superstar, plotting_data
 
-# os.environ['PATH'] = '.env'
-
-OLLAMA_API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjN2Y3MTllLTQxYTctNGU3YS1iYTU3LWY0NTE1NWE3ODBmMCJ9.zss1AilbbiePCaQcCX6Z4zBgN79RKG5kdJeSvKqG2Rs"
 
 
 ENV = dotenv.dotenv_values(".env")

@@ -16,6 +16,7 @@ from pages import memorabilia, superstar, plotting_data
 
 
 ENV = dotenv.dotenv_values(".env")
+OLLAMA_API_KEY = ENV["OLLAMA_API_KEY"]
 
 def initialize_session_state():
     """Initialize session state variables for Streamlit."""

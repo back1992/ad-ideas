@@ -45,7 +45,7 @@ def generate_response(prompt):
             'Authorization': f'Bearer {OLLAMA_API_KEY}',
             'Content-Type': 'application/json'
         }
-        model = "llama3.2"
+        model = "llama3.3"
         collection_id = "2200479b-d722-45a4-ad06-06ea537f5af4"
         payload = {
             'model': model,

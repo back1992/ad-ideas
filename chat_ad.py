@@ -1,18 +1,19 @@
 import os
 import tempfile
-import dotenv
+from dotenv import load_dotenv
 import openai
 import requests
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 
+load_dotenv()
+
 # Load environment variables
-ENV = dotenv.dotenv_values(".env")
 
 openai.api_type = "azure"
-openai.api_base = ENV["AZURE_OPENAI_ENDPOINT"]
-openai.api_version = ENV["AZURE_OPENAI_API_VERSION"]
-openai.api_key = ENV["AZURE_OPENAI_KEY"]
+openai.api_base = os.environ.get("AZURE_OPENAI_ENDPOINT")
+openai.api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
+openai.api_key = os.environ.get("AZURE_OPENAI_KEY")
 
 def initialize_session_state():
     """Initialize session state variables for Streamlit."""

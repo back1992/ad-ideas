@@ -1,6 +1,6 @@
 import os
 
-import dotenv
+from dotenv import load_dotenv
 import requests
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -14,9 +14,8 @@ from homepage import intro
 from pages import memorabilia, superstar, plotting_data
 
 
-
-ENV = dotenv.dotenv_values(".env")
-OLLAMA_API_KEY = ENV["OLLAMA_API_KEY"]
+load_dotenv()
+OLLAMA_API_KEY = os.environ.get('OLLAMA_API_KEY')
 
 def initialize_session_state():
     """Initialize session state variables for Streamlit."""
@@ -40,12 +39,13 @@ def generate_response(prompt):
     """Generate a response using the Ollama API."""
     st.session_state["messages"].append({"role": "user", "content": prompt})
     try:
-        url = "http://open-webui.zbb-api.wqketang.com/ollama/v1/chat/completions"
+        # url = "http://open-webui.zbb-api.wqketang.com/ollama/v1/chat/completions"
+        url = "http://open-webui.zbb-api.wqketang.com/api/chat/completions"
         headers = {
             'Authorization': f'Bearer {OLLAMA_API_KEY}',
             'Content-Type': 'application/json'
         }
-        model = "llama3.3"
+        model = "llama3.2:latest"
         collection_id = "2200479b-d722-45a4-ad06-06ea537f5af4"
         payload = {
             'model': model,
@@ -70,7 +70,7 @@ def generate_response(prompt):
 
 def chat_lu():
     """Chat interface version 1."""
-    st.title("💬 Chat with Advertising History")
+    st.title(f"💬 Chat with Advertising History")
     initialize_session_state()
 
     for message in st.session_state["messages"]:

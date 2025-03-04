@@ -1,19 +1,12 @@
 import os
-import tempfile
 from dotenv import load_dotenv
-import openai
 import requests
 import streamlit as st
-from langchain_community.document_loaders import PyPDFLoader
 
 load_dotenv()
 
-# Load environment variables
-
-openai.api_type = "azure"
-openai.api_base = os.environ.get("AZURE_OPENAI_ENDPOINT")
-openai.api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
-openai.api_key = os.environ.get("AZURE_OPENAI_KEY")
+load_dotenv()
+OLLAMA_API_KEY = os.environ.get('OLLAMA_API_KEY')
 
 def initialize_session_state():
     """Initialize session state variables for Streamlit."""
@@ -32,30 +25,18 @@ def initialize_session_state():
     if "total_cost" not in st.session_state:
         st.session_state["total_cost"] = 0.0
 
-def generate_response_azure(prompt):
-    """Generate a response using the OpenAI API."""
-    st.session_state["messages"].append({"role": "user", "content": prompt})
-    try:
-        completion = openai.ChatCompletion.create(
-            engine=ENV["AZURE_OPENAI_CHATGPT_DEPLOYMENT"],
-            messages=st.session_state["messages"],
-        )
-        response = completion.choices[0].message.content
-    except openai.error.APIError as e:
-        response = f"The API could not handle this content: {str(e)}"
-    st.session_state["messages"].append({"role": "assistant", "content": response})
-    return response
 
 def generate_response(prompt):
     """Generate a response using the Ollama API."""
     st.session_state["messages"].append({"role": "user", "content": prompt})
     try:
         url = "http://open-webui.zbb-api.wqketang.com/ollama/v1/chat/completions"
+        # url = "http://open-webui.zbb-api.wqketang.com/api/chat/completions"
         headers = {
-            'Authorization': f'Bearer {ENV['OLLAMA_API_KEY']}',
+            'Authorization': f'Bearer {OLLAMA_API_KEY}',
             'Content-Type': 'application/json'
         }
-        model = "llama3.2"
+        model = "llama3.2:latest"
         collection_id = "2200479b-d722-45a4-ad06-06ea537f5af4"
         payload = {
             'model': model,
@@ -80,7 +61,7 @@ def generate_response(prompt):
 
 def chat_lu():
     """Chat interface version 1."""
-    st.title("💬 Chat with Advertising History")
+    st.title(f"💬 Chat with Advertising History")
     initialize_session_state()
 
     for message in st.session_state["messages"]:
@@ -94,4 +75,3 @@ def chat_lu():
         response = generate_response(prompt)
         with st.chat_message("assistant"):
             st.write(response)
-

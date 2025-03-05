@@ -36,7 +36,10 @@ def generate_response(prompt):
             'Authorization': f'Bearer {OLLAMA_API_KEY}',
             'Content-Type': 'application/json'
         }
-        model = "llama3.2:latest"
+        # model = "llama3.2:latest"
+        # model = "ad-model"
+        # model = "qwen:latest"
+        model = "deepseek-r1:latest"
         collection_id = "2200479b-d722-45a4-ad06-06ea537f5af4"
         payload = {
             'model': model,

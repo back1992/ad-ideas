@@ -57,7 +57,7 @@ def generate_response(prompt: str) -> str:
         full_response = ""
 
         with st.spinner('AI正在思考...'):
-            response = requests.post(url, json=payload, stream=True, timeout=3600)  # 1 hour timeout
+            response = requests.post(url, json=payload, stream=True, timeout=3600)
 
             for line in response.iter_lines():
                 if line:
@@ -65,7 +65,8 @@ def generate_response(prompt: str) -> str:
                         json_response = json.loads(line)
                         chunk = json_response.get('response', '')
                         full_response += chunk
-                        placeholder.markdown(full_response)
+                        # Only update the placeholder with new content
+                        placeholder.markdown(chunk)
                     except json.JSONDecodeError:
                         continue
 

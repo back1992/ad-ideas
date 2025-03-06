@@ -4,12 +4,21 @@ from dotenv import load_dotenv
 import requests
 import streamlit as st
 from typing import List, Dict
+from requests.adapters import HTTPAdapter
+import urllib3.util.retry
 import json
+import chromadb
+from chromadb.config import Settings
 
 # Load environment variables
 load_dotenv()
 OLLAMA_API_KEY = os.environ.get('OLLAMA_API_KEY')
 
+# Initialize Chroma client
+chroma_client = chromadb.Client(Settings(
+    persist_directory=".chroma",
+    is_persistent=True
+))
 
 def initialize_session_state():
     """Initialize session state variables with default values."""
@@ -34,7 +43,100 @@ def get_chat_context(messages: List[Dict[str, str]], max_context: int = 3) -> Li
     context.extend(recent_messages)
     return context
 
+def store_embedding(prompt: str, embedding: List[float]):
+    """Store the embedding in Chroma."""
+    collection = chroma_client.get_or_create_collection(name=st.session_state.collection_id)
+    collection.add(documents=[prompt], embeddings=[embedding])
 
+def query_embedding(prompt: str) -> List[float]:
+    """Query the embedding from Chroma."""
+    collection = chroma_client.get_or_create_collection(name=st.session_state.collection_id)
+    results = collection.query(query_texts=[prompt], n_results=1)
+    if results['documents']:
+        return results['embeddings'][0]
+    return None
+
+def generate_response_webui(prompt: str) -> str:
+    """Generate a response using the Ollama API with context awareness."""
+    session = None
+
+    if not OLLAMA_API_KEY:
+        return "Error: API key not found in environment variables."
+
+    system_prompt = (
+        "You are an expert in advertising history and creativity. "
+        "When answering questions, provide specific examples, case studies, "
+        "and actionable insights. Please be thorough and detailed in your responses. "
+        "Always respond in Chinese."
+    )
+
+    try:
+        context = get_chat_context(st.session_state.messages)
+        context.insert(0, {"role": "system", "content": system_prompt})
+
+        url = "http://open-webui.zbb-api.wqketang.com/ollama/v1/chat/completions"
+        headers = {
+            'Authorization': f'Bearer {OLLAMA_API_KEY}',
+            'Content-Type': 'application/json'
+        }
+
+        payload = {
+            'model': st.session_state.model_name,
+            'messages': [{"role": "user", "content": prompt}],  # Simplified messages
+            'stream': False,
+            'temperature': 0.7,
+            'max_tokens': 2000
+        }
+
+        session = requests.Session()
+
+        with st.spinner('生成回答中...'):
+            response = session.post(url, headers=headers, json=payload, timeout=30)
+
+            # Check response status
+            if response.status_code != 200:
+                return f"API Error: Status code {response.status_code}"
+
+            # Parse response carefully
+            try:
+                response_data = response.json()
+            except json.JSONDecodeError:
+                return "Error: Invalid JSON response"
+
+            # Validate response structure
+            if not isinstance(response_data, dict):
+                return "Error: Invalid response format"
+
+            if 'choices' not in response_data:
+                return "Error: No choices in response"
+
+            choices = response_data['choices']
+            if not choices or not isinstance(choices, list):
+                return "Error: Empty or invalid choices"
+
+            first_choice = choices[0]
+            if not isinstance(first_choice, dict):
+                return "Error: Invalid choice format"
+
+            message = first_choice.get('message')
+            if not message or not isinstance(message, dict):
+                return "Error: Invalid message format"
+
+            content = message.get('content')
+            if not content:
+                return "Error: No content in response"
+
+            return content.strip()
+
+    except requests.exceptions.Timeout:
+        return "请求超时，请重试"
+    except requests.exceptions.RequestException as e:
+        return f"API请求错误: {str(e)}"
+    except Exception as e:
+        return f"系统错误: {str(e)}"
+    finally:
+        if session:
+            session.close()
 
 def update_chat_history(role: str, content: str):
     """Update session state with new message."""

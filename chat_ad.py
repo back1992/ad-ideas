@@ -1,109 +1,118 @@
-import os
-from datetime import datetime
-from dotenv import load_dotenv
 import requests
 import streamlit as st
-from typing import List, Dict
 import json
 
-# Load environment variables
-load_dotenv()
-OLLAMA_API_KEY = os.environ.get('OLLAMA_API_KEY')
-
+# Constants
+DEFAULT_MODEL = "Llama-3.2-3B-Instruct-Q6_K"
+CHAT_API_URL = "http://open-webui.zbb-api.wqketang.com/completion"
+OLLAMA_API_URL = "http://llama3.zbb-api.wqketang.com/api/chat"
+# SYSTEM_PROMPT = "You are a helpful assistant knowledgeable about advertising history."
+SYSTEM_PROMPT = "你是一位广告学领域的专家， 请根据用户的问题， 用简体中文回答。"
 
 def initialize_session_state():
-    """Initialize session state variables with default values."""
-    defaults = {
-        "messages": [{"role": "system", "content": "You are an AI assistant knowledgeable about advertising history."}],
-        "chat_history": [],
-        "model_name": "llama3.1:8b-instruct-q4_0",
-        "collection_id": "2200479b-d722-45a4-ad06-06ea537f5af4"
-    }
-    for key, value in defaults.items():
-        if key not in st.session_state:
-            st.session_state[key] = value
+    """Initialize session state with defaults if not already set."""
+    if "messages" not in st.session_state:
+        st.session_state.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+        st.session_state.chat_history = []
 
-def get_chat_context(messages: List[Dict[str, str]], max_context: int = 3) -> List[Dict[str, str]]:
-    """Extract recent chat context up to max_context messages."""
-    system_message = next((msg for msg in messages if msg["role"] == "system"), None)
-    recent_messages = messages[-max_context * 2:] if len(messages) > max_context * 2 else messages
+MAX_HISTORY = 10  # Maximum number of message pairs to keep
 
-    context = []
-    if system_message:
-        context.append(system_message)
-    context.extend(recent_messages)
-    return context
-
-
-
-def update_chat_history(role: str, content: str):
-    """Update session state with new message."""
+def append_message(role: str, content: str):
+    """Append a message to both messages and chat_history with size limit."""
     if content:
+        # Add new message
         st.session_state.messages.append({"role": role, "content": content})
         st.session_state.chat_history.append({"role": role, "content": content})
 
+        # Keep only system message and last MAX_HISTORY * 2 messages
+        # (each conversation turn has 2 messages: user + assistant)
+        if len(st.session_state.messages) > (MAX_HISTORY * 2 + 1):
+            # Keep system message
+            st.session_state.messages = [st.session_state.messages[0]] + st.session_state.messages[-(MAX_HISTORY * 2):]
 
-def generate_response(prompt: str) -> str:
-    """Generate a streamed response from Ollama API."""
+        # Keep only last MAX_HISTORY conversation turns in chat history
+        if len(st.session_state.chat_history) > MAX_HISTORY * 2:
+            st.session_state.chat_history = st.session_state.chat_history[-(MAX_HISTORY * 2):]
+
+def stream_response(prompt: str) -> str:
+    """Generate a streamed response from the Ollama API with chat history."""
+    # Build messages array from chat history
+    messages = [
+        {"role": "system", "content": "你是一位广告学领域的专家，请回答用户关于广告创意和销售的问题。"}
+    ]
+
+    # Add chat history from session state
+    for msg in st.session_state.chat_history:
+        messages.append({
+            "role": msg["role"],
+            "content": msg["content"]
+        })
+
+    # Add current prompt
+    messages.append({
+        "role": "user",
+        "content": prompt
+    })
+
+    payload = {
+        "model": "llama3.2",
+        "messages": messages,
+        "stream": True
+    }
+
     try:
-        url = "http://llama3.zbb-api.wqketang.com/api/generate"
-        payload = {
-            'model': st.session_state.model_name,
-            'prompt': f"作为一位资深广告专家，分析如何创造令人难忘的广告。请分步骤思考并详细说明：\n\n{prompt}",
-            'stream': True
-        }
+        response = requests.post(OLLAMA_API_URL, json=payload, stream=True, timeout=30)
+        response.raise_for_status()
 
-        placeholder = st.empty()
-        full_response = ""
-
-        with st.spinner('AI正在思考...'):
-            response = requests.post(url, json=payload, stream=True, timeout=3600)
+        with st.spinner("思考中..."):
+            content_placeholder = st.empty()
+            response_chunks = []
 
             for line in response.iter_lines():
                 if line:
                     try:
-                        json_response = json.loads(line)
-                        chunk = json_response.get('response', '')
-                        full_response += chunk
-                        # Only update the placeholder with new content
-                        placeholder.markdown(chunk)
+                        decoded_line = line.decode('utf-8')
+                        chunk = json.loads(decoded_line).get("message", {}).get("content", "")
+                        if chunk:
+                            response_chunks.append(chunk)
+                            content_placeholder.markdown("".join(response_chunks))
                     except json.JSONDecodeError:
                         continue
 
-        return full_response
+            full_response = "".join(response_chunks) or "未能生成回应。"
+            content_placeholder.empty()
+            return full_response
 
-    except requests.exceptions.ConnectionError:
-        return "无法连接到服务器，请检查网络连接"
+    except requests.RequestException as e:
+        return f"连接错误: {str(e)}"
     except Exception as e:
         return f"系统错误: {str(e)}"
 
 
-def display_chat_history():
-    """Display all messages in the chat history."""
-    for message in st.session_state.messages:
-        if message["role"] != "system":
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+def display_chat():
+    """Display non-system messages from chat history."""
+    for msg in st.session_state.messages:
+        if msg["role"] != "system":
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
 
 def chat_lu():
-    """Enhanced chat interface with context awareness."""
-    st.title("💬 Chat with Advertising History")
+    """Simplified chat interface."""
+    st.title("💬 Advertising History Chat")
     initialize_session_state()
+    display_chat()
 
-    # Display chat history
-    display_chat_history()
-
-    # Handle new user input
     if prompt := st.chat_input("Ask about advertising history..."):
         with st.chat_message("user"):
             st.markdown(prompt)
-        update_chat_history("user", prompt)
+        append_message("user", prompt)
 
-        # Generate and display assistant response
-        response = generate_response(prompt)
+        response = stream_response(prompt)
         with st.chat_message("assistant"):
             st.markdown(response)
-        update_chat_history("assistant", response)
+        append_message("assistant", response)
+
 
 if __name__ == "__main__":
     chat_lu()
+

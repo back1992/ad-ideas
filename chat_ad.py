@@ -4,8 +4,8 @@ import json
 
 # Constants
 DEFAULT_MODEL = "Llama-3.2-3B-Instruct-Q6_K"
-CHAT_API_URL = "http://open-webui.zbb-api.wqketang.com/completion"
-OLLAMA_API_URL = "http://llama3.zbb-api.wqketang.com/api/chat"
+CHAT_API_URL = "https://ai-webui.izhixue.cc/completion"
+OLLAMA_API_URL = "https://ai.izhixue.cc/api/chat"
 # SYSTEM_PROMPT = "You are a helpful assistant knowledgeable about advertising history."
 SYSTEM_PROMPT = "你是一位广告学领域的专家， 请根据用户的问题， 用简体中文回答。"
 

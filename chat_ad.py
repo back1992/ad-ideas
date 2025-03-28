@@ -55,7 +55,7 @@ def stream_response(prompt: str) -> str:
     })
 
     payload = {
-        "model": "llama3.2",
+        "model": "mistral",
         "messages": messages,
         "stream": True
     }

@@ -61,7 +61,7 @@ def stream_response(prompt: str) -> str:
     }
 
     try:
-        response = requests.post(OLLAMA_API_URL, json=payload, stream=True, timeout=60)
+        response = requests.post(OLLAMA_API_URL, json=payload, stream=True, timeout=120)
         response.raise_for_status()
 
         with st.spinner("思考中..."):

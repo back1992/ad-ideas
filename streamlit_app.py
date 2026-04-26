@@ -208,6 +208,7 @@ def get_navigation_menu():
     # Base menu available to everyone (guests + logged-in)
     menu = {
         f"🏠 {t('page_home')}": intro,
+        f"📱 {t('download_app')}": show_download_page,
         f"🔍 {t('page_search')}": show_search_interface,
         f"📅 {t('page_timeline')}": memorabilia,
         f"⭐ {t('page_stars')}": superstar,
@@ -229,6 +230,40 @@ def get_navigation_menu():
         menu[f"📈 {t('page_analytics')}"] = show_analytics_dashboard
 
     return menu
+
+
+def show_download_page():
+    """Display app download page."""
+    st.markdown(f"# {t('download_app_title')}")
+    st.info(t('download_app_desc'))
+
+    st.markdown("""
+    ### How to install
+
+    1. Click the button below to download the APK file
+    2. Transfer to your Android phone (USB, cloud, etc.)
+    3. Open the file on your phone and tap "Install"
+    4. If prompted, enable "Install from unknown sources" in Settings
+
+    > The app loads this website in a native WebView, so all content is up-to-date.
+    """)
+
+    apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
+    st.markdown(f"""
+    <a href="{apk_url}" target="_blank" style="
+        display: inline-block;
+        padding: 12px 24px;
+        background: #2E86AB;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 12px;
+    ">
+    📱 {t('download_button')}
+    </a>
+    """, unsafe_allow_html=True)
 
 
 def show_search_interface():
@@ -402,6 +437,24 @@ def main():
     except Exception as e:
         st.error(f"{t('error_loading_page')}: {str(e)}")
         st.exception(e)
+
+    # App download link in sidebar
+    st.sidebar.markdown("---")
+    download_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
+    st.sidebar.markdown(
+        f"""<a href="{download_url}" target="_blank" style="
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background: #2E86AB;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        ">📱 {t('download_button')}</a>""",
+        unsafe_allow_html=True
+    )
 
 
 if __name__ == "__main__":

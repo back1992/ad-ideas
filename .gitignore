@@ -1,12 +1,12 @@
 .streamlit/secrets.toml
 
-# Temporary test files
+# Temporary test files (use specific names, not test_*.py which blocks all tests)
 *_test.py
 *_debug.py
-test_*.py
 debug_*.py
 temp_*.py
 *_temp.py
+test_tmp_*.py
 
 # Database files
 *.db
@@ -175,3 +175,4 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 /test/
+tests/screenshots/

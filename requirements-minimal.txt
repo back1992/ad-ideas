@@ -1,0 +1,14 @@
+# Core Streamlit Application - Updated January 2026
+streamlit>=1.40.0
+streamlit-authenticator>=0.3.4
+python-dotenv>=1.0.1
+pysqlite3-binary>=0.5.4
+
+# For existing content pages (can be removed if not needed)
+markdown>=3.7
+requests>=2.32.0
+
+# Optional: Add these back if needed for specific features
+# streamlit-chat>=0.1.1
+# streamlit-feedback  # For Task 3.1 when we implement it
+# pandas>=2.0.0  # If we need data processing

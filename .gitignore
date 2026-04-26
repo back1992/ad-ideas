@@ -1,5 +1,18 @@
 .streamlit/secrets.toml
 
+# Temporary test files
+*_test.py
+*_debug.py
+test_*.py
+debug_*.py
+temp_*.py
+*_temp.py
+
+# Database files
+*.db
+platform.db
+test_platform.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -124,7 +137,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-#.env
+.env
 .venv
 env/
 venv/

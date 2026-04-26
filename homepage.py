@@ -1,7 +1,7 @@
 from datetime import datetime
 import streamlit as st
 from PIL import Image
-from streamlit_disqus import st_disqus
+from utils.layout import render_feedback_and_comments
 
 COMMENT_TEMPLATE_MD = """{} - {}
 > {}"""
@@ -12,8 +12,12 @@ def space(num_lines=1):
         st.write("")
 
 def load_image(image_path):
-    """Load an image from the given path."""
-    return Image.open(image_path)
+    """Load an image from the given path, with fallback."""
+    try:
+        return Image.open(image_path)
+    except FileNotFoundError:
+        st.warning(f"图片未找到: {image_path}")
+        return None
 
 def display_content():
     """Display the main content of the homepage."""
@@ -21,11 +25,12 @@ def display_content():
     st.sidebar.success("栏目内容.")
 
     img = load_image('statics/cover.jpeg')
-    st.image(img)
+    if img:
+        st.image(img)
 
     st.markdown(
         """
-        本书是广告思想史的开源之作，将广告史从“WHAT”(是什么）为主的记事模式转向“WHY+HOW”(为何和如何）为主的探究模式；从关注事件转向以人物和思想为核心；从只讲“过去”延伸至“现在及未来”，尤其剖析洞察了21世纪成为主流的数字广告。
+        本书是广告思想史的开源之作，将广告史从"WHAT"(是什么）为主的记事模式转向"WHY+HOW"(为何和如何）为主的探究模式；从关注事件转向以人物和思想为核心；从只讲"过去"延伸至"现在及未来"，尤其剖析洞察了21世纪成为主流的数字广告。
 
         👈 以广告内在逻辑为主、辅以外部的视角，全书12章系统揭示了近120年广告波澜闳阔、柳暗花明的发展脉络和思想变迁，包括人物流派、重大主题、经典个案、数据印证和里程碑。本书凸现关键的核心思想及多元视角，并激发思考，是简明把握广告思想演变精髓及其历史走势的必读首选，适合所有对广告有兴趣的人群，尤其经济管理和传播广告类的本科生和研究生，宜作为相关专业的教材或主要参考书。
 
@@ -109,7 +114,7 @@ def display_content():
 
         **林升栋（厦门大学、中国人民大学教授、博士生导师，厦门大学新闻与传播学院院长）**
 
-        作为菲利浦·科特勒国际营销理论贡献奖中国首位获奖者，卢泰宏先生为现代营销科学在中国的传播与发展起到了重要的铺路作用。他的这部《广告思想简史》，不仅对广告的发展变迁做了"致广大而尽精微"的梳理，而且融合了基于新时代坐标的很多洞见，开卷有益，长久有益。
+        作为菲利浦·科特勒国际营销理论贡献奖中国首位获奖者，卢泰宏先生为现代营销科学在中国的传播与发展起到了重要的铺路作用。他的这部《广告思想史》，不仅对广告的发展变迁做了"致广大而尽精微"的梳理，而且融合了基于新时代坐标的很多洞见，开卷有益，长久有益。
 
         **秦 朔（著名财经评论家，秦朔朋友圈和中国商业文明研究中心创始人）**
 
@@ -125,14 +130,21 @@ def display_content():
     """, unsafe_allow_html=True)
 
     img = load_image('statics/author.jpeg')
-    st.image(img, width=300)
+    if img:
+        st.image(img, width=300)
 
     st.markdown(
         """
-        - 卢泰宏是中国中山大学二级教授、中国营销研究中心(CMC)创始人。菲利浦·科特勒(Philip Kotler)国际营销理论贡献奖(Kotler Marketing Award-Theory)大中华区首位获奖者，荣获国家教委首届人文社科优秀著作一等奖。他培养了市场营销学博士硕士百余人。兼任过国内外一批著名公司的咨询顾问。被评为“中国广告20年20人”(2001)、“影响中国营销进程的25位风云人物”(2004)、“中国最具影响力的10位管理学教授”（2005）和“推动中国品牌化进程的50位风云人物”（2007) 等。主要论著有: MARKETING MANAGEMENT IN CHINA (with P.Kotler and K.L.Keller), 《品牌思想简史》和《消费者行为学—透视中国消费者》等
+        - 卢泰宏是中国中山大学二级教授、中国营销研究中心(CMC)创始人。菲利浦·科特勒(Philip Kotler)国际营销理论贡献奖(Kotler Marketing Award-Theory)大中华区首位获奖者，荣获国家教委首届人文社科优秀著作一等奖。他培养了市场营销学博士硕士百余人。兼任过国内外一批著名公司的咨询顾问。被评为"中国广告20年20人"(2001)、"影响中国营销进程的25位风云人物"(2004)、"中国最具影响力的10位管理学教授"（2005）和"推动中国品牌化进程的50位风云人物"（2007) 等。主要论著有: MARKETING MANAGEMENT IN CHINA (with P.Kotler and K.L.Keller), 《品牌思想简史》和《消费者行为学—透视中国消费者》等
     """, unsafe_allow_html=True)
 
-    st_disqus("streamlit-disqus-demo")
+    # Unified feedback + comments section
+    render_feedback_and_comments(
+        target_type="homepage",
+        target_id="intro",
+        feedback_type="stars",
+    )
+
 
 def intro():
     """Display the introductory content of the homepage."""

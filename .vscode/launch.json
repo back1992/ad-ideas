@@ -1,0 +1,79 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Streamlit: run app",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "module": "streamlit",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": [
+        "run",
+        "streamlit_app.py",
+        "--server.port=8501",
+        "--server.address=127.0.0.1"
+      ],
+      "env": {
+        "VIRTUAL_ENV": "/home/ubuntu/TupProjects/ad-ideas/.locust_env",
+        "PATH": "${workspaceFolder}/.locust_env/bin:${env:PATH}",
+        "GEVENT_SUPPORT": "True"
+      }
+    },
+    {
+      "name": "Locust: run_single_user (active file)",
+      "type": "python",
+      "request": "launch",
+      "python": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "program": "${file}",
+      "cwd": "${fileDirname}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": [],
+      "env": {
+        "VIRTUAL_ENV": "/home/ubuntu/TupProjects/ad-ideas/.locust_env",
+        "PATH": "${workspaceFolder}/.locust_env/bin:${env:PATH}",
+        "GEVENT_SUPPORT": "True"
+      }
+    },
+    {
+      "name": "Pytest: all tests",
+      "type": "python",
+      "request": "launch",
+      "python": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "module": "pytest",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": [
+        "-q"
+      ],
+      "env": {
+        "VIRTUAL_ENV": "/home/ubuntu/TupProjects/ad-ideas/.locust_env",
+        "PATH": "${workspaceFolder}/.locust_env/bin:${env:PATH}",
+        "GEVENT_SUPPORT": "True"
+      }
+    },
+    {
+      "name": "Pytest: current file",
+      "type": "python",
+      "request": "launch",
+      "python": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "module": "pytest",
+      "cwd": "${fileDirname}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": [
+        "-q",
+        "${file}"
+      ],
+      "env": {
+        "VIRTUAL_ENV": "/home/ubuntu/TupProjects/ad-ideas/.locust_env",
+        "PATH": "${workspaceFolder}/.locust_env/bin:${env:PATH}",
+        "GEVENT_SUPPORT": "True"
+      }
+    }
+  ]
+}

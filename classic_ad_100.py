@@ -1,6 +1,18 @@
 import markdown
 import streamlit as st
 from streamlit_player import st_player
+from utils.layout import render_feedback_and_comments, page_title
+
+
+def display_video(url):
+    """Display video at original aspect ratio, left-aligned"""
+    # Use columns to left-align and constrain width
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        if 'youtu' in url:
+            st_player(url, height=360)
+        else:
+            st.video(url)
 
 
 def ad():
@@ -408,7 +420,7 @@ def ad_4():
 
     """
     )
-    st.video('https://youtu.be/0yO7xLAGugQ')
+    display_video('https://youtu.be/0yO7xLAGugQ')
     # Additional text or widgets can be added here
 
 
@@ -419,7 +431,7 @@ def ad_5():
 
     """
     )
-    st.video('https://youtu.be/-tQPd8-BCvA')
+    display_video('https://youtu.be/-tQPd8-BCvA')
     # Additional text or widgets can be added here
 
 
@@ -440,7 +452,7 @@ def ad_7():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/O5qnrLw07gc')
+    display_video('https://youtu.be/O5qnrLw07gc')
     # Additional text or widgets can be added here
 
 
@@ -453,7 +465,7 @@ def ad_8():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/argdPEmD9bI')
+    display_video('https://youtu.be/argdPEmD9bI')
     # Additional text or widgets can be added here
 
 def ad_9():
@@ -464,7 +476,7 @@ def ad_9():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/GXkzl2I5CH8')
+    display_video('https://youtu.be/GXkzl2I5CH8')
     # Additional text or widgets can be added here
 
 
@@ -475,7 +487,7 @@ def ad_10():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/8gMsusVaLng')
+    display_video('https://youtu.be/8gMsusVaLng')
     # Additional text or widgets can be added here
 
 
@@ -488,7 +500,7 @@ def ad_11():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/CUL-qJvQc8A')
+    display_video('https://youtu.be/CUL-qJvQc8A')
     # Additional text or widgets can be added here
 
 
@@ -500,7 +512,7 @@ def ad_12():
     """
     )
     # st.image('https://www.aaaa.org/wp-content/uploads/2017/03/1948_ADiamondIsForever_668.jpg',width=600)
-    st.video('https://youtu.be/VtvjbmoDx-I')
+    display_video('https://youtu.be/VtvjbmoDx-I')
     # Additional text or widgets can be added here
 
 
@@ -512,8 +524,8 @@ def ad_13():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://vimeo.com/191873873')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://vimeo.com/191873873')
     # Additional text or widgets can be added here
 
 
@@ -525,8 +537,8 @@ def ad_14():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/2gnlKBIL-vo')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/2gnlKBIL-vo')
     # Additional text or widgets can be added here
 
 
@@ -538,8 +550,8 @@ def ad_15():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/djj5GzRQD0o')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/djj5GzRQD0o')
     # Additional text or widgets can be added here
 
 
@@ -551,8 +563,8 @@ def ad_16():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/t5FJfmOy4Ro')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/t5FJfmOy4Ro')
     # Additional text or widgets can be added here
 
 
@@ -564,8 +576,8 @@ def ad_17():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/eMBS4PS-wFc')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/eMBS4PS-wFc')
     # Additional text or widgets can be added here
 
 
@@ -578,8 +590,8 @@ def ad_18():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/ms9pxvEbILs')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/ms9pxvEbILs')
     # Additional text or widgets can be added here
 
 
@@ -590,8 +602,8 @@ def ad_19():
     """
     )
     # st.image('https://images.app.goo.gl/hVVhGwZQW7iGMQ836',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/Tm1Ak-B0BWs')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/Tm1Ak-B0BWs')
     # Additional text or widgets can be added here
 
 
@@ -602,8 +614,8 @@ def ad_20():
     """
     )
     st.image('https://static-prod.adweek.com/wp-content/uploads/2017/09/rs-19.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/Tm1Ak-B0BWs')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/Tm1Ak-B0BWs')
     # Additional text or widgets can be added here
 
 
@@ -615,8 +627,8 @@ def ad_21():
     """
     )
     # st.image('https://static-prod.adweek.com/wp-content/uploads/2017/09/rs-19.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/QWQkf0w5JR4')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/QWQkf0w5JR4')
     # Additional text or widgets can be added here
 
 
@@ -628,8 +640,8 @@ def ad_22():
     """
     )
     st.image('https://i0.wp.com/georgehahn.com/wp-content/uploads/2012/01/the-man-in-the-hathaway-shirt-ogilvy-on-illustration-in-advertising.png?resize=323%2C433&ssl=1',width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/QWQkf0w5JR4')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/QWQkf0w5JR4')
     # Additional text or widgets can be added here
 
 
@@ -643,8 +655,8 @@ def ad_23():
     """
     )
     st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/QWQkf0w5JR4')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/QWQkf0w5JR4')
     # Additional text or widgets can be added here
 
 
@@ -655,8 +667,8 @@ def ad_24():
     """
     )
     # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/KJXzkUH72cY')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/KJXzkUH72cY')
     # Additional text or widgets can be added here
 
 
@@ -668,8 +680,8 @@ def ad_25():
     """
     )
     # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/KtmcW8MsCH8')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/KtmcW8MsCH8')
     # Additional text or widgets can be added here
 
 
@@ -681,8 +693,8 @@ def ad_26():
     """
     )
     # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/lgf9yVke8Z8')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/lgf9yVke8Z8')
     # Additional text or widgets can be added here
 
 
@@ -693,8 +705,8 @@ def ad_27():
     """
     )
     # st.image('https://neonsignpark.com/images/2019/04/07/burmasign.jpg',width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/5m7A2mEB63E')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/5m7A2mEB63E')
     # Additional text or widgets can be added here
 
 
@@ -706,8 +718,8 @@ def ad_28():
     """
     )
     st.image('https://i.ebayimg.com/images/g/Su8AAOSwlNtj0Gwo/s-l1200.webp',width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/5m7A2mEB63E')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/5m7A2mEB63E')
     # Additional text or widgets can be added here
 
 def ad_29():
@@ -717,8 +729,8 @@ def ad_29():
     """
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/2/2d/His_Master%27s_Voice.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/5m7A2mEB63E')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/5m7A2mEB63E')
     # Additional text or widgets can be added here
 
 def ad_30():
@@ -728,8 +740,8 @@ def ad_30():
     """
     )
     st.image("https://richardlangworth.com/wp-content/uploads/2023/03/Laramie2.jpeg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/5m7A2mEB63E')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/5m7A2mEB63E')
     # Additional text or widgets can be added here
 
 
@@ -740,8 +752,8 @@ def ad_31():
     """
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/d/d7/1916-skin-touch-soap-ad.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/5m7A2mEB63E')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/5m7A2mEB63E')
     # Additional text or widgets can be added here
 
 
@@ -752,8 +764,8 @@ def ad_32():
     """
     )
     # st.image("https://upload.wikimedia.org/wikipedia/commons/d/d7/1916-skin-touch-soap-ad.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/UEUHV20kH9g')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/UEUHV20kH9g')
     # Additional text or widgets can be added here
 
 def ad_33():
@@ -766,8 +778,8 @@ def ad_33():
     """
     )
     st.image("https://americanbusinesshistory.org/wp-content/uploads/2021/09/apijjtjtk__76529.1626731376-706x1030.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/UEUHV20kH9g')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/UEUHV20kH9g')
     # Additional text or widgets can be added here
 
 
@@ -778,8 +790,8 @@ def ad_34():
     """
     )
     # st.image("https://americanbusinesshistory.org/wp-content/uploads/2021/09/apijjtjtk__76529.1626731376-706x1030.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/tH6MBpFQGyM')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/tH6MBpFQGyM')
     # Additional text or widgets can be added here
 
 
@@ -793,8 +805,8 @@ def ad_35():
     """
     )
     st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/tH6MBpFQGyM')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/tH6MBpFQGyM')
     # Additional text or widgets can be added here
 
 
@@ -804,8 +816,8 @@ def ad_36():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/jBLFCQD76zk?si=KuLUikHgQWmn5lkf')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/jBLFCQD76zk?si=KuLUikHgQWmn5lkf')
     # Additional text or widgets can be added here
 
 def ad_37():
@@ -817,8 +829,8 @@ def ad_37():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/PcJ4zNY_MUU')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/PcJ4zNY_MUU')
     # Additional text or widgets can be added here
 
 
@@ -829,8 +841,8 @@ def ad_38():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/ocKnxSeXDwM')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/ocKnxSeXDwM')
     # Additional text or widgets can be added here
 
 def ad_39():
@@ -840,8 +852,8 @@ def ad_39():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/BZUccKFxTS4')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/BZUccKFxTS4')
     # Additional text or widgets can be added here
 
 
@@ -852,8 +864,8 @@ def ad_40():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/hSv6Z5BA6e8')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/hSv6Z5BA6e8')
     # Additional text or widgets can be added here
 
 
@@ -864,8 +876,8 @@ def ad_41():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/nxrYO6-y4HI')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/nxrYO6-y4HI')
     # Additional text or widgets can be added here
 
 
@@ -876,8 +888,8 @@ def ad_42():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/YK2VZgJ4AoM')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/YK2VZgJ4AoM')
     # Additional text or widgets can be added here
 
 
@@ -888,8 +900,8 @@ def ad_43():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/pUMqic2IcWA')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/pUMqic2IcWA')
     # Additional text or widgets can be added here
 
 
@@ -901,8 +913,8 @@ def ad_44():
     """
     )
     # st.image("https://www.mortonsalt.com/wp-content/uploads/her-debut-1159x1800.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/PU3eYBM0Y30')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/PU3eYBM0Y30')
     # Additional text or widgets can be added here
 
 
@@ -914,8 +926,8 @@ def ad_45():
     """
     )
     st.image("https://marchingagainstphilip.wordpress.com/wp-content/uploads/2010/04/piano_ad3.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/PU3eYBM0Y30')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/PU3eYBM0Y30')
     # Additional text or widgets can be added here
 
 
@@ -926,8 +938,8 @@ def ad_46():
     """
     )
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAu6nIR15tAA6a7VCuKgFLiU54a9jBaiuV1tRh8KpJtO4AFC6GF3lTS_YcA-Y0bRSnvnA&usqp=CAU",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/PU3eYBM0Y30')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/PU3eYBM0Y30')
     # Additional text or widgets can be added here
 
 
@@ -938,8 +950,8 @@ def ad_47():
     """
     )
     # st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAu6nIR15tAA6a7VCuKgFLiU54a9jBaiuV1tRh8KpJtO4AFC6GF3lTS_YcA-Y0bRSnvnA&usqp=CAU",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/cFLttH5QOFU')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/cFLttH5QOFU')
     # Additional text or widgets can be added here
 
 
@@ -956,8 +968,8 @@ def ad_48():
     """
     )
     st.image("https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/newscms/2016_32/1150147/mwo7i.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/cFLttH5QOFU')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/cFLttH5QOFU')
     # Additional text or widgets can be added here
 
 
@@ -968,8 +980,8 @@ def ad_49():
     """
     )
     st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/cFLttH5QOFU')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/cFLttH5QOFU')
     # Additional text or widgets can be added here
 
 
@@ -980,8 +992,8 @@ def ad_50():
     """
     )
     # st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/h0sxwGlTLWw')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/h0sxwGlTLWw')
     # Additional text or widgets can be added here
 
 
@@ -994,8 +1006,8 @@ def ad_51():
     """
     )
     # st.image("https://assets.entrepreneur.com/images/misc/1489481158_PenaltyofLeadership.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/gVFCm2PlXXc')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/gVFCm2PlXXc')
     # Additional text or widgets can be added here
 
 
@@ -1007,8 +1019,8 @@ def ad_52():
     """
     )
     st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/gVFCm2PlXXc')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/gVFCm2PlXXc')
     # Additional text or widgets can be added here
 
 def ad_53():
@@ -1018,8 +1030,8 @@ def ad_53():
     """
     )
     # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/dDSnjjdGh5M')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/dDSnjjdGh5M')
     # Additional text or widgets can be added here
 
 
@@ -1031,8 +1043,8 @@ def ad_54():
     """
     )
     # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/uZrhLQWGpjY')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/uZrhLQWGpjY')
     # Additional text or widgets can be added here
 
 
@@ -1043,8 +1055,8 @@ def ad_55():
     """
     )
     # st.image("https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/f6/d1/f6d1c97c-bbca-40e4-b8a5-15705f86a0d1/1934_elinor_smith.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/sEPtj-AG31I')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/sEPtj-AG31I')
     # Additional text or widgets can be added here
 
 
@@ -1055,8 +1067,8 @@ def ad_56():
     """
     )
     st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/4wvRJDOrGyA?si=zyQp7JFx3H4PW1-O')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/4wvRJDOrGyA?si=zyQp7JFx3H4PW1-O')
     # Additional text or widgets can be added here
 
 
@@ -1067,8 +1079,8 @@ def ad_57():
     """
     )
     # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/UmxbYee6sFA')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/UmxbYee6sFA')
     # Additional text or widgets can be added here
 
 
@@ -1079,8 +1091,8 @@ def ad_58():
     """
     )
     # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/9gugWKeRZ4w')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/9gugWKeRZ4w')
     # Additional text or widgets can be added here
 
 def ad_59():
@@ -1090,8 +1102,8 @@ def ad_59():
     """
     )
     # st.image("https://i.pinimg.com/originals/54/c5/19/54c519626e34809bd547662a70871ec0.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/UP2h4LjBXu0')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/UP2h4LjBXu0')
     # Additional text or widgets can be added here
 
 
@@ -1102,8 +1114,8 @@ def ad_60():
     """
     )
     st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/UP2h4LjBXu0')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/UP2h4LjBXu0')
     # Additional text or widgets can be added here
 
 def ad_61():
@@ -1112,8 +1124,8 @@ def ad_61():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/AXmc7DG4uu8')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/AXmc7DG4uu8')
     # Additional text or widgets can be added here
 
 def ad_62():
@@ -1123,8 +1135,8 @@ def ad_62():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/K5paMDrnON4')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/K5paMDrnON4')
     # Additional text or widgets can be added here
 
 
@@ -1135,8 +1147,8 @@ def ad_63():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/eRDLaSG6csA')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/eRDLaSG6csA')
     # Additional text or widgets can be added here
 
 
@@ -1147,8 +1159,8 @@ def ad_64():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/vYEXzx-TINc')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/vYEXzx-TINc')
     # Additional text or widgets can be added here
 
 
@@ -1159,8 +1171,8 @@ def ad_65():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/p4qslTTVNt4')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/p4qslTTVNt4')
     # Additional text or widgets can be added here
 
 
@@ -1171,8 +1183,8 @@ def ad_66():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/I308QffO-SU')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/I308QffO-SU')
     # Additional text or widgets can be added here
 
 
@@ -1184,8 +1196,8 @@ def ad_67():
     """
     )
     # st.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigarettes/keeps-you-slim/instead-of-a-sweet/sweet_1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/9Z789aLNfXo')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/9Z789aLNfXo')
     # Additional text or widgets can be added here
 
 
@@ -1197,8 +1209,8 @@ def ad_68():
     """
     )
     st.image("https://d1f5kcwhveewqf.cloudfront.net/uploads/timeline/1944-hallmark.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/9Z789aLNfXo')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/9Z789aLNfXo')
     # Additional text or widgets can be added here
 
 
@@ -1210,8 +1222,8 @@ def ad_69():
     """
     )
     st.image("https://i.pinimg.com/originals/15/07/f9/1507f92f809d2cad80fce8dcf0a472b8.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/9Z789aLNfXo')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/9Z789aLNfXo')
     # Additional text or widgets can be added here
 
 
@@ -1222,8 +1234,8 @@ def ad_70():
     """
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Jackson_Heights_Advertisement_by_The_Queensboro_Corporation.jpg/640px-Jackson_Heights_Advertisement_by_The_Queensboro_Corporation.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/9Z789aLNfXo')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/9Z789aLNfXo')
     # Additional text or widgets can be added here
 
 
@@ -1234,8 +1246,8 @@ def ad_71():
     """
     )
     st.image("https://miro.medium.com/v2/resize:fit:944/1*Da1rfCL9czREXblEALdxXA.jpeg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/9Z789aLNfXo')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/9Z789aLNfXo')
     # Additional text or widgets can be added here
 
 
@@ -1245,8 +1257,8 @@ def ad_72():
     """
     )
     # st.image("https://youtu.be/YaXFXo-1KCE",width=600)
-    # st.video('https://vimeo.com/191873873')
-    st_player('https://youtu.be/YaXFXo-1KCE')
+    # display_video('https://vimeo.com/191873873')
+    display_video('https://youtu.be/YaXFXo-1KCE')
     # Additional text or widgets can be added here
 
 
@@ -1261,8 +1273,8 @@ def ad_73():
     """
     )
     st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/R2vNdROz7xg')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/R2vNdROz7xg')
     # Additional text or widgets can be added here
 
 
@@ -1277,9 +1289,9 @@ def ad_74():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://youtu.be/yfzXrLT8_fs')
-    st.video('https://youtu.be/yfzXrLT8_fs')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://youtu.be/yfzXrLT8_fs')
+    display_video('https://youtu.be/yfzXrLT8_fs')
     # Additional text or widgets can be added here
 
 
@@ -1290,9 +1302,9 @@ def ad_75():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/7ZC3NUdjtug')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/7ZC3NUdjtug')
     # Additional text or widgets can be added here
 
 
@@ -1306,9 +1318,9 @@ def ad_76():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/zGpS6LHeBC0')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/zGpS6LHeBC0')
     # Additional text or widgets can be added here
 
 def ad_77():
@@ -1318,9 +1330,9 @@ def ad_77():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/2f6lNBsBb9k')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/2f6lNBsBb9k')
     # Additional text or widgets can be added here
 
 def ad_78():
@@ -1330,9 +1342,9 @@ def ad_78():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/Eps72hsxTu4')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/Eps72hsxTu4')
     # Additional text or widgets can be added here
 
 def ad_79():
@@ -1342,9 +1354,9 @@ def ad_79():
     """
     )
     # st.image("https://fur.org/wp-content/uploads/2021/05/Black-Glama-1.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/mIaAvoQAZAU')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/mIaAvoQAZAU')
     # Additional text or widgets can be added here
 
 
@@ -1355,9 +1367,9 @@ def ad_80():
     """
     )
     st.image("https://admeritus.com/wp-content/uploads/2020/01/09_2011_elec_141.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    # st.video('https://youtu.be/OapWdclVqEY')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://youtu.be/OapWdclVqEY')
     # Additional text or widgets can be added here
 
 
@@ -1368,9 +1380,9 @@ def ad_81():
     """
     )
     # st.image("https://admeritus.com/wp-content/uploads/2020/01/09_2011_elec_141.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    st.video('https://youtu.be/cmoDx2wJy1c')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/cmoDx2wJy1c')
     # Additional text or widgets can be added here
 
 
@@ -1381,9 +1393,9 @@ def ad_82():
     """
     )
     st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    # st.video('https://vimeo.com/191873873')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
-    # st.video('https://youtu.be/cmoDx2wJy1c')
+    # display_video('https://vimeo.com/191873873')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://youtu.be/cmoDx2wJy1c')
     # Additional text or widgets can be added here
 
 def ad_83():
@@ -1393,8 +1405,8 @@ def ad_83():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/wtX5m09YjQ4')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/wtX5m09YjQ4')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 def ad_84():
     st.markdown("""
@@ -1403,8 +1415,8 @@ def ad_84():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/qW9C5ggIJEg')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/qW9C5ggIJEg')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_85():
@@ -1414,8 +1426,8 @@ def ad_85():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/b1zxOTDHIBQ')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/b1zxOTDHIBQ')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_86():
@@ -1425,8 +1437,8 @@ def ad_86():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/kCVTNKXOYqk')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/kCVTNKXOYqk')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 
@@ -1438,8 +1450,8 @@ def ad_87():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/LAt-lB9JIqw')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/LAt-lB9JIqw')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 def ad_88():
     st.markdown("""
@@ -1449,8 +1461,8 @@ def ad_88():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/dRYbF296964')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/dRYbF296964')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_89():
@@ -1460,8 +1472,8 @@ def ad_89():
     """
     )
     # st.image("https://www.taverntrove.com/imagecache/carlings-black-label-beer-paper-ads-carling-brewing-company_81198-1.jpg_H828.jpg",width=600)
-    st.video('https://youtu.be/GXzVDvWMIuI')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/GXzVDvWMIuI')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 
@@ -1472,8 +1484,8 @@ def ad_90():
     """
     )
     st.image("https://i.pinimg.com/736x/dd/9b/0a/dd9b0a8a7e53551877c7feff1813ee78.jpg",width=600)
-    # st.video('https://youtu.be/GXzVDvWMIuI')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://youtu.be/GXzVDvWMIuI')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 
@@ -1484,8 +1496,8 @@ def ad_91():
     """
     )
     st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    # st.video('https://youtu.be/GXzVDvWMIuI')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://youtu.be/GXzVDvWMIuI')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_92():
@@ -1495,8 +1507,8 @@ def ad_92():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/EmumqhYbRE0')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/EmumqhYbRE0')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_93():
@@ -1506,8 +1518,8 @@ def ad_93():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/1LR1Xvvch18')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/1LR1Xvvch18')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 def ad_94():
     st.markdown("""
@@ -1516,8 +1528,8 @@ def ad_94():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/Q5sEIWlQO7A')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/Q5sEIWlQO7A')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_95():
@@ -1527,8 +1539,8 @@ def ad_95():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/NFzC-zvDoPE?si=bLFjlLlzP2mqWvPi')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/NFzC-zvDoPE?si=bLFjlLlzP2mqWvPi')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_96():
@@ -1538,8 +1550,8 @@ def ad_96():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/RZygpm7p6TE')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/RZygpm7p6TE')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_97():
@@ -1549,8 +1561,8 @@ def ad_97():
     """
     )
     # st.image("https://media.licdn.com/dms/image/D5616AQH0q-slkFRfnQ/profile-displaybackgroundimage-shrink_200_800/0/1721934229172?e=2147483647&v=beta&t=CJzXCtiyOcMeQre6p4YczBI5KDes8vUGmgs5dl_AVxw",width=600)
-    st.video('https://youtu.be/YXwWum4rkEU')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/YXwWum4rkEU')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 
@@ -1561,7 +1573,7 @@ def ad_98():
     """
     )
     st.image("https://www.copernicanshift.com/wp-content/uploads/2017/05/My-Best-Friend-Joe-Holmes-is-Now-a-Horse.jpg",width=600)
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_99():
@@ -1571,7 +1583,7 @@ def ad_99():
     """
     )
     st.image("https://i0.wp.com/img.photobucket.com/albums/v259/paularubia/Vintage%20Ads/young_and_rubicam_advertising_1936.jpg",width=600)
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def ad_100():
@@ -1580,12 +1592,12 @@ def ad_100():
     （雏菊），DDB，1964年
     """
     )
-    st.video('https://youtu.be/-ynEiRvxazU')
-    # st_player('https://www.dailymotion.com/video/xvlqk')
+    display_video('https://youtu.be/-ynEiRvxazU')
+    # display_video('https://www.dailymotion.com/video/xvlqk')
 
 
 def classic_ad():
-    st.write("# 附录3： 20世纪最成功的广告T0P100 👋")
+    page_title("campaigns", "20世纪最成功的广告TOP100", "Top 100 Campaigns")
 
     st.markdown("""
 
@@ -1599,19 +1611,25 @@ def classic_ad():
 **榜单排名如下（品牌名称-广告语-广告代理商及时间）：**
  """)
 
-    # ad_1()
-    # ad_2()
-    # ad_3()
-    # ad_4()
-    # ad_5()
-    # ad_6()
+    # Group ads into collapsible expanders for navigability
+    ad_groups = [
+        ("#1-10  TOP 10", [ad_1, ad_2, ad_3, ad_4, ad_5, ad_6, ad_7, ad_8, ad_9, ad_10]),
+        ("#11-20", [ad_11, ad_12, ad_13, ad_14, ad_15, ad_16, ad_17, ad_18, ad_19, ad_20]),
+        ("#21-30", [ad_21, ad_22, ad_23, ad_24, ad_25, ad_26, ad_27, ad_28, ad_29, ad_30]),
+        ("#31-40", [ad_31, ad_32, ad_33, ad_34, ad_35, ad_36, ad_37, ad_38, ad_39, ad_40]),
+        ("#41-50", [ad_41, ad_42, ad_43, ad_44, ad_45, ad_46, ad_47, ad_48, ad_49, ad_50]),
+        ("#51-60", [ad_51, ad_52, ad_53, ad_54, ad_55, ad_56, ad_57, ad_58, ad_59, ad_60]),
+        ("#61-70", [ad_61, ad_62, ad_63, ad_64, ad_65, ad_66, ad_67, ad_68, ad_69, ad_70]),
+        ("#71-80", [ad_71, ad_72, ad_73, ad_74, ad_75, ad_76, ad_77, ad_78, ad_79, ad_80]),
+        ("#81-90", [ad_81, ad_82, ad_83, ad_84, ad_85, ad_86, ad_87, ad_88, ad_89, ad_90]),
+        ("#91-100", [ad_91, ad_92, ad_93, ad_94, ad_95, ad_96, ad_97, ad_98, ad_99, ad_100]),
+    ]
 
-    for i in range(1, 101):
-        func_name = "ad_" + str(i)
-        try:
-            globals()[func_name]()
-        except:
-            print("game over")
+    for label, ad_funcs in ad_groups:
+        with st.expander(label, expanded=(label == "#1-10  TOP 10")):
+            for ad_fn in ad_funcs:
+                ad_fn()
+                st.divider()
 
     st.markdown("""
 
@@ -1633,3 +1651,10 @@ def classic_ad():
     (1999-03-29)[2023-12-21].
     https://adage.com/article/special-report-the-advertising-century/ad-age-advertising-century-top-100-advertising-campaigns/140150.
      """)
+    
+    # Add interactive features for authenticated users
+    render_feedback_and_comments(
+        target_type="campaigns",
+        target_id="classic_ad_100",
+        feedback_type="thumbs",
+    )

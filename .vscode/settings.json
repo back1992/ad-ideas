@@ -1,0 +1,23 @@
+{
+  "python.defaultInterpreterPath": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+  "github.copilot.chat.mcpServers": {
+    "mcp-locust": {
+      "command": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "args": [
+        "-u",
+        "/home/ubuntu/.kiro/extensions/locust.locust-vscode-extension-0.1.61-universal/mcp/server.py"
+      ],
+      "cwd": "${workspaceFolder}"
+    }
+  },
+  "github.copilot.experimental.mcpServers": {
+    "mcp-locust": {
+      "command": "/home/ubuntu/TupProjects/ad-ideas/.locust_env/bin/python",
+      "args": [
+        "-u",
+        "/home/ubuntu/.kiro/extensions/locust.locust-vscode-extension-0.1.61-universal/mcp/server.py"
+      ],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "mcpServers": {
+    "vote-manager": {
+      "command": "/home/ubuntu/TupProjects/vote_system/.venv/bin/python",
+      "args": ["/home/ubuntu/TupProjects/vote_system/scripts/mcp_server_simple.py"],
+      "env": {
+        "DJANGO_SETTINGS_MODULE": "core.settings",
+        "PYTHONPATH": "/home/ubuntu/TupProjects/vote_system"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "list_events",
+        "list_templates",
+        "list_departments",
+        "get_system_statistics"
+      ]
+    },
+    "excel": {
+      "command": "/tmp/excel-mcp-env/bin/excel-mcp-server",
+      "args": ["stdio"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "INFO"
+      },
+      "disabled": true,
+      "autoApprove": [
+        "read_data_from_excel",
+        "validate_formula_syntax",
+        "get_workbook_metadata",
+        "create_workbook",
+        "write_data_to_excel"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "env": {
+        "DISPLAY": ":1"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "navigate_page",
+        "take_screenshot",
+        "take_snapshot",
+        "new_page",
+        "select_page",
+        "list_pages",
+        "click",
+        "fill",
+        "wait_for",
+        "evaluate_script"
+      ]
+    },
+    "office-powerpoint": {
+      "command": "uvx",
+      "args": ["--from", "office-powerpoint-mcp-server", "ppt_mcp_server"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "INFO"
+      },
+      "disabled": true,
+      "autoApprove": [
+        "create_presentation",
+        "add_slide",
+        "populate_placeholder",
+        "add_bullet_points",
+        "add_text",
+        "add_chart",
+        "add_table",
+        "save_presentation",
+        "get_presentation_info",
+        "get_slide_info",
+        "set_core_properties",
+        "create_slide_from_template",
+        "manage_text",
+        "format_table_cell",
+        "add_shape",
+        "apply_professional_design",
+        "manage_image"
+      ]
+    }
+  }
+}

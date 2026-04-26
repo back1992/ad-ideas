@@ -1,15 +1,32 @@
 credentials:
   usernames:
+    admin:
+      email: admin@platform.edu
+      name: Platform Administrator
+      password: $2b$12$KW6s1P241EjUNH8Y/SkQEuu3SWWk4S/daqIH5TE7L6vNSbEy1BfiG  # admin123
+      role: admin
+    professor:
+      email: professor@platform.edu
+      name: Professor Wang
+      password: $2b$12$pd1dHq0c5cm64zFxEuNXtOPNMs6j.8J9rbgYreqIbcUcEbhShDblG  # prof123
+      role: professor
+    student:
+      email: student@platform.edu
+      name: Student Li
+      password: $2b$12$gmoVWqW862yxSzQzhy5MrOALoE/SjKSd8kZEfGgdxAjdX6o85XWbO  # student123
+      role: student
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
       password: abc # To be replaced with hashed password
 #      password: 5HxqFPWuqbZsRKgaXJfla.MhPmbsZNCBX6paw1D2KvhVsYGw/07W2
+      role: student
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
       password: def # To be replaced with hashed password
 #      password: 2b12lj6zOJyIEwCtd6wluPBSWO6FNFTUvFI5Ryb0LP29jKlAKLpHIzUpC
+      role: professor
 cookie:
   expiry_days: 30
   key: random_signature_key # Must be string

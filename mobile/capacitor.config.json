@@ -3,8 +3,10 @@
   "appName": "广告思想简史",
   "webDir": "www",
   "server": {
+    "url": "https://ad-ideas.streamlit.app/",
     "androidScheme": "https",
-    "iosScheme": "https"
+    "iosScheme": "https",
+    "cleartext": true
   },
   "plugins": {
     "StatusBar": {

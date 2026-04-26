@@ -4,41 +4,39 @@ Native Android and iOS wrappers for the 广告思想简史 app using [Capacitor]
 
 ## Architecture
 
+The app loads `https://ad-ideas.streamlit.app/` in a native WebView. No separate backend needed.
+
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  Android / iOS  │────▶│  Mobile Web UI   │────▶│  FastAPI    │
-│  (Capacitor)    │     │  (HTML/CSS/JS)   │     │  Backend    │
-└─────────────────┘     └──────────────────┘     └─────────────┘
-                                                Uses same SQLite DB
+┌─────────────────┐     ┌──────────────────────────┐
+│  Android / iOS  │────▶│  Streamlit App (WebView)  │
+│  (Capacitor)    │     │  ad-ideas.streamlit.app   │
+└─────────────────┘     └──────────────────────────┘
 ```
 
 ## Prerequisites
 
-- **Android**: Android Studio with SDK, or run `npx cap open android`
-- **iOS**: Xcode (macOS only), or run `npx cap open ios`
+- **Android**: Android Studio with SDK
+- **iOS**: Xcode (macOS only)
 - **Node.js** 18+
 
-## Setup (already done)
+## Setup
 
 ```bash
 cd mobile
 npm install
-npx cap add android
-npx cap add ios
+npx cap add android   # already done
+npx cap add ios       # already done
 ```
 
 ## Development
 
-1. Update web files in `mobile/www/` (HTML, CSS, JS)
-2. Sync changes to native projects:
-   ```bash
-   npx cap sync
-   ```
-3. Open in Android Studio or Xcode:
+1. Make changes to the Streamlit app and deploy to Streamlit Cloud
+2. Open in Android Studio or Xcode:
    ```bash
    npx cap open android   # Opens Android Studio
    npx cap open ios       # Opens Xcode
    ```
+3. The WebView automatically loads the latest version from the Streamlit URL
 
 ## Building for Production
 
@@ -54,16 +52,13 @@ npx cap add ios
 2. Select your development team in Signing & Capabilities
 3. Product → Archive → Distribute App
 
-## API Configuration
+## Configuration
 
-The mobile app communicates with the FastAPI backend. Set `API_BASE` in `www/js/app.js`:
+The Streamlit URL is set in `capacitor.config.json`:
 
-- **Development**: `const API_BASE = 'http://localhost:8000';`
-- **Production**: `const API_BASE = '';` (same origin, proxied)
-
-## Starting the API
-
-```bash
-cd /home/ubuntu/TupProjects/ad-ideas
-uvicorn api.main:app --host 0.0.0.0 --port 8000
+```json
+"server": {
+  "url": "https://ad-ideas.streamlit.app/",
+  ...
+}
 ```

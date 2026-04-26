@@ -78,63 +78,42 @@ auth_manager, article_manager, analytics_dashboard, moderation_dashboard = init_
 
 def show_login_dialog():
     """Show login dialog (used from sidebar for guests)."""
-    st.markdown(f"### 🔐 {t('login')}")
+    username_input = st.text_input(t('username_label'), key="login_user")
+    password_input = st.text_input(t('password_label'), type="password", key="login_pass")
 
-    try:
-        name, authentication_status, username = auth_manager.login('main', 'login_form')
-    except Exception as e:
-        st.error(f"Authentication system error: {e}")
-        authentication_status = None
-
-    if not authentication_status:
-        st.markdown(f"### 🔐 {t('login')}")
-
-        with st.form("manual_login_form"):
-            username_input = st.text_input(t('username_label'), key="login_user")
-            password_input = st.text_input(t('password_label'), type="password", key="login_pass")
-            submit_button = st.form_submit_button(t('login'), type="primary")
-
-            if submit_button:
-                if username_input and password_input:
-                    with open("config.yaml", 'r', encoding='utf-8') as file:
-                        config = yaml.load(file, Loader=SafeLoader)
-
-                    users = config['credentials']['usernames']
-                    if username_input in users:
-                        stored_password = users[username_input]['password']
-                        try:
-                            if stauth.Hasher([password_input]).generate()[0] == stored_password or password_input == stored_password:
-                                st.session_state['authentication_status'] = True
-                                st.session_state['username'] = username_input
-                                st.session_state['name'] = users[username_input]['name']
-                                st.session_state['user_role'] = users[username_input].get('role', 'student')
-
-                                activity_logger.log_login(username_input, success=True)
-                                st.success("✅ Login successful!")
-                                st.rerun()
-                            else:
-                                st.error("❌ Incorrect password")
-                                activity_logger.log_login(username_input, success=False)
-                        except Exception:
-                            if password_input == stored_password:
-                                st.session_state['authentication_status'] = True
-                                st.session_state['username'] = username_input
-                                st.session_state['name'] = users[username_input]['name']
-                                st.session_state['user_role'] = users[username_input].get('role', 'student')
-
-                                activity_logger.log_login(username_input, success=True)
-                                st.success("✅ Login successful!")
-                                st.rerun()
-                            else:
-                                st.error("❌ Incorrect password")
-                                activity_logger.log_login(username_input, success=False)
-                    else:
-                        st.error("❌ Username not found")
-                else:
-                    st.warning("⚠️ Please enter both username and password")
-
-    elif authentication_status is False:
-        st.error(t('login_failed'))
+    if st.button(t('login'), type="primary", use_container_width=True):
+        if not username_input or not password_input:
+            st.warning(f"⚠️ {t('fill_username_password')}")
+            return
+        try:
+            with open("config.yaml", 'r', encoding='utf-8') as file:
+                config = yaml.load(file, Loader=SafeLoader)
+            users = config['credentials']['usernames']
+            if username_input not in users:
+                st.error(f"❌ {t('username_not_found')}")
+                return
+            stored_password = users[username_input]['password']
+            # Try hashed comparison first, then plain text fallback
+            pw_match = False
+            try:
+                if stauth.Hasher([password_input]).generate()[0] == stored_password:
+                    pw_match = True
+            except Exception:
+                pass
+            if not pw_match and password_input == stored_password:
+                pw_match = True
+            if pw_match:
+                st.session_state['authentication_status'] = True
+                st.session_state['username'] = username_input
+                st.session_state['name'] = users[username_input]['name']
+                st.session_state['user_role'] = users[username_input].get('role', 'student')
+                activity_logger.log_login(username_input, success=True)
+                st.rerun()
+            else:
+                st.error(t('login_failed'))
+                activity_logger.log_login(username_input, success=False)
+        except Exception as e:
+            st.error(f"Authentication system error: {e}")
 
 
 def show_register_dialog():

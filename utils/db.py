@@ -1,73 +1,101 @@
-import socket
+"""
+Database utilities for 广告思想简史 Platform (China-compatible version)
 
-import google_auth_httplib2
-import httplib2
+This module provides database connectivity that works in China without Google APIs.
+Uses SQLite database instead of Google Sheets for data persistence.
+"""
+
 import pandas as pd
 import streamlit as st
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-from googleapiclient.http import HttpRequest
+from modules.database import get_database_manager
+import logging
 
-socket.setdefaulttimeout(15 * 60)
+# Set up logging
+logger = logging.getLogger(__name__)
 
-SCOPE = "https://www.googleapis.com/auth/spreadsheets"
-SPREADSHEET_ID = "1rkMVLvh3JrBq_tbi4Ho0qjCDAP3vYdNuWOEjYpkJLNU"
+# Legacy constants (kept for compatibility)
 SHEET_NAME = "Database"
-GSHEET_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}"
+LEGACY_SPREADSHEET_ID = "1rkMVLvh3JrBq_tbi4Ho0qjCDAP3vYdNuWOEjYpkJLNU"
 
 
-@st.experimental_singleton()
+@st.cache_resource
 def connect():
-    # Create a connection object.
-    credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=[SCOPE],
-    )
-
-    # Create a new Http() object for every request
-    def build_request(http, *args, **kwargs):
-        new_http = google_auth_httplib2.AuthorizedHttp(
-            credentials, http=httplib2.Http()
-        )
-        return HttpRequest(new_http, *args, **kwargs)
-
-    authorized_http = google_auth_httplib2.AuthorizedHttp(
-        credentials, http=httplib2.Http()
-    )
-    service = build(
-        "sheets",
-        "v4",
-        requestBuilder=build_request,
-        http=authorized_http,
-    )
-    gsheet_connector = service.spreadsheets()
-    return gsheet_connector
+    """
+    Create a database connection using SQLite instead of Google Sheets.
+    This function maintains API compatibility with the original Google Sheets version.
+    
+    Returns:
+        DatabaseManager: Database manager instance
+    """
+    try:
+        db_manager = get_database_manager()
+        logger.info("Database connection established successfully")
+        return db_manager
+    except Exception as e:
+        logger.error(f"Failed to connect to database: {e}")
+        raise
 
 
-def collect(gsheet_connector) -> pd.DataFrame:
-    values = (
-        gsheet_connector.values()
-        .get(
-            spreadsheetId=SPREADSHEET_ID,
-            range=f"{SHEET_NAME}!A:C",
-        )
-        .execute()
-    )
+def collect(db_connector) -> pd.DataFrame:
+    """
+    Collect data from database (replaces Google Sheets collection).
+    
+    Args:
+        db_connector: DatabaseManager instance
+        
+    Returns:
+        pd.DataFrame: Data from the database
+    """
+    try:
+        # Query user activity data (equivalent to the original A:C range)
+        query = """
+            SELECT username, action, timestamp 
+            FROM user_activity 
+            ORDER BY timestamp DESC 
+            LIMIT 1000
+        """
+        df = db_connector.execute_query(query)
+        logger.info(f"Collected {len(df)} records from database")
+        return df
+    except Exception as e:
+        logger.error(f"Failed to collect data: {e}")
+        # Return empty DataFrame with expected columns for compatibility
+        return pd.DataFrame(columns=['username', 'action', 'timestamp'])
 
-    df = pd.DataFrame(values["values"])
-    df.columns = df.iloc[0]
-    df = df[1:]
-    return df
+
+def insert(db_connector, row) -> None:
+    """
+    Insert data into database (replaces Google Sheets insertion).
+    
+    Args:
+        db_connector: DatabaseManager instance
+        row: List of values to insert [username, action, details]
+    """
+    try:
+        if len(row) >= 2:
+            username = row[0] if len(row) > 0 else 'anonymous'
+            action = row[1] if len(row) > 1 else 'unknown'
+            details = row[2] if len(row) > 2 else None
+            
+            query = """
+                INSERT INTO user_activity (username, action, details) 
+                VALUES (?, ?, ?)
+            """
+            db_connector.execute_update(query, (username, action, details))
+            logger.info(f"Inserted activity record: {username} - {action}")
+        else:
+            logger.warning("Invalid row data provided for insertion")
+    except Exception as e:
+        logger.error(f"Failed to insert data: {e}")
+        raise
 
 
-def insert(gsheet_connector, row) -> None:
-    values = (
-        gsheet_connector.values()
-        .append(
-            spreadsheetId=SPREADSHEET_ID,
-            range=f"{SHEET_NAME}!A:C",
-            body=dict(values=row),
-            valueInputOption="USER_ENTERED",
-        )
-        .execute()
-    )
+# Compatibility functions for legacy code
+def get_gsheet_url():
+    """Return a placeholder URL since Google Sheets is not accessible in China."""
+    return f"Database stored locally (Google Sheets not available in China)"
+
+
+def is_china_compatible():
+    """Check if the current database setup is China-compatible."""
+    return True  # SQLite is always China-compatible

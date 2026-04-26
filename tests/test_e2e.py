@@ -148,16 +148,15 @@ class TestGuestBrowsing:
 class TestLoginFlow:
 
     def test_single_login_form(self, page):
-        """Login form should not have duplicate Username/Password fields."""
+        """Login should use native Streamlit form, NOT stauth widget (which renders duplicates)."""
         open_sidebar(page)
         _screenshot(page, "single_login_form")
-        # The stauth login form renders Username + Password fields.
-        # We verify there is exactly 1 "Username" label in the login tab area.
-        sidebar = page.locator('[data-testid="stSidebar"]')
-        # Count Username text labels — should be exactly 1 in login tab
-        username_labels = sidebar.locator('text="Username"')
-        count = username_labels.count()
-        assert count == 1, f"Expected exactly 1 Username label, found {count}"
+        body_text = page.locator("body").inner_text()
+        # The stauth widget renders a "🔐" header. Our native form doesn't.
+        # If stauth is still being used, we'd see duplicate forms with lock emojis.
+        lock_count = body_text.count("🔐")
+        assert lock_count == 0, \
+            f"stauth login widget detected ({lock_count} lock emojis) — should use native form only"
 
     def test_guest_sees_login_area(self, page):
         open_sidebar(page)

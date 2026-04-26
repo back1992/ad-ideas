@@ -101,6 +101,8 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     # Common
     "error_loading_page": ("加载页面时出错", "Error loading page"),
     "login_failed": ("用户名或密码错误", "Username/password is incorrect"),
+    "fill_username_password": ("请填写用户名和密码", "Please enter username and password"),
+    "username_not_found": ("用户名不存在", "Username not found"),
     "access_denied": ("访问被拒绝", "Access denied"),
     "requires_login": ("请先登录", "Please log in first"),
 }

@@ -316,55 +316,62 @@ def show_ai_settings():
     """显示AI设置"""
     ai_client = st.session_state.ai_client
     backend_info = ai_client.get_backend_info()
+    username = st.session_state.get("username")
+
+    # Check if admin (for showing backend switching instructions)
+    is_admin = False
+    try:
+        from modules.auth import get_auth_manager
+        from modules.database import get_database_manager
+        db = get_database_manager()
+        am = get_auth_manager(db_manager=db)
+        is_admin = am.is_admin(username) if username else False
+    except Exception:
+        pass
 
     with st.sidebar:
-        st.markdown(f"### 🤖 {t('ai_settings')}")
+        # Only admins see backend config & switching instructions
+        if is_admin:
+            st.markdown(f"### 🤖 {t('ai_settings')}")
+            st.info(f"**{t('ai_backend')}**: {backend_info['backend'].upper()}")
+            st.info(f"**Status**: {backend_info['status']}")
+            if 'model' in backend_info:
+                st.info(f"**{t('ai_model')}**: {backend_info['model']}")
 
-        # 显示当前后端信息
-        st.info(f"**{t('ai_backend')}**: {backend_info['backend'].upper()}")
-        st.info(f"**Status**: {backend_info['status']}")
-        if 'model' in backend_info:
-            st.info(f"**{t('ai_model')}**: {backend_info['model']}")
+            st.markdown(f"### 🔄 {t('ai_switch_backend')}")
+            st.markdown("""
+            To switch AI backend, set the following in `.env`:
 
-        # 后端切换（需要重启应用）
-        st.markdown(f"### 🔄 {t('ai_switch_backend')}")
-        st.markdown("""
-        To switch AI backend, set the following in `.env`:
+            ```bash
+            # Groq (Recommended)
+            AI_BACKEND=groq
+            GROQ_API_KEY=your_key
+            GROQ_MODEL=llama-3.3-70b-versatile
 
-        ```bash
-        # Groq (Recommended)
-        AI_BACKEND=groq
-        GROQ_API_KEY=your_key
-        GROQ_MODEL=llama-3.3-70b-versatile
+            # Gemini
+            AI_BACKEND=gemini
+            GEMINI_API_KEY=your_key
 
-        # Gemini
-        AI_BACKEND=gemini
-        GEMINI_API_KEY=your_key
+            # Ollama
+            AI_BACKEND=ollama
+            OLLAMA_BASE_URL=http://localhost:11434
+            OLLAMA_MODEL=llama2
 
-        # Ollama
-        AI_BACKEND=ollama
-        OLLAMA_BASE_URL=http://localhost:11434
-        OLLAMA_MODEL=llama2
+            # Azure OpenAI
+            AI_BACKEND=azure_openai
+            AZURE_OPENAI_KEY=your_key
+            AZURE_OPENAI_ENDPOINT=your_endpoint
+            ```
 
-        # Azure OpenAI
-        AI_BACKEND=azure_openai
-        AZURE_OPENAI_KEY=your_key
-        AZURE_OPENAI_ENDPOINT=your_endpoint
-        ```
+            Then restart the app.
+            """)
 
-        Then restart the app.
-        """)
-
-        # 聊天设置
+        # Chat settings visible to all users
         st.markdown(f"### ⚙️ {t('ai_chat_stats')}")
-
         if st.button(f"🗑️ {t('ai_clear_chat')}"):
             st.session_state.ai_messages = []
             st.session_state.ai_chat_history = []
             st.rerun()
-
-        # 显示对话统计
-        st.markdown(f"### 📊 {t('ai_chat_stats')}")
         st.metric(t('ai_message_count'), len(st.session_state.ai_messages))
         if st.session_state.ai_messages:
             last_msg_time = st.session_state.ai_messages[-1]["timestamp"]

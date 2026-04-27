@@ -267,13 +267,31 @@ def show_download_page():
             type="primary",
         )
     except Exception as e:
-        # Fallback: show direct link if APK fetch fails
+        # Fallback: show direct link with copy button
         st.error(f"APK 加载失败: {e}")
         st.markdown(
             f'<p style="text-align:center;">'
-            f'请复制链接到手机浏览器打开下载：<br>'
-            f'<a href="{apk_url}" style="font-size:0.75rem;word-break:break-all;">{apk_url}</a></p>',
+            f'如果上方按钮无法下载，请复制下方链接到手机浏览器打开下载：</p>',
             unsafe_allow_html=True,
+        )
+        
+        st.components.v1.html(
+            f"""
+            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:0 auto;">
+                <input id="apk-copy-input" type="text" value="{apk_url}" 
+                    readonly style="flex:1;padding:6px 10px;font-size:0.75rem;
+                    border:1px solid #ccc;border-radius:4px;background:#f5f5f5;
+                    word-break:break-all;" />
+                <button onclick="navigator.clipboard.writeText('{apk_url}');
+                    this.textContent='已复制!';
+                    setTimeout(()=>this.textContent='📋 复制',1500)"
+                    style="padding:6px 12px;font-size:0.85rem;background:#FF4B4B;
+                    color:#fff;border:none;border-radius:4px;cursor:pointer;
+                    white-space:nowrap;">
+                📋 复制</button>
+            </div>
+            """,
+            height=60,
         )
 
 

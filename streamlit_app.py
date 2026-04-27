@@ -266,32 +266,52 @@ def show_download_page():
             use_container_width=True,
             type="primary",
         )
+        
+        # Copy button - click to copy APK URL to clipboard
+        st.components.v1.html(
+            f"""
+            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:8px auto 0;">
+                <input id="apk-copy-input" type="text" value="{apk_url}" 
+                    readonly style="flex:1;padding:6px 10px;font-size:0.7rem;
+                    border:1px solid #ddd;border-radius:4px;background:#f8f8f8;
+                    color:#666;word-break:break-all;" />
+                <button onclick="navigator.clipboard.writeText('{apk_url}');
+                    this.textContent='已复制 ✓';
+                    this.style.background='#28a745';
+                    setTimeout(()=>{{this.textContent='📋 复制';this.style.background='#FF4B4B'}},1500)"
+                    style="padding:6px 12px;font-size:0.85rem;background:#FF4B4B;
+                    color:#fff;border:none;border-radius:4px;cursor:pointer;
+                    white-space:nowrap;flex-shrink:0;">
+                📋 复制</button>
+            </div>
+            <p style="text-align:center;font-size:0.75rem;color:#999;margin:4px 0 0;">
+            如果点击下载按钮无法下载，请复制上方链接到手机浏览器打开</p>
+            """,
+            height=100,
+        )
     except Exception as e:
         # Fallback: show direct link with copy button
         st.error(f"APK 加载失败: {e}")
-        st.markdown(
-            f'<p style="text-align:center;">'
-            f'如果上方按钮无法下载，请复制下方链接到手机浏览器打开下载：</p>',
-            unsafe_allow_html=True,
-        )
-        
         st.components.v1.html(
             f"""
-            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:0 auto;">
+            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:8px auto;">
                 <input id="apk-copy-input" type="text" value="{apk_url}" 
-                    readonly style="flex:1;padding:6px 10px;font-size:0.75rem;
-                    border:1px solid #ccc;border-radius:4px;background:#f5f5f5;
-                    word-break:break-all;" />
+                    readonly style="flex:1;padding:6px 10px;font-size:0.7rem;
+                    border:1px solid #ddd;border-radius:4px;background:#f8f8f8;
+                    color:#666;word-break:break-all;" />
                 <button onclick="navigator.clipboard.writeText('{apk_url}');
-                    this.textContent='已复制!';
-                    setTimeout(()=>this.textContent='📋 复制',1500)"
+                    this.textContent='已复制 ✓';
+                    this.style.background='#28a745';
+                    setTimeout(()=>{{this.textContent='📋 复制';this.style.background='#FF4B4B'}},1500)"
                     style="padding:6px 12px;font-size:0.85rem;background:#FF4B4B;
                     color:#fff;border:none;border-radius:4px;cursor:pointer;
-                    white-space:nowrap;">
+                    white-space:nowrap;flex-shrink:0;">
                 📋 复制</button>
             </div>
+            <p style="text-align:center;font-size:0.75rem;color:#999;margin:4px 0 0;">
+            请复制上方链接到手机浏览器打开下载</p>
             """,
-            height=60,
+            height=100,
         )
 
 

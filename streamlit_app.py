@@ -249,8 +249,12 @@ def show_download_page():
     """)
 
     apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
+    
+    # Plain <a> tag without target="_blank" — most reliable for mobile download
+    # On Android, target="_blank" inside iframes often blocks downloads entirely
+    # Without target, the browser navigates the iframe to the APK URL and triggers download
     st.markdown(
-        f'<a href="{apk_url}" target="_blank" '
+        f'<a href="{apk_url}" '
         f'style="display:inline-block;padding:0.75rem 1.5rem;background:#FF4B4B;color:#fff;'
         f'border-radius:0.5rem;text-decoration:none;font-weight:600;font-size:1rem;">'
         f'📱 {t("download_button")}</a>',
@@ -434,7 +438,7 @@ def main():
     st.sidebar.markdown("---")
     download_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
     st.sidebar.markdown(
-        f'<a href="{download_url}" target="_blank" '
+        f'<a href="{download_url}" '
         f'style="display:block;padding:0.5rem 1rem;background:#FF4B4B;color:#fff;'
         f'border-radius:0.5rem;text-decoration:none;font-weight:600;text-align:center;">'
         f'📱 {t("download_button")}</a>',

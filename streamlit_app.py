@@ -249,7 +249,13 @@ def show_download_page():
     """)
 
     apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
-    st.link_button(t('download_button'), apk_url, type="primary")
+    st.markdown(
+        f'<a href="{apk_url}" target="_blank" '
+        f'style="display:inline-block;padding:0.75rem 1.5rem;background:#FF4B4B;color:#fff;'
+        f'border-radius:0.5rem;text-decoration:none;font-weight:600;font-size:1rem;">'
+        f'📱 {t("download_button")}</a>',
+        unsafe_allow_html=True,
+    )
 
 
 def show_search_interface():
@@ -427,8 +433,13 @@ def main():
     # App download link in sidebar
     st.sidebar.markdown("---")
     download_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
-    st.sidebar.markdown(f"**📱 {t('download_button')}**")
-    st.sidebar.link_button(t('download_button'), download_url, use_container_width=True, type="primary")
+    st.sidebar.markdown(
+        f'<a href="{download_url}" target="_blank" '
+        f'style="display:block;padding:0.5rem 1rem;background:#FF4B4B;color:#fff;'
+        f'border-radius:0.5rem;text-decoration:none;font-weight:600;text-align:center;">'
+        f'📱 {t("download_button")}</a>',
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":

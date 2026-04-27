@@ -250,14 +250,25 @@ def show_download_page():
 
     apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
     
-    # Plain <a> tag without target="_blank" — most reliable for mobile download
-    # On Android, target="_blank" inside iframes often blocks downloads entirely
-    # Without target, the browser navigates the iframe to the APK URL and triggers download
+    # Use JavaScript to force top-level navigation for mobile download
+    # On Android browsers, downloads from inside Streamlit's nested iframe are blocked
+    # window.top.location.href breaks out of all iframe layers
+    st.components.v1.html(
+        f"""
+        <button onclick="if(window.top){{window.top.location.href='{apk_url}'}}else{{window.location.href='{apk_url}'}}"
+           style="display:inline-block;padding:0.75rem 1.5rem;background:#FF4B4B;color:#fff;
+           border-radius:0.5rem;text-decoration:none;font-weight:600;font-size:1rem;border:none;
+           cursor:pointer;width:100%;text-align:center;">
+        📱 {t("download_button")}</button>
+        """,
+        height=80,
+    )
+    
+    # Fallback: show direct URL for manual copy
     st.markdown(
-        f'<a href="{apk_url}" '
-        f'style="display:inline-block;padding:0.75rem 1.5rem;background:#FF4B4B;color:#fff;'
-        f'border-radius:0.5rem;text-decoration:none;font-weight:600;font-size:1rem;">'
-        f'📱 {t("download_button")}</a>',
+        f'<p style="font-size:0.85rem;color:#888;margin-top:0.8rem;text-align:center;">'
+        f'如果点击按钮无法下载，请长按下方链接复制后在浏览器打开：<br>'
+        f'<a href="{apk_url}" style="font-size:0.75rem;word-break:break-all;">{apk_url}</a></p>',
         unsafe_allow_html=True,
     )
 

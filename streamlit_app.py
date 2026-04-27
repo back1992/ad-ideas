@@ -250,27 +250,31 @@ def show_download_page():
 
     apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
     
-    # Use JavaScript to force top-level navigation for mobile download
-    # On Android browsers, downloads from inside Streamlit's nested iframe are blocked
-    # window.top.location.href breaks out of all iframe layers
-    st.components.v1.html(
-        f"""
-        <button onclick="if(window.top){{window.top.location.href='{apk_url}'}}else{{window.location.href='{apk_url}'}}"
-           style="display:inline-block;padding:0.75rem 1.5rem;background:#FF4B4B;color:#fff;
-           border-radius:0.5rem;text-decoration:none;font-weight:600;font-size:1rem;border:none;
-           cursor:pointer;width:100%;text-align:center;">
-        📱 {t("download_button")}</button>
-        """,
-        height=80,
-    )
-    
-    # Fallback: show direct URL for manual copy
-    st.markdown(
-        f'<p style="font-size:0.85rem;color:#888;margin-top:0.8rem;text-align:center;">'
-        f'如果点击按钮无法下载，请长按下方链接复制后在浏览器打开：<br>'
-        f'<a href="{apk_url}" style="font-size:0.75rem;word-break:break-all;">{apk_url}</a></p>',
-        unsafe_allow_html=True,
-    )
+    # Real fix: st.download_button serves the APK via Streamlit's native Blob URL mechanism
+    # This works reliably on ALL browsers (desktop + mobile) because it bypasses
+    # the iframe download restrictions — the download is triggered from the Streamlit
+    # app's own origin, not from a cross-origin GitHub CDN link
+    try:
+        import urllib.request
+        req = urllib.request.urlopen(apk_url, timeout=30)
+        apk_bytes = req.read()
+        st.download_button(
+            label=f'📱 {t("download_button")}',
+            data=apk_bytes,
+            file_name="app-debug.apk",
+            mime="application/vnd.android.package-archive",
+            use_container_width=True,
+            type="primary",
+        )
+    except Exception as e:
+        # Fallback: show direct link if APK fetch fails
+        st.error(f"APK 加载失败: {e}")
+        st.markdown(
+            f'<p style="text-align:center;">'
+            f'请复制链接到手机浏览器打开下载：<br>'
+            f'<a href="{apk_url}" style="font-size:0.75rem;word-break:break-all;">{apk_url}</a></p>',
+            unsafe_allow_html=True,
+        )
 
 
 def show_search_interface():

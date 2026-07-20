@@ -7,7 +7,7 @@ import importlib
 from utils.i18n import t
 
 # AI后端配置
-AI_BACKEND = os.getenv('AI_BACKEND', 'groq')  # 默认使用groq
+AI_BACKEND = os.getenv('AI_BACKEND', 'ollama')  # 默认使用ollama
 AVAILABLE_BACKENDS = ['gemini', 'ollama', 'azure_openai', 'groq']
 
 class AIChat:

@@ -14,7 +14,7 @@ class AIChat:
     """统一的AI聊天管理器"""
     
     def __init__(self):
-        self.backend = AI_BACKEND.lower()
+        self.backend = os.getenv("AI_BACKEND", "ollama").lower()
         self.client = None
         self.initialize_backend()
     

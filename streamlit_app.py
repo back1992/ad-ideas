@@ -241,6 +241,12 @@ def get_navigation_menu():
     show_popular_content()
 
 
+def show_search_interface():
+    """Display search interface."""
+    # Display search interface from search system
+    search_system.display_search_interface()
+
+
 def show_popular_content():
     """Display popular and trending content."""
     try:

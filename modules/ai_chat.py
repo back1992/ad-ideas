@@ -8,7 +8,7 @@ from utils.i18n import t
 
 # AI后端配置
 AI_BACKEND = os.getenv('AI_BACKEND', 'ollama')  # 默认使用ollama
-AVAILABLE_BACKENDS = ['gemini', 'ollama', 'azure_openai', 'groq']
+AVAILABLE_BACKENDS = ['gemini', 'ollama', 'azure_openai', 'groq', 'openwebui']
 
 class AIChat:
     """统一的AI聊天管理器"""
@@ -29,6 +29,8 @@ class AIChat:
                 self.client = self._init_azure_openai()
             elif self.backend == 'groq':
                 self.client = self._init_groq()
+            elif self.backend == 'openwebui':
+                self.client = self._init_openwebui()
             else:
                 st.error(f"不支持的AI后端: {self.backend}")
                 self.client = None
@@ -134,6 +136,44 @@ class AIChat:
         except ImportError:
             raise ImportError("请安装 openai: pip install openai")
 
+
+    def _init_openwebui(self):
+        """初始化Open WebUI客户端 (使用JWT令牌认证)"""
+        try:
+            import requests
+            
+            base_url = os.getenv('OPENWEBUI_BASE_URL', 'https://ai-webui.izhixue.cc/')
+            jwt_token = os.getenv('OPENWEBUI_JWT_TOKEN', '')
+            model = os.getenv('OPENWEBUI_MODEL', 'qwen3.5-plus')
+            
+            if not jwt_token:
+                raise ValueError("OPENWEBUI_JWT_TOKEN 环境变量未设置")
+            
+            headers = {
+                "Authorization": f"Bearer {jwt_token}",
+                "Content-Type": "application/json"
+            }
+            
+            # Test connection
+            response = requests.get(
+                f"{base_url.rstrip('/')}/api/models",
+                headers=headers,
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                raise ConnectionError(f"无法连接到Open WebUI服务 (HTTP {response.status_code})")
+            
+            return {
+                'type': 'openwebui',
+                'base_url': base_url.rstrip('/'),
+                'jwt_token': jwt_token,
+                'model': model,
+                'headers': headers
+            }
+        except ImportError:
+            raise ImportError("请安装 requests: pip install requests")
+
     def generate_response(self, prompt: str, conversation_history: List[Dict] = None) -> str:
         """生成AI回复"""
         if not self.client:
@@ -148,6 +188,8 @@ class AIChat:
                 return self._generate_azure_response(prompt, conversation_history)
             elif self.client['type'] == 'groq':
                 return self._generate_groq_response(prompt, conversation_history)
+            elif self.client['type'] == 'openwebui':
+                return self._generate_openwebui_response(prompt, conversation_history)
         except Exception as e:
             return f"生成回复时发生错误: {str(e)}"
     
@@ -212,6 +254,155 @@ class AIChat:
         )
 
         return response.choices[0].message.content
+
+    def _generate_openwebui_response(self, prompt: str, conversation_history: List[Dict] = None) -> str:
+        """生成Open WebUI回复"""
+        try:
+            import requests
+            
+            # 构建对话上下文
+            messages = []
+            
+            # 添加系统提示
+            messages.append({
+                "role": "system",
+                "content": "你是一位广告学领域的专家，请根据用户的问题，用简体中文回答。请提供专业、准确、有见地的回答。"
+            })
+            
+            # 添加历史对话
+            if conversation_history:
+                for msg in conversation_history[-10:]:
+                    messages.append({
+                        "role": msg["role"],
+                        "content": msg["content"]
+                    })
+            
+            # 添加当前用户输入
+            messages.append({
+                "role": "user",
+                "content": prompt
+            })
+            
+            # 调用Open WebUI API (OpenAI-compatible)
+            payload = {
+                "model": self.client['model'],
+                "messages": messages,
+                "stream": False
+            }
+            
+            response = requests.post(
+                f"{self.client['base_url']}/api/chat/completions",
+                headers=self.client['headers'],
+                json=payload,
+                timeout=60
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                return data['choices'][0]['message']['content']
+            else:
+                return f"Open WebUI API错误: HTTP {response.status_code} - {response.text}"
+                
+        except requests.exceptions.Timeout:
+            return "请求超时，请稍后重试"
+        except Exception as e:
+            return f"生成回复时发生错误: {str(e)}"
+
+def chat_interface():
+    """统一的AI聊天界面"""
+    lang = t('app_title')  # just to ensure translations are loaded
+    st.markdown(f"# 🤖 {t('ai_chat_title')}")
+
+    # 初始化会话状态
+    initialize_session_state()
+
+    ai_client = st.session_state.ai_client
+    backend_info = ai_client.get_backend_info()
+
+    # 显示当前使用的AI后端
+    st.markdown(f"**{t('ai_backend')}**: {backend_info['backend'].upper()} | **{t('ai_model')}**: {backend_info.get('model', 'N/A')}")
+
+    # 显示AI设置
+    show_ai_settings()
+
+    # 检查AI客户端状态
+    if not ai_client.client:
+        st.error("AI service not initialized properly. Please check environment variable configuration.")
+        st.markdown("""
+        ### 🔧 Configuration Guide
+
+        Configure the following environment variables in `.env`:
+
+        **Groq** (Recommended):
+        ```bash
+        AI_BACKEND=groq
+        GROQ_API_KEY=your_groq_api_key
+        GROQ_MODEL=llama-3.3-70b-versatile
+        ```
+
+        **Gemini**:
+        ```bash
+        AI_BACKEND=gemini
+        GEMINI_API_KEY=your_gemini_api_key
+        GEMINI_MODEL=gemini-1.5-flash
+        ```
+
+        **Ollama**:
+        ```bash
+        AI_BACKEND=ollama
+        OLLAMA_BASE_URL=http://localhost:11434
+        OLLAMA_MODEL=llama2
+        ```
+
+        **Azure OpenAI**:
+        ```bash
+        AI_BACKEND=azure_openai
+        AZURE_OPENAI_KEY=your_azure_key
+        AZURE_OPENAI_ENDPOINT=your_azure_endpoint
+        AZURE_OPENAI_CHATGPT_DEPLOYMENT=gpt-4o
+        ```
+        """)
+        return
+
+    # 显示聊天历史
+    display_chat()
+
+    # 聊天输入
+    if prompt := st.chat_input(t('ai_placeholder')):
+        # 显示用户消息
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        
+        # 添加用户消息到历史
+        append_message("user", prompt)
+        
+        # 生成AI回复
+        with st.chat_message("assistant"):
+            # 检查是否支持流式回复
+            if backend_info['backend'] == 'ollama':
+                # 流式回复
+                response_placeholder = st.empty()
+                full_response = ""
+                
+                try:
+                    for chunk in ai_client.stream_response(prompt, st.session_state.ai_chat_history):
+                        full_response += chunk
+                        response_placeholder.markdown(full_response + "▌")
+                    
+                    response_placeholder.markdown(full_response)
+                    
+                except Exception as e:
+                    full_response = f"Error generating response: {str(e)}"
+                    response_placeholder.markdown(full_response)
+            else:
+                # 非流式回复
+                with st.spinner(t('ai_thinking')):
+                    full_response = ai_client.generate_response(prompt, st.session_state.ai_chat_history)
+                
+                st.markdown(full_response)
+        
+        # 添加AI回复到历史
+        append_message("assistant", full_response)
 
     def _stream_groq(self, prompt: str, conversation_history: List[Dict] = None):
         """流式生成Groq回复"""
@@ -377,101 +568,6 @@ def show_ai_settings():
             last_msg_time = st.session_state.ai_messages[-1]["timestamp"]
             st.caption(f"{t('ai_last_message')}: {last_msg_time[:16]}")
 
-def chat_interface():
-    """统一的AI聊天界面"""
-    lang = t('app_title')  # just to ensure translations are loaded
-    st.markdown(f"# 🤖 {t('ai_chat_title')}")
-
-    # 初始化会话状态
-    initialize_session_state()
-
-    ai_client = st.session_state.ai_client
-    backend_info = ai_client.get_backend_info()
-
-    # 显示当前使用的AI后端
-    st.markdown(f"**{t('ai_backend')}**: {backend_info['backend'].upper()} | **{t('ai_model')}**: {backend_info.get('model', 'N/A')}")
-
-    # 显示AI设置
-    show_ai_settings()
-
-    # 检查AI客户端状态
-    if not ai_client.client:
-        st.error("AI service not initialized properly. Please check environment variable configuration.")
-        st.markdown("""
-        ### 🔧 Configuration Guide
-
-        Configure the following environment variables in `.env`:
-
-        **Groq** (Recommended):
-        ```bash
-        AI_BACKEND=groq
-        GROQ_API_KEY=your_groq_api_key
-        GROQ_MODEL=llama-3.3-70b-versatile
-        ```
-
-        **Gemini**:
-        ```bash
-        AI_BACKEND=gemini
-        GEMINI_API_KEY=your_gemini_api_key
-        GEMINI_MODEL=gemini-1.5-flash
-        ```
-
-        **Ollama**:
-        ```bash
-        AI_BACKEND=ollama
-        OLLAMA_BASE_URL=http://localhost:11434
-        OLLAMA_MODEL=llama2
-        ```
-
-        **Azure OpenAI**:
-        ```bash
-        AI_BACKEND=azure_openai
-        AZURE_OPENAI_KEY=your_azure_key
-        AZURE_OPENAI_ENDPOINT=your_azure_endpoint
-        AZURE_OPENAI_CHATGPT_DEPLOYMENT=gpt-4o
-        ```
-        """)
-        return
-
-    # 显示聊天历史
-    display_chat()
-
-    # 聊天输入
-    if prompt := st.chat_input(t('ai_placeholder')):
-        # 显示用户消息
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        
-        # 添加用户消息到历史
-        append_message("user", prompt)
-        
-        # 生成AI回复
-        with st.chat_message("assistant"):
-            # 检查是否支持流式回复
-            if backend_info['backend'] == 'ollama':
-                # 流式回复
-                response_placeholder = st.empty()
-                full_response = ""
-                
-                try:
-                    for chunk in ai_client.stream_response(prompt, st.session_state.ai_chat_history):
-                        full_response += chunk
-                        response_placeholder.markdown(full_response + "▌")
-                    
-                    response_placeholder.markdown(full_response)
-                    
-                except Exception as e:
-                    full_response = f"Error generating response: {str(e)}"
-                    response_placeholder.markdown(full_response)
-            else:
-                # 非流式回复
-                with st.spinner(t('ai_thinking')):
-                    full_response = ai_client.generate_response(prompt, st.session_state.ai_chat_history)
-                
-                st.markdown(full_response)
-        
-        # 添加AI回复到历史
-        append_message("assistant", full_response)
 
 if __name__ == "__main__":
     # 可以单独运行此文件进行测试

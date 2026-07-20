@@ -84,7 +84,7 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     "login_to_feedback": ("请先登录后才能提供反馈", "Please log in to provide feedback."),
 
     # AI Chat
-    "ai_chat_title": ("AI专家对话", "AI Expert Chat"),
+    "ai_chat_title": ("广告大师对话", "Advertising History Chat"),
     "ai_backend": ("当前AI后端", "Current AI Backend"),
     "ai_model": ("模型", "Model"),
     "ai_placeholder": ("请输入您关于广告学的问题", "Please enter your question about advertising"),

@@ -490,8 +490,6 @@ def chat_interface():
     ai_client = st.session_state.ai_client
     backend_info = ai_client.get_backend_info()
 
-    # 显示当前使用的AI后端
-    st.markdown(f"**{t('ai_backend')}**: {backend_info['backend'].upper()} | **{t('ai_model')}**: {backend_info.get('model', 'N/A')}")
 
     # 显示AI设置
     show_ai_settings()

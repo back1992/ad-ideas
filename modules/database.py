@@ -31,6 +31,7 @@ class DatabaseManager:
         """
         self.db_path = db_path
         self.logger = create_logger('DatabaseManager')
+        self._last_insert_id: Optional[int] = None
         
     
     def init_database(self) -> None:
@@ -142,9 +143,10 @@ class DatabaseManager:
             sqlite3.Connection: Configured database connection
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = sqlite3.connect(self.db_path, check_same_thread=False)
             conn.row_factory = sqlite3.Row  # Enable column access by name
             conn.execute("PRAGMA foreign_keys = ON")  # Enable foreign key constraints
+            conn.execute("PRAGMA journal_mode = WAL")  # Enable WAL mode for better concurrency
             return conn
         except sqlite3.Error as e:
             self.logger.error(f"Failed to connect to database: {e}")
@@ -193,6 +195,7 @@ class DatabaseManager:
                 cursor.execute(query, params)
                 conn.commit()
                 affected_rows = cursor.rowcount
+                self._last_insert_id = cursor.lastrowid
                 self.logger.debug(f"Update executed successfully, {affected_rows} rows affected")
                 return affected_rows
                 
@@ -237,16 +240,13 @@ class DatabaseManager:
         """
         Get the ID of the last inserted row.
         
+        Returns the rowid captured from the most recent execute_update() call.
+        Call immediately after an insert for reliable results.
+        
         Returns:
             Optional[int]: Last insert ID or None if no recent insert
         """
-        try:
-            with self.get_connection() as conn:
-                cursor = conn.cursor()
-                return cursor.lastrowid
-        except sqlite3.Error as e:
-            self.logger.error(f"Failed to get last insert ID: {e}")
-            return None
+        return self._last_insert_id
     
     def table_exists(self, table_name: str) -> bool:
         """
@@ -278,7 +278,13 @@ class DatabaseManager:
             
         Returns:
             pd.DataFrame: Table structure information
+            
+        Raises:
+            ValueError: If table_name contains invalid characters
         """
+        import re
+        if not re.match(r'^[A-Za-z_][A-Za-z0-9_]*$', table_name):
+            raise ValueError(f"Invalid table name: {table_name}")
         try:
             query = f"PRAGMA table_info({table_name})"
             return self.execute_query(query)

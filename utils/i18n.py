@@ -24,11 +24,6 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     "role_label": ("角色", "Role"),
     "guest_browsing_info": ("浏览内容无需登录，登录后可以评论和参与互动", "Browsing is free. Log in to comment and interact."),
 
-    # App download
-    "download_app": ("下载App", "Download App"),
-    "download_app_title": ("📱 下载Android应用", "📱 Download Android App"),
-    "download_app_desc": ("在手机上体验广告思想简史，支持中英文切换", "Experience the app on your phone with bilingual support"),
-    "download_button": ("下载 APK 文件", "Download APK File"),
 
     # Pages
     "page_home": ("首页", "Home"),

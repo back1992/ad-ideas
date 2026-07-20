@@ -13,8 +13,16 @@ from modules.database import DatabaseManager
 
 
 def _safe_like(tag: str) -> str:
-    """Sanitize a tag for safe interpolation into a LIKE pattern."""
-    return tag.replace("'", "''")
+    """Sanitize a tag for safe interpolation into a LIKE pattern.
+    
+    Escapes single quotes (SQL), and LIKE wildcards (%, _) with backslash.
+    Queries using this must include ESCAPE '\\'.
+    """
+    return (tag
+            .replace("\\", "\\\\")
+            .replace("'", "''")
+            .replace("%", "\\%")
+            .replace("_", "\\_"))
 
 
 class RecommendationEngine:
@@ -60,7 +68,7 @@ class RecommendationEngine:
             if tags:
                 tag_list = [t.strip() for t in tags.split(',')]
                 tag_patterns = ' OR '.join(
-                    [f"tags LIKE '%{_safe_like(tag)}%'" for tag in tag_list]
+                    [f"tags LIKE '%{_safe_like(tag)}%' ESCAPE '\\'" for tag in tag_list]
                 )
 
                 query = f"""
@@ -256,7 +264,7 @@ class RecommendationEngine:
 
             tag_list = [t.strip() for t in tags.split(',')]
             tag_patterns = ' OR '.join(
-                [f"tags LIKE '%{_safe_like(tag)}%'" for tag in tag_list]
+                [f"tags LIKE '%{_safe_like(tag)}%' ESCAPE '\\'" for tag in tag_list]
             )
 
             exclude_clause = "AND id != ?" if exclude_id else ""

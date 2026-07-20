@@ -93,15 +93,13 @@ def show_login_dialog():
                 st.error(f"❌ {t('username_not_found')}")
                 return
             stored_password = users[username_input]['password']
-            # Try hashed comparison first, then plain text fallback
+            # Verify password against stored bcrypt hash
             pw_match = False
             try:
                 if stauth.Hasher([password_input]).generate()[0] == stored_password:
                     pw_match = True
             except Exception:
                 pass
-            if not pw_match and password_input == stored_password:
-                pw_match = True
             if pw_match:
                 st.session_state['authentication_status'] = True
                 st.session_state['username'] = username_input
@@ -208,7 +206,6 @@ def get_navigation_menu():
     # Base menu available to everyone (guests + logged-in)
     menu = {
         f"🏠 {t('page_home')}": intro,
-        f"📱 {t('download_app')}": show_download_page,
         f"🔍 {t('page_search')}": show_search_interface,
         f"📅 {t('page_timeline')}": memorabilia,
         f"⭐ {t('page_stars')}": superstar,
@@ -232,90 +229,6 @@ def get_navigation_menu():
     return menu
 
 
-def show_download_page():
-    """Display app download page."""
-    st.markdown(f"# {t('download_app_title')}")
-    st.info(t('download_app_desc'))
-
-    st.markdown("""
-    ### How to install
-
-    1. Click the button below to download the APK file
-    2. Transfer to your Android phone (USB, cloud, etc.)
-    3. Open the file on your phone and tap "Install"
-    4. If prompted, enable "Install from unknown sources" in Settings
-
-    > The app loads this website in a native WebView, so all content is up-to-date.
-    """)
-
-    apk_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
-    
-    # Real fix: st.download_button serves the APK via Streamlit's native Blob URL mechanism
-    # This works reliably on ALL browsers (desktop + mobile) because it bypasses
-    # the iframe download restrictions — the download is triggered from the Streamlit
-    # app's own origin, not from a cross-origin GitHub CDN link
-    try:
-        import urllib.request
-        req = urllib.request.urlopen(apk_url, timeout=30)
-        apk_bytes = req.read()
-        st.download_button(
-            label=f'📱 {t("download_button")}',
-            data=apk_bytes,
-            file_name="app-debug.apk",
-            mime="application/vnd.android.package-archive",
-            use_container_width=True,
-            type="primary",
-        )
-        
-        # Copy button - click to copy APK URL to clipboard
-        st.components.v1.html(
-            f"""
-            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:8px auto 0;">
-                <input id="apk-copy-input" type="text" value="{apk_url}" 
-                    readonly style="flex:1;padding:6px 10px;font-size:0.7rem;
-                    border:1px solid #ddd;border-radius:4px;background:#f8f8f8;
-                    color:#666;word-break:break-all;" />
-                <button onclick="navigator.clipboard.writeText('{apk_url}');
-                    this.textContent='已复制 ✓';
-                    this.style.background='#28a745';
-                    setTimeout(()=>{{this.textContent='📋 复制';this.style.background='#FF4B4B'}},1500)"
-                    style="padding:6px 12px;font-size:0.85rem;background:#FF4B4B;
-                    color:#fff;border:none;border-radius:4px;cursor:pointer;
-                    white-space:nowrap;flex-shrink:0;">
-                📋 复制</button>
-            </div>
-            <p style="text-align:center;font-size:0.75rem;color:#999;margin:4px 0 0;">
-            如果点击下载按钮无法下载，请复制上方链接到手机浏览器打开</p>
-            """,
-            height=100,
-        )
-    except Exception as e:
-        # Fallback: show direct link with copy button
-        st.error(f"APK 加载失败: {e}")
-        st.components.v1.html(
-            f"""
-            <div style="display:flex;align-items:center;gap:8px;max-width:500px;margin:8px auto;">
-                <input id="apk-copy-input" type="text" value="{apk_url}" 
-                    readonly style="flex:1;padding:6px 10px;font-size:0.7rem;
-                    border:1px solid #ddd;border-radius:4px;background:#f8f8f8;
-                    color:#666;word-break:break-all;" />
-                <button onclick="navigator.clipboard.writeText('{apk_url}');
-                    this.textContent='已复制 ✓';
-                    this.style.background='#28a745';
-                    setTimeout(()=>{{this.textContent='📋 复制';this.style.background='#FF4B4B'}},1500)"
-                    style="padding:6px 12px;font-size:0.85rem;background:#FF4B4B;
-                    color:#fff;border:none;border-radius:4px;cursor:pointer;
-                    white-space:nowrap;flex-shrink:0;">
-                📋 复制</button>
-            </div>
-            <p style="text-align:center;font-size:0.75rem;color:#999;margin:4px 0 0;">
-            请复制上方链接到手机浏览器打开下载</p>
-            """,
-            height=100,
-        )
-
-
-def show_search_interface():
     """Display search interface."""
     # Display search interface from search system
     search_system.display_search_interface()
@@ -487,16 +400,6 @@ def main():
         st.error(f"{t('error_loading_page')}: {str(e)}")
         st.exception(e)
 
-    # App download link in sidebar
-    st.sidebar.markdown("---")
-    download_url = "https://github.com/back1992/ad-ideas/releases/download/v0.1.0-apk/app-debug.apk"
-    st.sidebar.markdown(
-        f'<a href="{download_url}" '
-        f'style="display:block;padding:0.5rem 1rem;background:#FF4B4B;color:#fff;'
-        f'border-radius:0.5rem;text-decoration:none;font-weight:600;text-align:center;">'
-        f'📱 {t("download_button")}</a>',
-        unsafe_allow_html=True,
-    )
 
 
 if __name__ == "__main__":

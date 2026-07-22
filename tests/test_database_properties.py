@@ -9,6 +9,7 @@ database transaction integrity and initialization correctness.
 """
 
 import os
+import shutil
 import tempfile
 import sqlite3
 from pathlib import Path
@@ -37,7 +38,7 @@ class TestDatabaseTransactionIntegrity:
         """Clean up test database after each test method."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(st.text(min_size=1, max_size=50))
     @settings(max_examples=20, deadline=None)
@@ -66,7 +67,8 @@ class TestDatabaseTransactionIntegrity:
             # Verify all required tables exist
             required_tables = [
                 'user_feedback', 'comments', 'articles', 
-                'content_stats', 'user_activity'
+                'content_stats', 'user_activity', 'chat_history',
+                'comment_likes', 'comment_reports', 'comment_notifications'
             ]
             
             for table in required_tables:
@@ -225,7 +227,8 @@ class TestDatabaseTransactionIntegrity:
             # Verify consistent state
             required_tables = [
                 'user_feedback', 'comments', 'articles', 
-                'content_stats', 'user_activity'
+                'content_stats', 'user_activity', 'chat_history',
+                'comment_likes', 'comment_reports', 'comment_notifications'
             ]
             
             for table in required_tables:
@@ -275,7 +278,8 @@ class DatabaseStateMachine(RuleBasedStateMachine):
             # Verify initialization succeeded
             required_tables = [
                 'user_feedback', 'comments', 'articles', 
-                'content_stats', 'user_activity'
+                'content_stats', 'user_activity', 'chat_history',
+                'comment_likes', 'comment_reports', 'comment_notifications'
             ]
             
             for table in required_tables:
@@ -349,7 +353,7 @@ class DatabaseStateMachine(RuleBasedStateMachine):
         """Clean up test database."""
         if os.path.exists(self.db_path):
             os.remove(self.db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
 
 
 # Stateful test class

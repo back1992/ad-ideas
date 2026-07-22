@@ -128,7 +128,7 @@ def render_language_selector() -> None:
     """Render a language toggle in the sidebar."""
     current = get_language()
     with st.sidebar:
-        st.markdown("#### 🌐 Language")
+        st.markdown('<div style="font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 8px;">🌐 Language</div>', unsafe_allow_html=True)
         lang_col1, lang_col2 = st.columns(2)
         with lang_col1:
             if st.button(

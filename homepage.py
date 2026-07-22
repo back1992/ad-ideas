@@ -3,142 +3,170 @@ import streamlit as st
 from PIL import Image
 from utils.layout import render_feedback_and_comments
 
-COMMENT_TEMPLATE_MD = """{} - {}
-> {}"""
-
-def space(num_lines=1):
-    """Adds empty lines to the Streamlit app."""
-    for _ in range(num_lines):
-        st.write("")
 
 def load_image(image_path):
     """Load an image from the given path, with fallback."""
     try:
         return Image.open(image_path)
     except FileNotFoundError:
-        st.warning(f"图片未找到: {image_path}")
         return None
+
+
+def _hero_section():
+    """Render the hero banner."""
+    st.markdown("""
+    <div class="hero-section">
+        <h1>广告思想简史</h1>
+        <p>从 WHAT 到 WHY+HOW — 近120年广告波澜壮阔的思想变迁</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def _book_intro_section():
+    """Render the book introduction with cover image."""
+    col_cover, col_intro = st.columns([1, 2])
+
+    with col_cover:
+        img = load_image('statics/cover.jpeg')
+        if img:
+            st.image(img, use_container_width=True)
+
+    with col_intro:
+        st.markdown("""
+### 关于本书
+
+本书是广告思想史的**开源之作**，将广告史从"WHAT"（是什么）为主的记事模式转向"WHY+HOW"（为何和如何）为主的探究模式；从关注事件转向以**人物和思想**为核心；从只讲"过去"延伸至"现在及未来"，尤其剖析洞察了21世纪成为主流的**数字广告**。
+
+👈 以广告内在逻辑为主、辅以外部的视角，全书12章系统揭示了近120年广告波澜闳阔、柳暗花明的发展脉络和思想变迁。本书凸现关键的核心思想及多元视角，并激发思考，是简明把握广告思想演变精髓及其历史走势的**必读首选**。
+        """)
+
+        # Call-to-action buttons
+        btn1, btn2, btn3 = st.columns(3)
+        with btn1:
+            st.markdown("📅 **[大事年表](#广告大事年表)**")
+        with btn2:
+            st.markdown("⭐ **[百位巨星](#20世纪广告百位巨星榜)**")
+        with btn3:
+            st.markdown("🏆 **[Top 100 广告](#20世纪最成功的广告top100)**")
+
+
+def _chapter_list_section():
+    """Render the chapter listing with styled items."""
+    st.markdown("## 📖 简目")
+
+    chapters = [
+        ("序", ""),
+        ("1. 广告基因：神奇三角商业模式", "里程碑1：广告商业模式"),
+        ("2. 拓荒转型：迈向现代广告", "里程碑2：韦兰德·艾尔和广告代理公司的转型"),
+        ("3. 立基先驱：现代广告的早期丰碑", "里程碑3：专业广告文案之确立"),
+        ("4. 科学广告：从混沌走向专业", "里程碑4：独特销售卖点USP"),
+        ("5. 创意革命（上）：背景和三大旗手", "里程碑5：麦迪逊大道"),
+        ("6. 创意革命（下）：创意流派与历史功勋", "里程碑6：创意哲学与理论创新"),
+        ("7. 黄金时代：广告产业的狂飇", "里程碑7：超级碗广告"),
+        ("8. 广告江湖：智力比拼和广告帝国", "里程碑8：20世纪广告帝国"),
+        ("9. 数字颠覆：数字广告如何崛起", "里程碑9-11：AdSense / 智能购买 / 计费革命"),
+        ("10. 全新范式：数字广告方法论", ""),
+        ("11. 学源流长：知识如何驱动广告", ""),
+        ("12. 亦善亦恶：广告的反思与未来", "里程碑12：广告监控与法律"),
+        ("附录", "年表 / 百位巨星 / Top100广告 / 全球最大广告主"),
+        ("索引 & 后记", ""),
+    ]
+
+    for title, milestone in chapters:
+        if milestone:
+            st.markdown(f"""
+            <div class="chapter-item">
+                <strong>{title}</strong>
+                <br><span style="color: #C9850A; font-size: 0.9rem;">📌 {milestone}</span>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+            <div class="chapter-item">
+                <strong>{title}</strong>
+            </div>
+            """, unsafe_allow_html=True)
+
+
+def _recommendations_section():
+    """Render recommendation quotes from notable figures."""
+    st.markdown("## 💬 推荐语")
+
+    quotes = [
+        (
+            "对关注广告、思考历史、探究未来的读者来说，这是一本必读之著。广告是工业社会的重要现象，对人类社会的发展产生了不可替代的推动作用。这本书拨开历史变化的枝枝叶叶，梳理出广告发展背后的思想源流，拓展了广告的学术领域，并启迪我们一起思考面对数字化的挑战，广告业的发展如何从历史走向未来。",
+            "陈 刚 — 北京大学教授、新闻与传播学院院长"
+        ),
+        (
+            "广告的书很多，原创的不多。卢泰宏先生的这部思想史，是本难得的原创的好书。所谓思想史，就是灵魂史。不了解一个行业的思想史，难免失魂落魄。",
+            "丁俊杰 — 中国传媒大学教授、国家广告研究院院长"
+        ),
+        (
+            "卢教授的《广告创意100》曾经惊艳了一个时代，影响了我在内的一代广告人。大师新作《广告思想简史》，高屋建瓴，打开了通往未来广告之门。",
+            "林升栋 — 厦门大学、中国人民大学教授"
+        ),
+        (
+            '他的这部《广告思想史》，不仅对广告的发展变迁做了"致广大而尽精微"的梳理，而且融合了基于新时代坐标的很多洞见，开卷有益，长久有益。',
+            "秦 朔 — 著名财经评论家"
+        ),
+        (
+            "历史背后的灵魂是思想的变迁，这本《广告思想史》以历史与逻辑相统一的视角，展开广告理论和实践120年波澜壮阔的画卷以及背后的思想本质。大家笔法，值得深读。",
+            "王 赛 — 科特勒咨询集团合伙人"
+        ),
+    ]
+
+    for text, attribution in quotes:
+        st.markdown(f"""
+        <div class="quote-card">
+            <p>"{text}"</p>
+            <div class="attribution">— {attribution}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+
+def _author_section():
+    """Render the author card."""
+    st.markdown("## 👤 作者简介")
+
+    col_photo, col_bio = st.columns([1, 3])
+
+    with col_photo:
+        img = load_image('statics/author.jpeg')
+        if img:
+            st.image(img, use_container_width=True)
+
+    with col_bio:
+        st.markdown("""
+**卢泰宏** 是中山大学二级教授、中国营销研究中心(CMC)创始人。
+
+- 菲利浦·科特勒国际营销理论贡献奖大中华区**首位获奖者**
+- 荣获国家教委首届人文社科优秀著作**一等奖**
+- 培养市场营销学博士硕士百余人
+- 被评为"中国广告20年20人"、"影响中国营销进程的25位风云人物"、"中国最具影响力的10位管理学教授"
+
+**主要论著：** *MARKETING MANAGEMENT IN CHINA* (with P. Kotler & K.L. Keller)、《品牌思想简史》、《消费者行为学—透视中国消费者》等
+        """)
+
 
 def display_content():
     """Display the main content of the homepage."""
-    st.write("# 欢迎来到广告思想简史! 👋")
-    st.sidebar.success("栏目内容.")
+    _hero_section()
+    _book_intro_section()
 
-    img = load_image('statics/cover.jpeg')
-    if img:
-        st.image(img)
+    st.divider()
 
-    st.markdown(
-        """
-        本书是广告思想史的开源之作，将广告史从"WHAT"(是什么）为主的记事模式转向"WHY+HOW"(为何和如何）为主的探究模式；从关注事件转向以人物和思想为核心；从只讲"过去"延伸至"现在及未来"，尤其剖析洞察了21世纪成为主流的数字广告。
+    _chapter_list_section()
 
-        👈 以广告内在逻辑为主、辅以外部的视角，全书12章系统揭示了近120年广告波澜闳阔、柳暗花明的发展脉络和思想变迁，包括人物流派、重大主题、经典个案、数据印证和里程碑。本书凸现关键的核心思想及多元视角，并激发思考，是简明把握广告思想演变精髓及其历史走势的必读首选，适合所有对广告有兴趣的人群，尤其经济管理和传播广告类的本科生和研究生，宜作为相关专业的教材或主要参考书。
+    st.divider()
 
-        ### 简目
+    _recommendations_section()
 
-        **序**
+    st.divider()
 
-        1.  **广告基因**：神奇三角商业模式
-
-            <span style="color: orange;">**里程碑1：广告商业模式**</span>
-
-        2.  **拓荒转型**：迈向现代广告
-
-             <span style="color: orange;">**里程碑2：韦兰德·艾尔和广告代理公司的转型**</span>
-
-        3.  **立基先驱**：现代广告的早期丰碑
-
-             <span style="color: orange;">**里程碑3：专业广告文案之确立**</span>
-
-        4.  **科学广告**：从混沌走向专业
-
-             <span style="color: orange;">**里程碑4：独特销售卖点USP**</span>
-
-        5.  **创意革命（上）**：背景和三大旗手
-
-             <span style="color: orange;">**里程碑5：麦迪逊大道**</span>
-
-        6.  **创意革命（下）**：创意流派与历史功勋
-
-             <span style="color: orange;">**里程碑6：创意哲学与理论创新**</span>
-
-        7.  **黄金时代**：广告产业的狂飇
-
-             <span style="color: orange;">**里程碑7：超级碗广告**</span>
-
-        8.  **广告江湖**：智力比拼和广告帝国
-
-             <span style="color: orange;">**里程碑8：20世纪广告帝国**</span>
-
-        9.  **数字颠覆**：数字广告如何崛起
-
-             <span style="color: orange;">**里程碑9：数字广告联盟AdSense**</span>
-
-             <span style="color: orange;">**里程碑10：数字广告购买的智能化**</span>
-
-             <span style="color: orange;">**里程碑11：广告计费的革命**</span>
-
-        10. **全新范式**：数字广告方法论
-
-        11. **学源流长**：知识如何驱动广告
-
-        12. **亦善亦恶**：广告的反思与未来
-
-             <span style="color: orange;">**里程碑12. 广告监控与法律**/span>
-
-        **附录**
-
-        1. 广告大事年表
-
-        ２．20世纪广告百位巨星榜
-
-        ３．20世纪最成功的广告Top100
-
-        ４．全球最大广告主Top10
-
-        **索引**
-
-        **后记**
-
-        ### 推荐语：
-
-        对关注广告、思考历史、探究未来的读者来说，这是一本必读之著。广告是工业社会的重要现象，对人类社会的发展产生了不可替代的推动作用。这本书拨开历史变化的枝枝叶叶，梳理出广告发展背后的思想源流，拓展了广告的学术领域，并启迪我们一起思考面对数字化的挑战，广告业的发展如何从历史走向未来。
-
-        **陈 刚 （北京大学教授、北京大学新闻与传播学院院长、北京大学新媒体营销传播研究中心主任）**
-
-        广告的书很多，原创的不多。卢泰宏先生的这部思想史，是本难得的原创的好书。所谓思想史，就是灵魂史。不了解一个行业的思想史，难免失魂落魄。
-
-        **丁俊杰（中国传媒大学教授、国家广告研究院院长、《国际品牌观察》杂志社社长）**
-
-        卢教授的《广告创意100》曾经惊艳了一个时代，影响了我在内的一代广告人。大师新作《广告思想简史》，高屋建瓴，打开了通往未来广告之门。
-
-        **林升栋（厦门大学、中国人民大学教授、博士生导师，厦门大学新闻与传播学院院长）**
-
-        作为菲利浦·科特勒国际营销理论贡献奖中国首位获奖者，卢泰宏先生为现代营销科学在中国的传播与发展起到了重要的铺路作用。他的这部《广告思想史》，不仅对广告的发展变迁做了"致广大而尽精微"的梳理，而且融合了基于新时代坐标的很多洞见，开卷有益，长久有益。
-
-        **秦 朔（著名财经评论家，秦朔朋友圈和中国商业文明研究中心创始人）**
-
-        历史背后的灵魂是思想的变迁，这本《广告思想史》以历史与逻辑相统一的视角，展开广告理论和实践120年波澜壮阔、大江大海的画卷以及背后的思想本质。大家笔法，值得深读。
-
-        **王 赛（杰出管理咨询顾问、科特勒咨询集团合伙人、《增长五线》作者）**
-
-        在一个泛营销、泛广告时代，这本书值得每一位关心广告和品牌（自我品牌、组织品牌）的人士阅读。卢泰宏先生是广告理论在中国的启蒙传播开拓者，本书再次体现了他宏大的视野，见微知著的洞察力和永不衰竭的创新精神。
-
-        **熊晓杰（中国文旅实战战略家、时代文旅董事长）**
-
-        ### 作者简介
-    """, unsafe_allow_html=True)
-
-    img = load_image('statics/author.jpeg')
-    if img:
-        st.image(img, width=300)
-
-    st.markdown(
-        """
-        - 卢泰宏是中国中山大学二级教授、中国营销研究中心(CMC)创始人。菲利浦·科特勒(Philip Kotler)国际营销理论贡献奖(Kotler Marketing Award-Theory)大中华区首位获奖者，荣获国家教委首届人文社科优秀著作一等奖。他培养了市场营销学博士硕士百余人。兼任过国内外一批著名公司的咨询顾问。被评为"中国广告20年20人"(2001)、"影响中国营销进程的25位风云人物"(2004)、"中国最具影响力的10位管理学教授"（2005）和"推动中国品牌化进程的50位风云人物"（2007) 等。主要论著有: MARKETING MANAGEMENT IN CHINA (with P.Kotler and K.L.Keller), 《品牌思想简史》和《消费者行为学—透视中国消费者》等
-    """, unsafe_allow_html=True)
+    _author_section()
 
     # Unified feedback + comments section
+    st.divider()
     render_feedback_and_comments(
         target_type="homepage",
         target_id="intro",

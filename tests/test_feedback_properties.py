@@ -10,6 +10,7 @@ feedback uniqueness constraints and statistics consistency.
 """
 
 import os
+import shutil
 import tempfile
 from typing import Tuple, List
 
@@ -54,7 +55,7 @@ class TestFeedbackProperties:
         # Clean up files
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(
         st.text(min_size=1, max_size=20),  # username

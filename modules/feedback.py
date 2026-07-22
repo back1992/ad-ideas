@@ -273,7 +273,7 @@ class FeedbackSystem:
             """
             
             result = self.db_manager.execute_query(query, (username, target_type, target_id))
-            return result.iloc[0]['count'] > 0 if not result.empty else False
+            return bool(result.iloc[0]['count'] > 0) if not result.empty else False
             
         except Exception as e:
             self.logger.error(f"Error checking user feedback: {e}")

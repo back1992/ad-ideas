@@ -13,6 +13,7 @@ consistency, and access control enforcement.
 """
 
 import os
+import shutil
 import tempfile
 import yaml
 import bcrypt
@@ -86,12 +87,9 @@ class TestAuthenticationProperties:
     
     def teardown_method(self):
         """Clean up test environment after each test method."""
-        # Clean up files
-        if os.path.exists(self.test_config_path):
-            os.remove(self.test_config_path)
-        if os.path.exists(self.test_db_path):
-            os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        # Remove entire temp directory and all contents
+        if os.path.exists(self.temp_dir):
+            shutil.rmtree(self.temp_dir)
         
         # Clear streamlit session state
         if hasattr(st, 'session_state'):

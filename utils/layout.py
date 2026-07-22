@@ -51,6 +51,18 @@ def section(zh: str, en: str) -> None:
     st.markdown(f"## {zh} / {en}")
 
 
+def page_header(icon: str, zh: str, en: str, subtitle: str = "") -> None:
+    """Render a styled page header banner."""
+    icon_char = ICONS.get(icon, "")
+    sub = f'<p>{subtitle}</p>' if subtitle else f'<p>{en}</p>'
+    st.markdown(f"""
+    <div class="page-header">
+        <h1>{icon_char} {zh}</h1>
+        {sub}
+    </div>
+    """, unsafe_allow_html=True)
+
+
 def subsection(zh: str, en: str) -> None:
     """Render a `###` sub-section heading."""
     st.markdown(f"### {zh} / {en}")

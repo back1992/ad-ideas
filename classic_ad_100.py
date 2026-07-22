@@ -1597,19 +1597,23 @@ def ad_100():
 
 
 def classic_ad():
-    page_title("campaigns", "20世纪最成功的广告TOP100", "Top 100 Campaigns")
+    # Page header banner
+    st.markdown("""
+    <div class="page-header">
+        <h1>🏆 20世纪最成功的广告 TOP 100</h1>
+        <p>Top 100 Campaigns — Advertising Age 世纪评选</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("""
+1999年《广告时代》（*Advertising Age*）杂志评选出20世纪最成功的百強广告活动，入选广告需达到或通过以下三条标准之一：
 
-1999年《广告时代》（AA)杂志评选出20世纪最成功的百強广告活动，入选广告需达到或通过以下三条标准之一：
+> **A.** 是否构成了广告或社会流行文化的分水岭
+> **B.** 是否促进了新品类的形成或帮助客户品牌成为其所属行业的龙头
+> **C.** 是否令人难以忘怀
 
-    A、是否构成了广告或社会流行文化的分水岭；
-    B、是否促进了新品类的形成或帮助客户品牌成为其所属行业的龙头；
-    C、是否令人难以忘怀。
-
-
-**榜单排名如下（品牌名称-广告语-广告代理商及时间）：**
- """)
+**榜单排名如下（品牌名称 — 广告语 — 广告代理商及时间）：**
+    """)
 
     # Group ads into collapsible expanders for navigability
     ad_groups = [

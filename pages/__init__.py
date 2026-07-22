@@ -116,10 +116,52 @@ TIMELINE_DATA = [
 
 def memorabilia():
     """广告大事年表 / Advertising Timeline"""
-    page_title("timeline", "广告大事年表", "Advertising Timeline")
+    # Page header banner
+    st.markdown("""
+    <div class="page-header">
+        <h1>📅 广告大事年表</h1>
+        <p>Advertising Timeline — 从15世纪到21世纪的关键里程碑</p>
+    </div>
+    """, unsafe_allow_html=True)
 
+    st.markdown("")
+
+    # Render timeline with visual styling
     for period, events in TIMELINE_DATA:
-        timeline_entry(period, events)
+        with st.container():
+            st.markdown(f"""
+            <div class="timeline-period">
+                <h3>🕰️ {period}</h3>
+            </div>
+            """, unsafe_allow_html=True)
+
+            for event in events:
+                # Split year from description
+                parts = event.split(" ", 1)
+                year_part = parts[0] if parts else ""
+                desc_part = parts[1] if len(parts) > 1 else event
+
+                # Check if it starts with a year-like pattern
+                has_year = any(ch.isdigit() for ch in year_part[:4])
+
+                if has_year:
+                    st.markdown(f"""
+                    <div style="padding: 8px 0 8px 2rem; border-left: 2px solid #E5E1D8; margin-left: 0.5rem;">
+                        <span style="display: inline-block; background: #1B3A5C; color: #fff; font-size: 0.75rem;
+                            font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-right: 8px;">
+                            {year_part}
+                        </span>
+                        <span style="line-height: 1.6;">{desc_part}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown(f"""
+                    <div style="padding: 8px 0 8px 2rem; border-left: 2px solid #E5E1D8; margin-left: 0.5rem;">
+                        <span style="line-height: 1.6;">{event}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            st.markdown("")
 
     render_feedback_and_comments(target_type="timeline", target_id="memorabilia")
 
@@ -257,7 +299,16 @@ def superstar():
 
 def plotting_data():
     """行业数据 / Industry Data"""
-    st.write("自1919年以来美国年度广告支出 (GDP的单位为10亿美金)")
+    # Page header banner
+    st.markdown("""
+    <div class="page-header">
+        <h1>📊 行业数据</h1>
+        <p>Industry Data — 美国广告支出趋势与GDP占比</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("### 自1919年以来美国年度广告支出")
+    st.caption("GDP的单位为10亿美金")
 
     data = {
         '年度': [1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935,

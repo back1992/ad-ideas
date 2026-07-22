@@ -11,6 +11,7 @@ search result relevance, consistency, and recommendation quality.
 """
 
 import os
+import shutil
 import tempfile
 from typing import List, Tuple, Optional
 
@@ -49,7 +50,7 @@ class TestSearchResultRelevance:
         """Clean up test environment after each test method."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     def _create_test_articles(self):
         """Create test articles with known content."""
@@ -202,7 +203,7 @@ class TestSearchConsistency:
         """Clean up test environment after each test method."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     def _create_test_data(self):
         """Create test articles and comments."""
@@ -350,7 +351,7 @@ class TestRecommendationDiversity:
         """Clean up test environment after each test method."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     def _create_test_data(self):
         """Create test articles with various categories and tags."""

@@ -9,6 +9,7 @@ moderation queue integrity and content moderation workflows.
 """
 
 import os
+import shutil
 import tempfile
 from typing import List, Tuple
 from datetime import datetime
@@ -60,7 +61,7 @@ class TestModerationProperties:
             if os.path.exists(db_file):
                 os.remove(db_file)
         if os.path.exists(self.temp_dir):
-            os.rmdir(self.temp_dir)
+            shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(
         st.text(min_size=1, max_size=20),  # username
@@ -105,7 +106,7 @@ class TestModerationProperties:
         assert success is True, "Comment should be added successfully"
         
         # Get the comment ID
-        comments = comment_system.get_comments(target_type, target_id, approved_only=True)
+        comments = comment_system.get_comments(target_type, target_id, approved_only=False)
         assert len(comments) == 1, "Should have exactly one comment"
         comment_id = comments.iloc[0]['id']
         
@@ -135,7 +136,7 @@ class TestModerationProperties:
             f"Reporter should be {reporter_username}, got {report['reporter_username']}"
         assert report['comment_username'] == username, \
             f"Comment author should be {username}, got {report['comment_username']}"
-        assert report_reason in report['details'], \
+        assert report_reason in report['reason'], \
             f"Report reason should be in details"
         assert report['target_type'] == target_type, \
             f"Target type should be {target_type}"
@@ -191,7 +192,7 @@ class TestModerationProperties:
             assert success is True, f"Comment from {username} should be added"
             
             # Get comment ID
-            comments = comment_system.get_comments(target_type, target_id, approved_only=True)
+            comments = comment_system.get_comments(target_type, target_id, approved_only=False)
             comment_id = comments[comments['content'] == content].iloc[0]['id']
             comment_ids.append(comment_id)
             
@@ -462,7 +463,7 @@ class TestModerationProperties:
         assert success is True, "Comment should be added"
         
         # Get comment ID
-        comments = comment_system.get_comments(target_type, target_id, approved_only=True)
+        comments = comment_system.get_comments(target_type, target_id, approved_only=False)
         assert len(comments) == 1, "Should have one comment"
         comment_id = comments.iloc[0]['id']
         original_is_approved = comments.iloc[0]['is_approved']
@@ -532,7 +533,7 @@ class TestModerationProperties:
         assert success is True, "Comment should be added"
         
         # Get comment ID
-        comments = comment_system.get_comments(target_type, target_id, approved_only=True)
+        comments = comment_system.get_comments(target_type, target_id, approved_only=False)
         comment_id = comments.iloc[0]['id']
         
         # Report the comment

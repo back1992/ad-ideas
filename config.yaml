@@ -1,34 +1,61 @@
+cookie:
+  expiry_days: 30
+  key: e0dCzdPWsOQvPrCKDBth2SYp_7qG9qNI1E0i6SxfYSg
+  name: random_cookie_name
 credentials:
   usernames:
     admin:
       email: admin@platform.edu
       name: Platform Administrator
-      password: $2b$12$KW6s1P241EjUNH8Y/SkQEuu3SWWk4S/daqIH5TE7L6vNSbEy1BfiG  # admin123
+      password: $2b$12$KW6s1P241EjUNH8Y/SkQEuu3SWWk4S/daqIH5TE7L6vNSbEy1BfiG
       role: admin
-    professor:
-      email: professor@platform.edu
-      name: Professor Wang
-      password: $2b$12$pd1dHq0c5cm64zFxEuNXtOPNMs6j.8J9rbgYreqIbcUcEbhShDblG  # prof123
-      role: professor
-    student:
-      email: student@platform.edu
-      name: Student Li
-      password: $2b$12$gmoVWqW862yxSzQzhy5MrOALoE/SjKSd8kZEfGgdxAjdX6o85XWbO  # student123
+    demo_20260722093438:
+      email: demo_20260722093438@test.example.com
+      first_name: Demo
+      is_active: true
+      last_name: Tester
+      logged_in: false
+      password: $2b$12$nRGSg5Wkq20BnubsT5fW8ut4uEbfEO8qI3lSsC.pVc0qesBXYsM9W
       role: student
+      roles: null
+    demo_20260722093611:
+      email: demo_20260722093611@test.example.com
+      first_name: Demo
+      is_active: true
+      last_name: Tester
+      logged_in: false
+      password: $2b$12$6ja4Hxe0n6KUSCoHeV7L..FxYoWAC42op9A5a3DotTxeslsW7Gkzy
+      role: student
+      roles: null
+    demo_20260722111939:
+      email: demo_20260722111939@test.example.com
+      first_name: Demo
+      is_active: true
+      last_name: Tester
+      logged_in: false
+      password: $2b$12$88eGWYCKH5/XmeUUKlC6fun/oW/1tPVJWIuRdcYzfdVdfvSBWLaWC
+      role: student
+      roles: null
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
       password: $2b$12$iyePGzhLoC6RAqvEmLAQY..BSQghyXTHnFxA8/4cqMyc3mANN6zHW
       role: student
+    professor:
+      email: professor@platform.edu
+      name: Professor Wang
+      password: $2b$12$pd1dHq0c5cm64zFxEuNXtOPNMs6j.8J9rbgYreqIbcUcEbhShDblG
+      role: professor
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
       password: $2b$12$hiduZUJsD44p8ITf5JY0VuK0actQxRs/WyZKM097207yBqsEYUqsu
       role: professor
-cookie:
-  expiry_days: 30
-  key: e0dCzdPWsOQvPrCKDBth2SYp_7qG9qNI1E0i6SxfYSg
-  name: random_cookie_name
+    student:
+      email: student@platform.edu
+      name: Student Li
+      password: $2b$12$gmoVWqW862yxSzQzhy5MrOALoE/SjKSd8kZEfGgdxAjdX6o85XWbO
+      role: student
 preauthorized:
   emails:
   - melsby@gmail.com

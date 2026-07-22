@@ -10,6 +10,7 @@ UI consistency across navigation and error handling completeness.
 """
 
 import os
+import shutil
 import tempfile
 import yaml
 import bcrypt
@@ -83,12 +84,9 @@ class TestUIConsistencyProperties:
     
     def teardown_method(self):
         """Clean up test environment after each test method."""
-        # Clean up files
-        if os.path.exists(self.test_config_path):
-            os.remove(self.test_config_path)
-        if os.path.exists(self.test_db_path):
-            os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        # Remove entire temp directory and all contents
+        if os.path.exists(self.temp_dir):
+            shutil.rmtree(self.temp_dir)
         
         # Clear streamlit session state
         if hasattr(st, 'session_state'):
@@ -646,7 +644,7 @@ class TestErrorMessageQuality:
         """Clean up test environment."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(
         st_hyp.sampled_from(['feedback', 'comment', 'article']),

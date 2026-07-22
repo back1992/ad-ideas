@@ -260,7 +260,13 @@ def show_model_selector():
 
 def chat_interface():
     """Open WebUI聊天界面"""
-    st.markdown("# 🌐 与AI专家对话 (Open WebUI)")
+    st.markdown("""
+    <div class="page-header">
+        <h1>💬 与AI专家对话</h1>
+        <p>Chat with Masters — 广告大师智能对话</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("")
     st.markdown("基于Open WebUI平台的广告学专业问答")
     
     # 初始化会话状态

@@ -204,7 +204,7 @@ class TestCommentIntegration:
         assert success is True, "Comment should be added successfully"
         
         # Retrieve comments
-        comments = comment_system.get_comments('campaigns', 'test_campaign')
+        comments = comment_system.get_comments('campaigns', 'test_campaign', approved_only=False)
         assert len(comments) == 1, "Should have one comment"
         assert comments.iloc[0]['content'] == 'This is a test comment'
         assert comments.iloc[0]['username'] == 'test_user'
@@ -218,7 +218,7 @@ class TestCommentIntegration:
         assert success1 is True
         
         # Get parent comment ID
-        comments = comment_system.get_comments('article', 'thread_test')
+        comments = comment_system.get_comments('article', 'thread_test', approved_only=False)
         parent_id = comments.iloc[0]['id']
         
         # Add reply
@@ -228,7 +228,7 @@ class TestCommentIntegration:
         assert success2 is True
         
         # Verify threading
-        all_comments = comment_system.get_comments('article', 'thread_test')
+        all_comments = comment_system.get_comments('article', 'thread_test', approved_only=False)
         assert len(all_comments) == 2, "Should have 2 comments"
         
         # Find the reply
@@ -244,7 +244,7 @@ class TestCommentIntegration:
         )
         
         # Get comment
-        comments = comment_system.get_comments('timeline', 'like_test')
+        comments = comment_system.get_comments('timeline', 'like_test', approved_only=False)
         comment_id = comments.iloc[0]['id']
         initial_likes = comments.iloc[0]['likes']
         
@@ -253,7 +253,7 @@ class TestCommentIntegration:
         assert success is True, "Like should be successful"
         
         # Verify like count increased
-        updated_comments = comment_system.get_comments('timeline', 'like_test')
+        updated_comments = comment_system.get_comments('timeline', 'like_test', approved_only=False)
         new_likes = updated_comments.iloc[0]['likes']
         assert new_likes == initial_likes + 1, "Like count should increase by 1"
     
@@ -265,8 +265,8 @@ class TestCommentIntegration:
         )
         
         # Get comment
-        comments = comment_system.get_comments('figures', 'report_test')
-        comment_id = comments.iloc[0]['id']
+        comments = comment_system.get_comments('figures', 'report_test', approved_only=False)
+        comment_id = int(comments.iloc[0]['id'])
         
         # Report the comment
         success = comment_system.report_comment(comment_id, 'user2', 'Inappropriate')
@@ -274,11 +274,11 @@ class TestCommentIntegration:
         
         # Verify report was logged
         query = """
-            SELECT * FROM user_activity 
-            WHERE action = 'comment_reported' AND target_id = ?
+            SELECT * FROM comment_reports
+            WHERE comment_id = ?
         """
-        result = db_manager.execute_query(query, (str(comment_id),))
-        assert len(result) > 0, "Report should be logged in user_activity"
+        result = db_manager.execute_query(query, (comment_id,))
+        assert len(result) > 0, "Report should be logged in comment_reports"
 
 
 class TestCrossSystemIntegration:
@@ -364,7 +364,7 @@ class TestCrossSystemIntegration:
         
         # Verify both systems have data for the same content
         feedback_stats = feedback_system.get_feedback_stats(content_type, content_id)
-        comments = comment_system.get_comments(content_type, content_id)
+        comments = comment_system.get_comments(content_type, content_id, approved_only=False)
         
         assert feedback_stats['total_feedback'] == 2, "Should have 2 feedback entries"
         assert len(comments) == 2, "Should have 2 comments"

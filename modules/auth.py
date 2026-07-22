@@ -163,17 +163,23 @@ class AuthManager:
     # Registration
     # ------------------------------------------------------------------
 
-    def register_user(self, location: str = "main", key: str = "Register") -> bool:
+    def register_user(self, location: str = "main", key: str = "Register", captcha: bool = True) -> bool:
         if not hasattr(self.authenticator, "register_user"):
             return False
 
-        result = self.authenticator.register_user(location, key)
+        result = self.authenticator.register_user(location, key, captcha=captcha)
         if result is None:
             return False
 
         email, username, name = result
         if not email:
             return False
+
+        # Set default role for new users
+        users = self.config.get("credentials", {}).get("usernames", {})
+        if username in users and "role" not in users[username]:
+            users[username]["role"] = "student"
+            users[username]["is_active"] = True
 
         self._log_user_activity(username, "register", f"New user registered: {name}")
         self._save_config()

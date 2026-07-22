@@ -26,11 +26,7 @@ from modules.ai_chat import chat_interface
 from homepage import intro
 from pages import memorabilia, superstar, plotting_data
 from classic_ad_100 import classic_ad
-
-import yaml
-from yaml.loader import SafeLoader
-import streamlit_authenticator as stauth
-
+from utils.styles import inject_styles
 
 # Page configuration
 st.set_page_config(
@@ -39,6 +35,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Inject global CSS theme
+inject_styles()
 
 # Initialize core systems
 @st.cache_resource
@@ -76,125 +75,76 @@ db_manager, feedback_system, comment_system, activity_logger, search_system = in
 auth_manager, article_manager, analytics_dashboard, moderation_dashboard = init_auth_and_dependent_systems(db_manager, activity_logger)
 
 
-def show_login_dialog():
-    """Show login dialog (used from sidebar for guests)."""
-    username_input = st.text_input(t('username_label'), key="login_user")
-    password_input = st.text_input(t('password_label'), type="password", key="login_pass")
-
-    if st.button(t('login'), type="primary", use_container_width=True):
-        if not username_input or not password_input:
-            st.warning(f"⚠️ {t('fill_username_password')}")
-            return
-        try:
-            with open("config.yaml", 'r', encoding='utf-8') as file:
-                config = yaml.load(file, Loader=SafeLoader)
-            users = config['credentials']['usernames']
-            if username_input not in users:
-                st.error(f"❌ {t('username_not_found')}")
-                return
-            stored_password = users[username_input]['password']
-            # Verify password against stored bcrypt hash
-            pw_match = False
-            try:
-                if stauth.Hasher([password_input]).generate()[0] == stored_password:
-                    pw_match = True
-            except Exception:
-                pass
-            if pw_match:
-                st.session_state['authentication_status'] = True
-                st.session_state['username'] = username_input
-                st.session_state['name'] = users[username_input]['name']
-                st.session_state['user_role'] = users[username_input].get('role', 'student')
-                activity_logger.log_login(username_input, success=True)
-                st.rerun()
-            else:
-                st.error(t('login_failed'))
-                activity_logger.log_login(username_input, success=False)
-        except Exception as e:
-            st.error(f"Authentication system error: {e}")
-
-
-def show_register_dialog():
-    """Show self-registration dialog."""
-    st.markdown(f"### 📝 {t('register')}")
-
-    with st.form("register_form"):
-        reg_name = st.text_input(t('name_label'))
-        reg_username = st.text_input(t('username_label'))
-        reg_email = st.text_input(t('email_label'))
-        reg_password = st.text_input(t('password_label'), type="password")
-        reg_confirm = st.text_input(t('confirm_password'), type="password")
-        reg_submit = st.form_submit_button(t('register'), type="primary")
-
-        if reg_submit:
-            if not all([reg_name, reg_username, reg_email, reg_password, reg_confirm]):
-                st.error("⚠️ Please fill in all fields")
-            elif reg_password != reg_confirm:
-                st.error("⚠️ Passwords do not match")
-            elif not reg_username.replace('.', '').replace('_', '').isalnum():
-                st.error("⚠️ Username can only contain letters, numbers, dots, and underscores")
-            else:
-                with open("config.yaml", 'r', encoding='utf-8') as file:
-                    config = yaml.load(file, Loader=SafeLoader)
-
-                users = config['credentials']['usernames']
-                if reg_username in users:
-                    st.error("⚠️ Username already exists")
-                else:
-                    hashed = stauth.Hasher([reg_password]).generate()[0]
-                    users[reg_username] = {
-                        'name': reg_name,
-                        'email': reg_email,
-                        'password': hashed,
-                        'role': 'student',
-                    }
-                    with open("config.yaml", 'w', encoding='utf-8') as file:
-                        yaml.dump(config, file, default_flow_style=False, allow_unicode=True)
-
-                    activity_logger.log_login(reg_username, success=True)
-                    st.success("✅ Registration successful! You can now login.")
-                    st.rerun()
-
-
 def show_sidebar():
     """Show sidebar with auth info or login/register prompt."""
     is_authenticated = st.session_state.get('authentication_status')
+
+    # Branded header
+    st.sidebar.markdown("""
+    <div style="text-align:center; padding: 0.5rem 0 1rem;">
+        <div style="font-size: 1.6rem; font-weight: 700; letter-spacing: 0.02em;">📚 广告思想简史</div>
+        <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 4px;">Advertising Thought History</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.sidebar.markdown("---")
 
     # Language selector
     render_language_selector()
     st.sidebar.markdown("---")
 
     if is_authenticated:
-        # Show user info and logout
         user_info = auth_manager.get_current_user()
-        st.sidebar.markdown(f"### 👤 {t('user_info')}")
-        st.sidebar.write(f"**{t('name_label')}:** {user_info['name']}")
-        st.sidebar.write(f"**{t('username_label')}:** {user_info['username']}")
-
-        role_emoji = {
-            'admin': '👨‍💼',
-            'professor': '👨‍🏫',
-            'student': '👨‍🎓'
-        }
+        role_emoji = {'admin': '👨‍💼', 'professor': '👨‍🏫', 'student': '👨‍🎓'}
         role_display = user_info.get('role', 'student')
         emoji = role_emoji.get(role_display, '👤')
-        st.sidebar.write(f"**{t('role_label')}:** {emoji} {role_display.title()}")
 
-        st.sidebar.markdown("---")
+        st.sidebar.markdown(f"""
+        <div style="background: rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 16px; margin-bottom: 8px;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 4px;">{emoji} {user_info['name']}</div>
+            <div style="font-size: 0.85rem; opacity: 0.7;">@{user_info['username']} · {role_display.title()}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.sidebar.markdown("")
 
         if st.sidebar.button(f"🚪 {t('logout')}", type="primary", use_container_width=True):
             auth_manager.force_logout()
             st.rerun()
     else:
-        # Show login/register for guests
-        st.sidebar.markdown(f"### 📚 {t('app_title')}")
-        st.sidebar.info(t('guest_browsing_info'))
+        # Guest info banner — styled for high contrast
+        st.sidebar.markdown(f"""
+        <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
+            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.92); line-height: 1.5;">
+                💡 {t('guest_browsing_info')}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-        auth_tabs = st.sidebar.tabs([t('login'), t('register')])
-        with auth_tabs[0]:
-            show_login_dialog()
-        with auth_tabs[1]:
-            show_register_dialog()
+        # Login section
+        st.sidebar.markdown(
+            '<div style="font-size: 1.05rem; font-weight: 600; color: #fff; '
+            'margin-bottom: 10px;">🔐 Login</div>',
+            unsafe_allow_html=True,
+        )
+        auth_manager.login(location="sidebar")
+
+        st.sidebar.markdown(
+            '<div style="height: 12px;"></div>',
+            unsafe_allow_html=True,
+        )
+        st.sidebar.markdown(
+            '<hr style="border-color: rgba(255,255,255,0.12); margin: 0 0 12px 0;">',
+            unsafe_allow_html=True,
+        )
+
+        # Register section
+        st.sidebar.markdown(
+            '<div style="font-size: 1.05rem; font-weight: 600; color: #fff; '
+            'margin-bottom: 10px;">📝 Register</div>',
+            unsafe_allow_html=True,
+        )
+        auth_manager.register_user(location="sidebar", captcha=False)
 
 
 def get_navigation_menu():
@@ -243,7 +193,13 @@ def get_navigation_menu():
 
 def show_search_interface():
     """Display search interface."""
-    # Display search interface from search system
+    st.markdown("""
+    <div class="page-header">
+        <h1>🔍 搜索</h1>
+        <p>Search — 搜索文章、时间线、人物和经典广告</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("")
     search_system.display_search_interface()
 
 
@@ -392,7 +348,7 @@ def main():
     menu = get_navigation_menu()
 
     # Sidebar navigation
-    st.sidebar.title(f"📚 {t('navigation')}")
+    st.sidebar.markdown(f"#### 🧭 {t('navigation')}")
     selected_page = st.sidebar.radio(
         t('select_page'),
         list(menu.keys()),

@@ -7,14 +7,14 @@ import importlib
 from utils.i18n import t
 
 # AI后端配置
-AI_BACKEND = os.getenv('AI_BACKEND', 'ollama')  # 默认使用ollama
-AVAILABLE_BACKENDS = ['gemini', 'ollama', 'azure_openai', 'groq', 'openwebui']
+AI_BACKEND = os.getenv('AI_BACKEND', 'openwebui')  # 默认使用openwebui
+AVAILABLE_BACKENDS = ['gemini', 'ollama', 'azure_openai', 'groq', 'openwebui', 'pydantic_ai']
 
 class AIChat:
     """统一的AI聊天管理器"""
     
     def __init__(self):
-        self.backend = os.getenv("AI_BACKEND", "ollama").lower()
+        self.backend = os.getenv("AI_BACKEND", "openwebui").lower()
         self.client = None
         self.initialize_backend()
     
@@ -31,6 +31,8 @@ class AIChat:
                 self.client = self._init_groq()
             elif self.backend == 'openwebui':
                 self.client = self._init_openwebui()
+            elif self.backend == 'pydantic_ai':
+                self.client = self._init_pydantic_ai()
             else:
                 st.error(f"不支持的AI后端: {self.backend}")
                 self.client = None
@@ -174,6 +176,29 @@ class AIChat:
         except ImportError:
             raise ImportError("请安装 requests: pip install requests")
 
+
+    def _init_pydantic_ai(self):
+        """初始化Pydantic AI代理后端"""
+        from modules.ai_agent import create_ad_history_agent
+        from modules.database import get_database_manager
+        
+        # Get database manager for tool access
+        db_manager = get_database_manager()
+        
+        # Create agent - will read PYDANTIC_AI_PROVIDER and PYDANTIC_AI_MODEL from env
+        # If not set, defaults to groq:llama-3.3-70b-versatile
+        agent = create_ad_history_agent(db_manager)
+        
+        # Get model name for display
+        provider = os.getenv('PYDANTIC_AI_PROVIDER', 'groq')
+        model_name = os.getenv('PYDANTIC_AI_MODEL', 'llama-3.3-70b-versatile')
+        
+        return {
+            'type': 'pydantic_ai',
+            'agent': agent,
+            'model': f'{provider}:{model_name}'
+        }
+
     def generate_response(self, prompt: str, conversation_history: List[Dict] = None) -> str:
         """生成AI回复"""
         if not self.client:
@@ -190,6 +215,8 @@ class AIChat:
                 return self._generate_groq_response(prompt, conversation_history)
             elif self.client['type'] == 'openwebui':
                 return self._generate_openwebui_response(prompt, conversation_history)
+            elif self.client['type'] == 'pydantic_ai':
+                return self._generate_pydantic_ai_response(prompt, conversation_history)
         except Exception as e:
             return f"生成回复时发生错误: {str(e)}"
     
@@ -308,6 +335,30 @@ class AIChat:
         except Exception as e:
             return f"生成回复时发生错误: {str(e)}"
 
+    def _generate_pydantic_ai_response(self, prompt: str, conversation_history: List[Dict] = None) -> str:
+        """生成Pydantic AI代理回复，返回结构化ChatResponse的answer字段"""
+        from modules.ai_models import ChatResponse
+        
+        agent = self.client['agent']
+        
+        # Build message history for the agent
+        message_history = []
+        if conversation_history:
+            for msg in conversation_history[-10:]:
+                message_history.append({
+                    "role": msg["role"],
+                    "content": msg["content"]
+                })
+        
+        result = agent.run_sync(prompt, message_history=message_history)
+        
+        # Store the full structured response in session for UI rendering
+        if hasattr(self, '_last_chat_response'):
+            pass  # Will be set by chat_interface
+        self._last_chat_response = result.output
+        
+        return result.output.answer
+
     def _stream_groq(self, prompt: str, conversation_history: List[Dict] = None):
         """流式生成Groq回复"""
         messages = [
@@ -376,6 +427,8 @@ class AIChat:
         elif self.client['type'] == 'openwebui':
             info["model"] = self.client['model']
             info["base_url"] = self.client['base_url']
+        elif self.client['type'] == 'pydantic_ai':
+            info["model"] = self.client['model']
         
         return info
 
@@ -461,10 +514,61 @@ def show_ai_settings():
             AI_BACKEND=azure_openai
             AZURE_OPENAI_KEY=your_key
             AZURE_OPENAI_ENDPOINT=your_endpoint
+
+            # Pydantic AI (Agent with tools)
+            AI_BACKEND=pydantic_ai
+            PYDANTIC_AI_PROVIDER=groq
+            PYDANTIC_AI_MODEL=llama-3.3-70b-versatile
             ```
 
             Then restart the app.
             """)
+
+            # Runtime provider/model switching for pydantic_ai backend
+            if backend_info['backend'] == 'pydantic_ai':
+                st.markdown("### ⚡ Runtime Model Switch")
+                st.caption("Change provider/model without restarting (requires API key in .env)")
+                
+                provider = st.selectbox(
+                    "Provider",
+                    ['groq', 'ollama', 'gemini', 'openai'],
+                    index=0,
+                    help="Select LLM provider"
+                )
+                
+                model_defaults = {
+                    'groq': 'llama-3.3-70b-versatile',
+                    'ollama': 'llama3.2:latest',
+                    'gemini': 'gemini-1.5-flash',
+                    'openai': 'gpt-4o'
+                }
+                
+                model = st.text_input(
+                    "Model",
+                    value=model_defaults.get(provider, 'gpt-4o'),
+                    help="Model name/ID"
+                )
+                
+                if st.button("🔄 Apply Changes", use_container_width=True):
+                    try:
+                        # Update environment variables
+                        os.environ['PYDANTIC_AI_PROVIDER'] = provider
+                        os.environ['PYDANTIC_AI_MODEL'] = model
+                        
+                        # Recreate the agent
+                        from modules.ai_agent import create_ad_history_agent
+                        from modules.database import get_database_manager
+                        db_manager = get_database_manager()
+                        new_agent = create_ad_history_agent(db_manager)
+                        
+                        # Update the client
+                        ai_client.client['agent'] = new_agent
+                        ai_client.client['model'] = f"{provider}:{model}"
+                        
+                        st.success(f"✅ Switched to {provider}:{model}")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Failed to switch model: {e}")
 
         # Chat settings visible to all users
         st.markdown(f"### ⚙️ {t('ai_chat_stats')}")
@@ -530,6 +634,13 @@ def chat_interface():
         AZURE_OPENAI_ENDPOINT=your_azure_endpoint
         AZURE_OPENAI_CHATGPT_DEPLOYMENT=gpt-4o
         ```
+
+        **Pydantic AI** (Agent with tools):
+        ```bash
+        AI_BACKEND=pydantic_ai
+        PYDANTIC_AI_PROVIDER=groq
+        PYDANTIC_AI_MODEL=llama-3.3-70b-versatile
+        ```
         """)
         return
 
@@ -563,6 +674,32 @@ def chat_interface():
                 except Exception as e:
                     full_response = f"Error generating response: {str(e)}"
                     response_placeholder.markdown(full_response)
+            elif backend_info['backend'] == 'pydantic_ai':
+                # Pydantic AI structured response
+                with st.spinner(t('ai_thinking')):
+                    full_response = ai_client.generate_response(prompt, st.session_state.ai_chat_history)
+                
+                st.markdown(full_response)
+                
+                # Render structured output if available
+                if hasattr(ai_client, '_last_chat_response') and ai_client._last_chat_response:
+                    chat_resp = ai_client._last_chat_response
+                    
+                    # Show sources if any
+                    if chat_resp.sources:
+                        st.markdown("---")
+                        st.markdown(f"**📚 {t('sources', '参考来源')}:**")
+                        for source in chat_resp.sources:
+                            st.markdown(f"- {source}")
+                    
+                    # Show follow-up questions if any
+                    if chat_resp.follow_up_questions:
+                        st.markdown(f"**💡 {t('follow_up', '延伸问题')}:**")
+                        for i, question in enumerate(chat_resp.follow_up_questions, 1):
+                            st.markdown(f"{i}. {question}")
+                    
+                    # Clear the stored response
+                    ai_client._last_chat_response = None
             else:
                 # 非流式回复
                 with st.spinner(t('ai_thinking')):

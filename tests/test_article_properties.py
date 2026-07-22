@@ -9,9 +9,10 @@ article status workflow transitions and visibility rules.
 """
 
 import os
+import shutil
 import tempfile
 from typing import Tuple, List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytest
 import pandas as pd
@@ -56,7 +57,7 @@ class TestArticleWorkflowProperties:
         for db_file in glob.glob(os.path.join(self.temp_dir, "test_articles_*.db")):
             if os.path.exists(db_file):
                 os.remove(db_file)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(
         st.text(min_size=1, max_size=100),  # title
@@ -500,8 +501,8 @@ class TestArticleWorkflowProperties:
         assert draft_article['published_at'] is None, \
             "Draft article should not have published_at set"
         
-        # Record time before publishing
-        time_before = datetime.now()
+        # Record time before publishing (use UTC, truncate to seconds to match SQLite CURRENT_TIMESTAMP)
+        time_before = datetime.now(timezone.utc).replace(tzinfo=None).replace(microsecond=0)
         
         # Publish the article
         success = article_manager.save_article(
@@ -516,8 +517,8 @@ class TestArticleWorkflowProperties:
         )
         assert success is True, "Publishing should succeed"
         
-        # Record time after publishing
-        time_after = datetime.now()
+        # Record time after publishing (use UTC, truncate to seconds to match SQLite CURRENT_TIMESTAMP)
+        time_after = datetime.now(timezone.utc).replace(tzinfo=None).replace(microsecond=0)
         
         # Verify published_at is set
         published_article = article_manager.get_article_by_id(article_id)

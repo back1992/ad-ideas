@@ -24,7 +24,7 @@ def streamlit_server():
 
     env = os.environ.copy()
     proc = subprocess.Popen(
-        ["streamlit", "run", "streamlit_app.py", "--server.headless", "true",
+        [".venv/bin/streamlit", "run", "streamlit_app.py", "--server.headless", "true",
          "--server.port", str(PORT), "--browser.gatherUsageStats", "false"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

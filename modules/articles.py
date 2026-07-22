@@ -13,6 +13,7 @@ from typing import Optional, Dict, Any, List
 from datetime import datetime
 from modules.database import DatabaseManager
 from modules.auth import AuthManager
+from modules.article_notifications import get_article_notification_system
 from utils.i18n import t
 
 
@@ -124,9 +125,14 @@ class ArticleManager:
                 current_status = existing_article['status'] if existing_article else 'draft'
                 
                 st.markdown("**Article Status**")
-                status_options = ['draft', 'review', 'published']
+                # Only admins can publish directly; professors submit for review
                 if self.auth_manager.is_admin(username):
-                    status_options.append('archived')
+                    status_options = ['draft', 'review', 'published', 'archived']
+                else:
+                    status_options = ['draft', 'review']
+                    # If article was previously published, keep that option for admins to change back
+                    if current_status == 'published':
+                        status_options.append('published')
                 
                 status = st.radio(
                     "Status",
@@ -222,10 +228,17 @@ class ArticleManager:
         """
         try:
             if article_id:
+                # Convert to Python int to avoid numpy issues
+                article_id = int(article_id)
+                
                 # Verify article exists before update
                 existing_article = self.get_article_by_id(article_id)
                 if not existing_article:
                     return False
+                
+                # Sanitize content before saving
+                content = self.sanitize_content(content)
+                title = self.sanitize_content(title)
                 
                 # Update existing article
                 # Note: We set published_at when transitioning TO published status
@@ -250,6 +263,10 @@ class ArticleManager:
                 self.logger.info(f"Article updated by {author}: {title}")
                 return True
             else:
+                # Sanitize content before saving
+                content = self.sanitize_content(content)
+                title = self.sanitize_content(title)
+                
                 # Create new article
                 query = """
                     INSERT INTO articles 
@@ -348,6 +365,15 @@ class ArticleManager:
             status: Filter by status (None for all)
             author: Filter by author (None for all)
         """
+        # Check if we should show article detail view
+        viewing_id = st.session_state.get('viewing_article_id')
+        if viewing_id:
+            self.show_article_detail(viewing_id, username)
+            if st.button("← Back to Articles"):
+                st.session_state['viewing_article_id'] = None
+                st.rerun()
+            return
+        
         try:
             st.markdown("## 📚 Articles")
             
@@ -508,11 +534,19 @@ class ArticleManager:
             # Stats
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("👁️ Views", article['views'])
+                st.metric("️ Views", article['views'])
             with col2:
                 st.metric("⭐ Rating", f"{article['avg_rating']:.1f}")
             with col3:
                 st.metric("💬 Feedback", article['total_feedback'])
+            
+            # Comments section
+            from utils.layout import render_feedback_and_comments
+            render_feedback_and_comments(
+                target_type="article",
+                target_id=str(article_id),
+                feedback_type="stars",
+            )
             
         except Exception as e:
             self.logger.error(f"Error displaying article detail: {e}")
@@ -584,6 +618,35 @@ class ArticleManager:
             self.logger.error(f"Error incrementing article views: {e}")
             return False
     
+    def sanitize_content(self, content: str) -> str:
+        """
+        Sanitize article content to prevent XSS.
+        
+        Removes script tags, event handlers, and dangerous HTML while
+        preserving safe Markdown formatting.
+        
+        Args:
+            content: Raw article content
+            
+        Returns:
+            str: Sanitized content
+        """
+        import re
+        # Remove script tags and their content entirely
+        content = re.sub(r'<script[^>]*>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
+        # Remove style tags
+        content = re.sub(r'<style[^>]*>.*?</style>', '', content, flags=re.DOTALL | re.IGNORECASE)
+        # Remove event handlers (onclick, onerror, onload, etc.)
+        content = re.sub(r'\s+on\w+\s*=\s*"[^"]*"', '', content, flags=re.IGNORECASE)
+        content = re.sub(r"\s+on\w+\s*=\s*'[^']*'", '', content, flags=re.IGNORECASE)
+        content = re.sub(r'\s+on\w+\s*=\s*[^\s>]+', '', content, flags=re.IGNORECASE)
+        # Remove javascript: URLs
+        content = re.sub(r'javascript\s*:', '', content, flags=re.IGNORECASE)
+        # Remove iframe tags
+        content = re.sub(r'<iframe[^>]*>.*?</iframe>', '', content, flags=re.DOTALL | re.IGNORECASE)
+        content = re.sub(r'<iframe[^>]*/>', '', content, flags=re.IGNORECASE)
+        return content
+
     def _generate_excerpt(self, content: str, max_length: int = 200) -> str:
         """
         Auto-generate excerpt from content.
@@ -701,6 +764,7 @@ class ArticleReviewSystem:
         self.db_manager = article_manager.db_manager
         self.auth_manager = article_manager.auth_manager
         self.logger = article_manager.logger
+        self.notification_system = get_article_notification_system(self.db_manager)
     
     def show_review_queue(self, admin_username: str) -> None:
         """
@@ -876,6 +940,10 @@ class ArticleReviewSystem:
                     f"Approved and published article: {article['title'] if article else article_id}"
                 )
                 
+                # Notify author
+                if article:
+                    self.notification_system.notify_article_approved(article_id, article['author'])
+                
                 return True
             
             return False
@@ -900,15 +968,15 @@ class ArticleReviewSystem:
             # Convert to Python int
             article_id = int(article_id)
             
-            # Update article status to draft
             query = """
                 UPDATE articles 
                 SET status = 'draft', 
+                    review_feedback = ?,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = ?
             """
             
-            affected_rows = self.db_manager.execute_update(query, (article_id,))
+            affected_rows = self.db_manager.execute_update(query, (reason, article_id))
             
             if affected_rows > 0:
                 self.logger.info(f"Article {article_id} rejected by {admin_username}")
@@ -921,6 +989,10 @@ class ArticleReviewSystem:
                     article_id,
                     f"Rejected article: {article['title'] if article else article_id}. Reason: {reason}"
                 )
+                
+                # Notify author
+                if article:
+                    self.notification_system.notify_article_rejected(article_id, article['author'], reason)
                 
                 return True
             
@@ -946,15 +1018,15 @@ class ArticleReviewSystem:
             # Convert to Python int
             article_id = int(article_id)
             
-            # Update article status to draft
             query = """
                 UPDATE articles 
-                SET status = 'draft', 
+                SET status = 'draft',
+                    review_feedback = ?,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = ?
             """
             
-            affected_rows = self.db_manager.execute_update(query, (article_id,))
+            affected_rows = self.db_manager.execute_update(query, (feedback, article_id))
             
             if affected_rows > 0:
                 self.logger.info(f"Changes requested for article {article_id} by {admin_username}")
@@ -967,6 +1039,10 @@ class ArticleReviewSystem:
                     article_id,
                     f"Requested changes for article: {article['title'] if article else article_id}. Feedback: {feedback}"
                 )
+                
+                # Notify author
+                if article:
+                    self.notification_system.notify_changes_requested(article_id, article['author'], feedback)
                 
                 return True
             
@@ -1000,7 +1076,8 @@ class ArticleReviewSystem:
                     
                     with col1:
                         st.markdown(f"### {article['title']}")
-                        st.markdown(f"*By {article['author']} | {article['category']} | {article['published_at'][:10]}*")
+                        pub_date = article['published_at'][:10] if article['published_at'] else 'N/A'
+                        st.markdown(f"*By {article['author']} | {article['category']} | {pub_date}*")
                         
                         if article['excerpt']:
                             st.markdown(article['excerpt'])

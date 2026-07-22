@@ -73,7 +73,53 @@ class DatabaseManager:
                         likes INTEGER DEFAULT 0,
                         parent_id INTEGER,
                         is_approved BOOLEAN DEFAULT 1,
+                        deleted_at DATETIME DEFAULT NULL,
+                        edited_at DATETIME DEFAULT NULL,
+                        edited_by TEXT DEFAULT NULL,
                         FOREIGN KEY (parent_id) REFERENCES comments (id)
+                    )
+                """)
+                
+                # Create comment_likes table for tracking who liked what
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS comment_likes (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        comment_id INTEGER NOT NULL,
+                        username TEXT NOT NULL,
+                        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        UNIQUE(comment_id, username),
+                        FOREIGN KEY (comment_id) REFERENCES comments(id)
+                    )
+                """)
+                
+                # Create comment_reports table for tracking reports
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS comment_reports (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        comment_id INTEGER NOT NULL,
+                        reporter_username TEXT NOT NULL,
+                        reason TEXT,
+                        status TEXT DEFAULT 'pending',
+                        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        resolved_at DATETIME DEFAULT NULL,
+                        resolved_by TEXT DEFAULT NULL,
+                        UNIQUE(comment_id, reporter_username),
+                        FOREIGN KEY (comment_id) REFERENCES comments(id)
+                    )
+                """)
+                
+                # Create comment_notifications table for reply notifications
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS comment_notifications (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        comment_id INTEGER NOT NULL,
+                        parent_comment_id INTEGER,
+                        target_username TEXT NOT NULL,
+                        notification_type TEXT NOT NULL,
+                        is_read BOOLEAN DEFAULT 0,
+                        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (comment_id) REFERENCES comments(id),
+                        FOREIGN KEY (parent_comment_id) REFERENCES comments(id)
                     )
                 """)
                 
@@ -93,7 +139,8 @@ class DatabaseManager:
                         published_at DATETIME,
                         views INTEGER DEFAULT 0,
                         avg_rating REAL DEFAULT 0.0,
-                        total_feedback INTEGER DEFAULT 0
+                        total_feedback INTEGER DEFAULT 0,
+                        review_feedback TEXT DEFAULT NULL
                     )
                 """)
                 
@@ -121,6 +168,20 @@ class DatabaseManager:
                         target_type TEXT,
                         target_id TEXT,
                         details TEXT,
+                        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                
+                # Create chat_history table for conversation memory
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS chat_history (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        username TEXT NOT NULL,
+                        session_id TEXT NOT NULL,
+                        role TEXT NOT NULL,
+                        content TEXT NOT NULL,
+                        sources TEXT,
+                        follow_up_questions TEXT,
                         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
                     )
                 """)
@@ -317,6 +378,73 @@ class DatabaseManager:
         # SQLite connections are automatically closed when using context managers
         # This method is provided for interface completeness
         self.logger.info("Database manager closed")
+
+    def save_chat_message(self, username: str, session_id: str, role: str, content: str,
+                          sources: list = None, follow_up_questions: list = None) -> int:
+        """Save a chat message to history."""
+        import json
+        sources_json = json.dumps(sources) if sources else None
+        follow_up_json = json.dumps(follow_up_questions) if follow_up_questions else None
+        
+        return self.execute_update(
+            """INSERT INTO chat_history 
+               (username, session_id, role, content, sources, follow_up_questions)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (username, session_id, role, content, sources_json, follow_up_json)
+        )
+
+    def get_chat_history(self, username: str, session_id: str, limit: int = 50) -> list:
+        """Get chat history for a session."""
+        import json
+        import math
+        results = self.execute_query(
+            """SELECT role, content, sources, follow_up_questions, timestamp
+               FROM chat_history
+               WHERE username = ? AND session_id = ?
+               ORDER BY timestamp ASC
+               LIMIT ?""",
+            (username, session_id, limit)
+        )
+        
+        history = []
+        for _, row in results.iterrows():
+            msg = {
+                'role': row['role'],
+                'content': row['content'],
+                'timestamp': row['timestamp']
+            }
+            # Handle None/NaN values
+            sources = row['sources']
+            if sources is not None and not (isinstance(sources, float) and math.isnan(sources)):
+                msg['sources'] = json.loads(sources)
+            
+            follow_up = row['follow_up_questions']
+            if follow_up is not None and not (isinstance(follow_up, float) and math.isnan(follow_up)):
+                msg['follow_up_questions'] = json.loads(follow_up)
+            
+            history.append(msg)
+        
+        return history
+
+    def get_user_sessions(self, username: str) -> list:
+        """Get all session IDs for a user."""
+        results = self.execute_query(
+            """SELECT DISTINCT session_id, MAX(timestamp) as last_activity
+               FROM chat_history
+               WHERE username = ?
+               GROUP BY session_id
+               ORDER BY last_activity DESC""",
+            (username,)
+        )
+        return [(row['session_id'], row['last_activity']) for _, row in results.iterrows()]
+
+    def clear_chat_history(self, username: str, session_id: str) -> int:
+        """Clear chat history for a session."""
+        return self.execute_update(
+            "DELETE FROM chat_history WHERE username = ? AND session_id = ?",
+            (username, session_id)
+        )
+
 
 
 # Global database manager instance

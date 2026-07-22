@@ -10,6 +10,7 @@ logged with attribution, timestamp, and action details.
 """
 
 import os
+import shutil
 import tempfile
 import re
 from typing import Optional, Dict, Any
@@ -52,7 +53,7 @@ class TestActivityLoggingCompleteness:
         """Clean up test environment after each test method."""
         if os.path.exists(self.test_db_path):
             os.remove(self.test_db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     @given(
         username=st.text(min_size=1, max_size=50).filter(lambda x: x.strip() != ''),
@@ -540,7 +541,7 @@ class ActivityLoggingStateMachine(RuleBasedStateMachine):
         """Clean up test database."""
         if os.path.exists(self.db_path):
             os.remove(self.db_path)
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
 
 
 # Stateful test class

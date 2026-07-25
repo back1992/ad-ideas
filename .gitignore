@@ -182,3 +182,7 @@ tests/screenshots/
 mobile/node_modules/
 mobile/android/
 mobile/ios/
+
+# SQLite temporary files
+*.db-shm
+*.db-wal

@@ -456,7 +456,8 @@ class ArticleManager:
                     
                     with col1:
                         if st.button("👁️ View", key=f"view_{article['id']}"):
-                            self.show_article_detail(article['id'], username)
+                            st.session_state["viewing_article_id"] = article["id"]
+                            st.rerun()
                     
                     with col2:
                         # Can edit if author or admin

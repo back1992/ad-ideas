@@ -82,6 +82,12 @@ auth_manager, article_manager, analytics_dashboard, moderation_dashboard = init_
 
 def show_sidebar():
     """Show sidebar with auth info or login/register prompt."""
+    # Always validate the re-authentication cookie on every rerun.
+    # Without this, session state lost (e.g. Streamlit Cloud worker restart)
+    # cannot be restored from the cookie, causing unexpected logouts.
+    if not st.session_state.get('authentication_status'):
+        auth_manager.login(location="sidebar", render_form=False)
+
     is_authenticated = st.session_state.get('authentication_status')
 
     # Branded header

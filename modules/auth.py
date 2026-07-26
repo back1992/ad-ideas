@@ -83,14 +83,18 @@ class AuthManager:
     # Login / logout
     # ------------------------------------------------------------------
 
-    def login(self, location: str = "main", key: str = "Login") -> Tuple[Optional[str], Optional[bool], Optional[str]]:
+    def login(self, location: str = "main", key: str = "Login", render_form: bool = True) -> Tuple[Optional[str], Optional[bool], Optional[str]]:
         self._init_session_state()
+
+        # When not rendering the form, use 'unrendered' location to validate
+        # cookie-based re-authentication without rendering any UI widgets.
+        effective_location = location if render_form else "unrendered"
 
         # Try different API versions
         login_result = None
         for api_call in [
-            lambda: self.authenticator.login(fields={"Form name": "Login"}, location=location, key=key),
-            lambda: self.authenticator.login(location, key),
+            lambda: self.authenticator.login(fields={"Form name": "Login"}, location=effective_location, key=key),
+            lambda: self.authenticator.login(effective_location, key),
             lambda: self.authenticator.login(),
         ]:
             try:
@@ -149,15 +153,19 @@ class AuthManager:
 
         self._clear_session_state()
 
-        # Clear streamlit-authenticator internal state
-        for attr in ("authentication_status", "name", "username"):
-            if hasattr(self.authenticator, attr):
-                setattr(self.authenticator, attr, None)
+        # Mark as logged out so the cookie model blocks re-auth this run
+        st.session_state["logout"] = True
 
+        # Delete the re-authentication cookie so the user is not auto-logged-in
+        # on the next session (e.g. after a Streamlit Cloud worker restart).
         try:
-            self.authenticator.logout("sidebar", "Logout")
+            self.authenticator.cookie_controller.delete_cookie()
         except Exception:
             pass
+
+        # Reset the logout flag so it does not permanently block future
+        # cookie-based re-authentication after the user logs in again.
+        st.session_state["logout"] = False
 
     # ------------------------------------------------------------------
     # Registration

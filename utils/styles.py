@@ -70,6 +70,18 @@ section[data-testid="stSidebar"] textarea:focus {
 section[data-testid="stSidebar"] button {
     color: #FFFFFF !important;
     -webkit-text-fill-color: #FFFFFF !important;
+    background: #C9850A !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    padding: 10px 20px !important;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+section[data-testid="stSidebar"] button:hover {
+    background: #D99520 !important;
+    transform: translateY(-1px);
 }
 
 /* Exception: keep placeholders dim */

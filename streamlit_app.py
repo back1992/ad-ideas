@@ -71,6 +71,11 @@ def init_auth_and_dependent_systems(db_manager, activity_logger):
 # Initialize database systems (cached)
 db_manager, feedback_system, comment_system, activity_logger, search_system = init_database_systems()
 
+
+# Seed initial content on first run (idempotent)
+from seed_db import seed_db as _seed_db
+_seed_result = _seed_db()
+
 # Initialize auth and dependent systems (not cached to avoid widget issues)
 auth_manager, article_manager, analytics_dashboard, moderation_dashboard = init_auth_and_dependent_systems(db_manager, activity_logger)
 

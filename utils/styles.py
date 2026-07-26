@@ -48,12 +48,34 @@ section[data-testid="stSidebar"] {
 /* BROAD: Force ALL text inside sidebar to be white */
 section[data-testid="stSidebar"] * {
     color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Catch-all: ALL inputs/textareas inside sidebar — dark text on light bg */
+section[data-testid="stSidebar"] input,
+section[data-testid="stSidebar"] textarea {
+    color: #1B3A5C !important;
+    -webkit-text-fill-color: #1B3A5C !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    border-radius: 8px !important;
+}
+section[data-testid="stSidebar"] input:focus,
+section[data-testid="stSidebar"] textarea:focus {
+    border-color: #C9850A !important;
+    outline: none;
+}
+
+/* Catch-all: ALL buttons inside sidebar — ensure visible text */
+section[data-testid="stSidebar"] button {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
 }
 
 /* Exception: keep placeholders dim */
 section[data-testid="stSidebar"] input::placeholder,
 section[data-testid="stSidebar"] textarea::placeholder {
-    color: rgba(255,255,255,0.4) !important;
+    color: #8B8B8B !important;
 }
 
 /* Exception: keep dividers subtle */
@@ -73,7 +95,9 @@ section[data-testid="stSidebar"] .stTextInput input,
 section[data-testid="stSidebar"] .stPasswordInput input,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] input[type="password"] {
-    background: rgba(255,255,255,0.12) !important;
+    color: #1B3A5C !important;
+    -webkit-text-fill-color: #1B3A5C !important;
+    background: #FFFFFF !important;
     border: 1px solid rgba(255,255,255,0.25) !important;
     border-radius: 8px !important;
     font-size: 0.95rem;
@@ -85,7 +109,7 @@ section[data-testid="stSidebar"] .stPasswordInput input:focus,
 section[data-testid="stSidebar"] input[type="text"]:focus,
 section[data-testid="stSidebar"] input[type="password"]:focus {
     border-color: #C9850A !important;
-    background: rgba(255,255,255,0.18) !important;
+    background: #F5F5F5 !important;
     outline: none;
 }
 
@@ -93,6 +117,7 @@ section[data-testid="stSidebar"] input[type="password"]:focus {
 section[data-testid="stSidebar"] .stButton > button {
     background: #C9850A !important;
     color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
     border: none !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
@@ -262,6 +287,7 @@ hr { border-color: #E5E1D8 !important; margin: 1.5rem 0; }
 }
 .hero-section h1 {
     color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
     font-size: 2.6rem !important;
     margin-bottom: 0.5rem;
 }

@@ -33,9 +33,26 @@ h1 { font-size: 2.2rem !important; font-weight: 700 !important; }
 h2 { font-size: 1.6rem !important; font-weight: 600 !important; }
 h3 { font-size: 1.25rem !important; font-weight: 600 !important; }
 
-p, li, span, label {
+p, li, label {
     font-family: 'Inter', 'Noto Serif SC', sans-serif !important;
     line-height: 1.7;
+}
+
+/* Exception: preserve Material Icons font for icon rendering */
+span.material-icons,
+span[class*="material-icons"] {
+    font-family: 'Material Icons' !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    line-height: 1 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    word-wrap: normal !important;
+    direction: ltr !important;
+    -webkit-font-feature-settings: 'liga' !important;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -86,7 +86,7 @@ def show_sidebar():
     # Without this, session state lost (e.g. Streamlit Cloud worker restart)
     # cannot be restored from the cookie, causing unexpected logouts.
     if not st.session_state.get('authentication_status'):
-        auth_manager.login(location="sidebar", render_form=False)
+        auth_manager.validate_cookie()
 
     is_authenticated = st.session_state.get('authentication_status')
 

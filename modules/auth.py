@@ -83,18 +83,14 @@ class AuthManager:
     # Login / logout
     # ------------------------------------------------------------------
 
-    def login(self, location: str = "main", key: str = "Login", render_form: bool = True) -> Tuple[Optional[str], Optional[bool], Optional[str]]:
+    def login(self, location: str = "main", key: str = "Login") -> Tuple[Optional[str], Optional[bool], Optional[str]]:
         self._init_session_state()
-
-        # When not rendering the form, use 'unrendered' location to validate
-        # cookie-based re-authentication without rendering any UI widgets.
-        effective_location = location if render_form else "unrendered"
 
         # Try different API versions
         login_result = None
         for api_call in [
-            lambda: self.authenticator.login(fields={"Form name": "Login"}, location=effective_location, key=key),
-            lambda: self.authenticator.login(effective_location, key),
+            lambda: self.authenticator.login(fields={"Form name": "Login"}, location=location, key=key),
+            lambda: self.authenticator.login(location, key),
             lambda: self.authenticator.login(),
         ]:
             try:
@@ -126,6 +122,27 @@ class AuthManager:
             self._log_user_activity(username or "unknown", "login_failed", "Failed login attempt")
 
         return name, authentication_status, username
+
+    def validate_cookie(self) -> bool:
+        """Validate the re-authentication cookie without rendering any UI.
+        
+        Returns True if the cookie was valid and the user was logged in, False otherwise.
+        """
+        try:
+            # Check if there's a valid cookie
+            token = self.authenticator.cookie_controller.get_cookie()
+            if token and isinstance(token, dict) and 'username' in token:
+                # Log in using the token
+                self.authenticator.authentication_controller.login(token=token)
+                # Update session state with user info
+                username = st.session_state.get("username")
+                if username:
+                    st.session_state["name"] = token.get("name", username)
+                    st.session_state["user_role"] = self.get_user_role(username)
+                return True
+        except Exception as e:
+            self.logger.error(f"Cookie validation failed: {e}")
+        return False
 
     def logout(self, location: str = "main", key: str = "Logout") -> None:
         username = st.session_state.get("username")
